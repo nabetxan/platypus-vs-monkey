@@ -4,6 +4,8 @@ import { useState } from "react";
 const EMPTY = "";
 const MARU = "○";
 const BATSU = "×";
+const P1 = "P1";
+const P2 = "P2";
 
 const checkWin = function (updatedGameboard) {
   // Check rows
@@ -67,6 +69,8 @@ function App() {
   ]);
   const [currentPlayer, setCurrentPlayer] = useState(MARU);
   const [winnerPlayer, setWinnerPlayer] = useState();
+  const [player1Piece, setPlayer1Piece] = useState([P1, P1, P1, P1, P1, P1]);
+  const [player2Piece, setPlayer2Piece] = useState([P2, P2, P2, P2, P2, P2]);
 
   const handleCellClick = function (cell, r, c) {
     if (cell !== EMPTY) {
@@ -92,6 +96,12 @@ function App() {
 
   return (
     <div className="App">
+      <div id="player1-field">
+        {player1Piece.map((piece) => {
+          return <div className="piece">{piece}</div>;
+        })}
+      </div>
+
       <div id="gameboard">
         {gameboard.map((row, r) => {
           console.log(row, r);
@@ -110,6 +120,11 @@ function App() {
               })}
             </div>
           );
+        })}
+      </div>
+      <div id="player2-field">
+        {player2Piece.map((piece) => {
+          return <div className="piece">{piece}</div>;
         })}
       </div>
       {winnerPlayer ? <div id="message">{winnerPlayer} wins!</div> : null}

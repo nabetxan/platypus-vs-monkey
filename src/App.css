@@ -1,28 +1,48 @@
-#gameboard{
-  background-color: bisque;
+.App {
+  display: flex;
+  justify-content: center;
+}
+
+#player1-field,
+#player2-field {
+  width: 80px;
+  background-color: aquamarine;
+  margin: 20px 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+.piece {
+  text-align: center;
+  border: solid 1px black;
+  border-radius: 5px;
+  padding: 2px;
+  margin: 2px;
+}
+
+#gameboard {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: fit-content;
-  margin: 50px;
+  margin: 20px 0px 20px 0px;
+  flex-grow: 3;
 }
 
+.row {
+  background-color: bisque;
 
-.row{
   display: flex;
   justify-content: center;
-  
 }
 
-.cell{
+.cell {
   border: solid 1px black;
   height: 100px;
   width: 100px;
   align-items: center;
   text-align: center;
 }
-
-
 
 /* .App {
   text-align: center;
