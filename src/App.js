@@ -2,10 +2,10 @@ import "./App.css";
 import { useState } from "react";
 
 const EMPTY = "";
-const MARU = "○";
-const BATSU = "×";
-const P1 = "P1";
-const P2 = "P2";
+const P1 = "○";
+const P2 = "×";
+const P1Name = "Perry";
+const P2Name = "Minochan";
 
 const checkWin = function (updatedGameboard) {
   // Check rows
@@ -67,12 +67,27 @@ function App() {
     [EMPTY, EMPTY, EMPTY],
     [EMPTY, EMPTY, EMPTY],
   ]);
-  const [currentPlayer, setCurrentPlayer] = useState(MARU);
+  const [currentPlayer, setCurrentPlayer] = useState(P1Name);
   const [winnerPlayer, setWinnerPlayer] = useState();
   const [player1Piece, setPlayer1Piece] = useState([P1, P1, P1, P1, P1, P1]);
   const [player2Piece, setPlayer2Piece] = useState([P2, P2, P2, P2, P2, P2]);
+  const [selectedPieceAndPlayer, setSelectedPieceAndPlayer] = useState([]);
+
+  const handlePieceSelect = function (index, player) {
+    if (currentPlayer !== player) {
+      return;
+    }
+    const currentSelectedPiece = index;
+    setSelectedPieceAndPlayer([currentSelectedPiece, currentPlayer]);
+
+    console.log(currentSelectedPiece, currentPlayer);
+  };
 
   const handleCellClick = function (cell, r, c) {
+    if (selectedPieceAndPlayer[1] !== currentPlayer) {
+      return;
+    }
+
     if (cell !== EMPTY) {
       return;
     }
@@ -82,53 +97,84 @@ function App() {
     }
 
     const updatedGameboard = [...gameboard];
-    const updatedCurrentPlayer = currentPlayer === MARU ? BATSU : MARU;
-    updatedGameboard[r][c] = currentPlayer;
+    const updatedCurrentPlayer = currentPlayer === P1Name ? P2Name : P1Name;
+
+    if (currentPlayer === P1Name) {
+      updatedGameboard[r][c] = player1Piece[selectedPieceAndPlayer[0]];
+      const updatePlayer1Piece = [...player1Piece];
+      updatePlayer1Piece.splice(selectedPieceAndPlayer[0], 1);
+      setPlayer1Piece(updatePlayer1Piece);
+    } else {
+      updatedGameboard[r][c] = player2Piece[selectedPieceAndPlayer[0]];
+      const updatePlayer2Piece = [...player2Piece];
+      updatePlayer2Piece.splice(selectedPieceAndPlayer[0], 1);
+      setPlayer2Piece(updatePlayer2Piece);
+    }
 
     setCurrentPlayer(updatedCurrentPlayer);
     setGameboard(updatedGameboard);
     if (checkWin(updatedGameboard)) {
       setWinnerPlayer(currentPlayer);
     }
+
+    console.log(player1Piece, player1Piece);
   };
 
   const isTie = checkTie(gameboard) && !winnerPlayer;
 
   return (
     <div className="App">
-      <div id="player1-field">
-        {player1Piece.map((piece) => {
-          return <div className="piece">{piece}</div>;
-        })}
-      </div>
+      <div id="game-content">
+        <div id="player1-field">
+          {player1Piece.map((piece, index) => {
+            return (
+              <div
+                className="piece"
+                onClick={() => handlePieceSelect(index, P1Name)}
+              >
+                {piece}
+              </div>
+            );
+          })}
+        </div>
 
-      <div id="gameboard">
-        {gameboard.map((row, r) => {
-          console.log(row, r);
-          return (
-            <div className="row">
-              {row.map((cell, c) => {
-                // console.log(cell, c)
-                return (
-                  <div
-                    className="cell"
-                    onClick={() => handleCellClick(cell, r, c)}
-                  >
-                    {cell}
-                  </div>
-                );
-              })}
-            </div>
-          );
-        })}
+        <div id="gameboard">
+          {gameboard.map((row, r) => {
+            // console.log(row, r);
+            return (
+              <div className="row">
+                {row.map((cell, c) => {
+                  // console.log(cell, c)
+                  return (
+                    <div
+                      className="cell"
+                      onClick={() => handleCellClick(cell, r, c)}
+                    >
+                      {cell}
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
+        <div id="player2-field">
+          {player2Piece.map((piece, index) => {
+            return (
+              <div
+                className="piece"
+                onClick={() => handlePieceSelect(index, P2Name)}
+              >
+                {piece}
+              </div>
+            );
+          })}
+        </div>
       </div>
-      <div id="player2-field">
-        {player2Piece.map((piece) => {
-          return <div className="piece">{piece}</div>;
-        })}
+      <div>
+        {winnerPlayer ? <div id="message">{winnerPlayer} wins!</div> : null}
+        {isTie ? <div id="message">Its a tie!</div> : null}
       </div>
-      {winnerPlayer ? <div id="message">{winnerPlayer} wins!</div> : null}
-      {isTie ? <div id="message">Its a tie!</div> : null}
     </div>
   );
 }
