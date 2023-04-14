@@ -1,19 +1,28 @@
 import "./App.css";
 import { Player } from "./Player";
+import { Cell } from "./Cell";
 import { useState } from "react";
 
-const EMPTY = "";
 const P1 = new Player("Perry", "○");
-const P2 = new Player("Perry", "x");
-// console.log(P1, P1.name, P1.piece);
+const P2 = new Player("Mino", "x");
+
+const isCellEmpty = function (cell) {
+  if (cell.pieces.length === 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
 const checkWin = function (updatedGameboard) {
   // Check rows
   for (let i = 0; i < 3; i++) {
     if (
-      updatedGameboard[i][0] !== EMPTY &&
-      updatedGameboard[i][0] === updatedGameboard[i][1] &&
-      updatedGameboard[i][1] === updatedGameboard[i][2]
+      !isCellEmpty(updatedGameboard[i][0]) &&
+      updatedGameboard[i][0].pieces[0]?.character ===
+        updatedGameboard[i][1].pieces[0]?.character &&
+      updatedGameboard[i][1].pieces[0]?.character ===
+        updatedGameboard[i][2].pieces[0]?.character
     ) {
       return true;
     }
@@ -22,9 +31,11 @@ const checkWin = function (updatedGameboard) {
   // Check columns
   for (let j = 0; j < 3; j++) {
     if (
-      updatedGameboard[0][j] !== EMPTY &&
-      updatedGameboard[0][j] === updatedGameboard[1][j] &&
-      updatedGameboard[1][j] === updatedGameboard[2][j]
+      !isCellEmpty(updatedGameboard[0][j]) &&
+      updatedGameboard[0][j].pieces[0]?.character ===
+        updatedGameboard[1][j].pieces[0]?.character &&
+      updatedGameboard[1][j].pieces[0]?.character ===
+        updatedGameboard[2][j].pieces[0]?.character
     ) {
       return true;
     }
@@ -32,17 +43,21 @@ const checkWin = function (updatedGameboard) {
 
   // Check diagonals
   if (
-    updatedGameboard[0][0] !== EMPTY &&
-    updatedGameboard[0][0] === updatedGameboard[1][1] &&
-    updatedGameboard[1][1] === updatedGameboard[2][2]
+    !isCellEmpty(updatedGameboard[0][0]) &&
+    updatedGameboard[0][0].pieces[0]?.character ===
+      updatedGameboard[1][1].pieces[0]?.character &&
+    updatedGameboard[1][1].pieces[0]?.character ===
+      updatedGameboard[2][2].pieces[0]?.character
   ) {
     return true;
   }
 
   if (
-    updatedGameboard[2][0] !== EMPTY &&
-    updatedGameboard[2][0] === updatedGameboard[1][1] &&
-    updatedGameboard[1][1] === updatedGameboard[0][2]
+    !isCellEmpty(updatedGameboard[2][0]) &&
+    updatedGameboard[2][0].pieces[0]?.character ===
+      updatedGameboard[1][1].pieces[0]?.character &&
+    updatedGameboard[1][1].pieces[0]?.character ===
+      updatedGameboard[0][2].pieces[0]?.character
   ) {
     return true;
   }
@@ -53,7 +68,7 @@ const checkWin = function (updatedGameboard) {
 const checkTie = function (updatedGameboard) {
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
-      if (updatedGameboard[i][j] === EMPTY) {
+      if (isCellEmpty(updatedGameboard[i][j])) {
         return false;
       }
     }
@@ -63,9 +78,9 @@ const checkTie = function (updatedGameboard) {
 
 function App() {
   const [gameboard, setGameboard] = useState([
-    [EMPTY, EMPTY, EMPTY],
-    [EMPTY, EMPTY, EMPTY],
-    [EMPTY, EMPTY, EMPTY],
+    [new Cell(), new Cell(), new Cell()],
+    [new Cell(), new Cell(), new Cell()],
+    [new Cell(), new Cell(), new Cell()],
   ]);
   const [currentPlayer, setCurrentPlayer] = useState(P1);
   const [winnerPlayer, setWinnerPlayer] = useState();
@@ -90,7 +105,7 @@ function App() {
       return;
     }
 
-    if (cell !== EMPTY) {
+    if (!isCellEmpty(cell)) {
       return;
     }
 
@@ -102,14 +117,16 @@ function App() {
     const updatedCurrentPlayer = currentPlayer === P1 ? P2 : P1;
 
     if (currentPlayer === P1) {
-      updatedGameboard[r][c] =
-        player1Piece[selectedPieceAndPlayer[0]].character;
+      updatedGameboard[r][c].pieces.unshift(
+        player1Piece[selectedPieceAndPlayer[0]]
+      );
       const updatePlayer1Piece = [...player1Piece];
       updatePlayer1Piece.splice(selectedPieceAndPlayer[0], 1);
       setPlayer1Piece(updatePlayer1Piece);
     } else {
-      updatedGameboard[r][c] =
-        player2Piece[selectedPieceAndPlayer[0]].character;
+      updatedGameboard[r][c].pieces.unshift(
+        player2Piece[selectedPieceAndPlayer[0]]
+      );
       const updatePlayer2Piece = [...player2Piece];
       updatePlayer2Piece.splice(selectedPieceAndPlayer[0], 1);
       setPlayer2Piece(updatePlayer2Piece);
@@ -153,7 +170,7 @@ function App() {
                       className="cell"
                       onClick={() => handleCellClick(cell, r, c)}
                     >
-                      {cell}
+                      {cell.pieces[0]?.character}
                     </div>
                   );
                 })}

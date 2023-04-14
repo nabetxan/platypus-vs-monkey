@@ -1,3 +1,8 @@
+to do:
+
+*make EMPTY as object too so that it can contain more info
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
