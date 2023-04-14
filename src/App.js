@@ -5,7 +5,7 @@ import { useState } from "react";
 const EMPTY = "";
 const P1 = new Player("Perry", "○");
 const P2 = new Player("Minochan", "x");
-console.log(P1, P1.name, P1.piece);
+// console.log(P1, P1.name, P1.piece);
 
 const checkWin = function (updatedGameboard) {
   // Check rows
@@ -67,7 +67,7 @@ function App() {
     [EMPTY, EMPTY, EMPTY],
     [EMPTY, EMPTY, EMPTY],
   ]);
-  const [currentPlayer, setCurrentPlayer] = useState(P1.name);
+  const [currentPlayer, setCurrentPlayer] = useState(P1);
   const [winnerPlayer, setWinnerPlayer] = useState();
   const [player1Piece, setPlayer1Piece] = useState(P1.piece);
   const [player2Piece, setPlayer2Piece] = useState(P2.piece);
@@ -76,17 +76,17 @@ function App() {
   const [selectedPieceAndPlayer, setSelectedPieceAndPlayer] = useState([]);
 
   const handlePieceSelect = function (index, player) {
-    if (currentPlayer !== player) {
+    if (currentPlayer.name !== player) {
       return;
     }
     const currentSelectedPiece = index;
-    setSelectedPieceAndPlayer([currentSelectedPiece, currentPlayer]);
+    setSelectedPieceAndPlayer([currentSelectedPiece, currentPlayer.name]);
 
-    console.log(currentSelectedPiece, currentPlayer);
+    console.log(currentSelectedPiece, currentPlayer.name);
   };
 
   const handleCellClick = function (cell, r, c) {
-    if (selectedPieceAndPlayer[1] !== currentPlayer) {
+    if (selectedPieceAndPlayer[1] !== currentPlayer.name) {
       return;
     }
 
@@ -99,9 +99,9 @@ function App() {
     }
 
     const updatedGameboard = [...gameboard];
-    const updatedCurrentPlayer = currentPlayer === P1.name ? P2.name : P1.name;
+    const updatedCurrentPlayer = currentPlayer === P1 ? P2 : P1;
 
-    if (currentPlayer === P1.name) {
+    if (currentPlayer === P1) {
       updatedGameboard[r][c] =
         player1Piece[selectedPieceAndPlayer[0]].character;
       const updatePlayer1Piece = [...player1Piece];
@@ -118,7 +118,7 @@ function App() {
     setCurrentPlayer(updatedCurrentPlayer);
     setGameboard(updatedGameboard);
     if (checkWin(updatedGameboard)) {
-      setWinnerPlayer(currentPlayer);
+      setWinnerPlayer(currentPlayer.name);
     }
 
     console.log(player1Piece, player2Piece);
