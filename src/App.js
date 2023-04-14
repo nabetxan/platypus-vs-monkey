@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const EMPTY = "";
 const P1 = new Player("Perry", "○");
-const P2 = new Player("Minochan", "x");
+const P2 = new Player("Perry", "x");
 // console.log(P1, P1.name, P1.piece);
 
 const checkWin = function (updatedGameboard) {
@@ -76,17 +76,17 @@ function App() {
   const [selectedPieceAndPlayer, setSelectedPieceAndPlayer] = useState([]);
 
   const handlePieceSelect = function (index, player) {
-    if (currentPlayer.name !== player) {
+    if (currentPlayer !== player) {
       return;
     }
     const currentSelectedPiece = index;
-    setSelectedPieceAndPlayer([currentSelectedPiece, currentPlayer.name]);
+    setSelectedPieceAndPlayer([currentSelectedPiece, currentPlayer]);
 
-    console.log(currentSelectedPiece, currentPlayer.name);
+    console.log(currentSelectedPiece, currentPlayer);
   };
 
   const handleCellClick = function (cell, r, c) {
-    if (selectedPieceAndPlayer[1] !== currentPlayer.name) {
+    if (selectedPieceAndPlayer[1] !== currentPlayer) {
       return;
     }
 
@@ -134,7 +134,7 @@ function App() {
             return (
               <div
                 className="piece"
-                onClick={() => handlePieceSelect(index, P1.name)}
+                onClick={() => handlePieceSelect(index, P1)}
               >
                 {piece.character}
               </div>
@@ -166,7 +166,7 @@ function App() {
             return (
               <div
                 className="piece"
-                onClick={() => handlePieceSelect(index, P2.name)}
+                onClick={() => handlePieceSelect(index, P2)}
               >
                 {piece.character}
               </div>
