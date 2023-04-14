@@ -1,11 +1,11 @@
 import "./App.css";
+import { Player } from "./Player";
 import { useState } from "react";
 
 const EMPTY = "";
-const P1 = "○";
-const P2 = "×";
-const P1Name = "Perry";
-const P2Name = "Minochan";
+const P1 = new Player("Perry", "○");
+const P2 = new Player("Minochan", "x");
+console.log(P1, P1.name, P1.piece);
 
 const checkWin = function (updatedGameboard) {
   // Check rows
@@ -67,10 +67,12 @@ function App() {
     [EMPTY, EMPTY, EMPTY],
     [EMPTY, EMPTY, EMPTY],
   ]);
-  const [currentPlayer, setCurrentPlayer] = useState(P1Name);
+  const [currentPlayer, setCurrentPlayer] = useState(P1.name);
   const [winnerPlayer, setWinnerPlayer] = useState();
-  const [player1Piece, setPlayer1Piece] = useState([P1, P1, P1, P1, P1, P1]);
-  const [player2Piece, setPlayer2Piece] = useState([P2, P2, P2, P2, P2, P2]);
+  const [player1Piece, setPlayer1Piece] = useState(P1.piece);
+  const [player2Piece, setPlayer2Piece] = useState(P2.piece);
+  // const [player1Piece, setPlayer1Piece] = useState([P1, P1, P1, P1, P1, P1]);
+  // const [player2Piece, setPlayer2Piece] = useState([P2, P2, P2, P2, P2, P2]);
   const [selectedPieceAndPlayer, setSelectedPieceAndPlayer] = useState([]);
 
   const handlePieceSelect = function (index, player) {
@@ -97,15 +99,17 @@ function App() {
     }
 
     const updatedGameboard = [...gameboard];
-    const updatedCurrentPlayer = currentPlayer === P1Name ? P2Name : P1Name;
+    const updatedCurrentPlayer = currentPlayer === P1.name ? P2.name : P1.name;
 
-    if (currentPlayer === P1Name) {
-      updatedGameboard[r][c] = player1Piece[selectedPieceAndPlayer[0]];
+    if (currentPlayer === P1.name) {
+      updatedGameboard[r][c] =
+        player1Piece[selectedPieceAndPlayer[0]].character;
       const updatePlayer1Piece = [...player1Piece];
       updatePlayer1Piece.splice(selectedPieceAndPlayer[0], 1);
       setPlayer1Piece(updatePlayer1Piece);
     } else {
-      updatedGameboard[r][c] = player2Piece[selectedPieceAndPlayer[0]];
+      updatedGameboard[r][c] =
+        player2Piece[selectedPieceAndPlayer[0]].character;
       const updatePlayer2Piece = [...player2Piece];
       updatePlayer2Piece.splice(selectedPieceAndPlayer[0], 1);
       setPlayer2Piece(updatePlayer2Piece);
@@ -117,7 +121,7 @@ function App() {
       setWinnerPlayer(currentPlayer);
     }
 
-    console.log(player1Piece, player1Piece);
+    console.log(player1Piece, player2Piece);
   };
 
   const isTie = checkTie(gameboard) && !winnerPlayer;
@@ -130,9 +134,9 @@ function App() {
             return (
               <div
                 className="piece"
-                onClick={() => handlePieceSelect(index, P1Name)}
+                onClick={() => handlePieceSelect(index, P1.name)}
               >
-                {piece}
+                {piece.character}
               </div>
             );
           })}
@@ -144,7 +148,6 @@ function App() {
             return (
               <div className="row">
                 {row.map((cell, c) => {
-                  // console.log(cell, c)
                   return (
                     <div
                       className="cell"
@@ -163,9 +166,9 @@ function App() {
             return (
               <div
                 className="piece"
-                onClick={() => handlePieceSelect(index, P2Name)}
+                onClick={() => handlePieceSelect(index, P2.name)}
               >
-                {piece}
+                {piece.character}
               </div>
             );
           })}
