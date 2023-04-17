@@ -20,6 +20,10 @@
   margin: 2px;
 }
 
+.selected {
+  background-color: blueviolet;
+}
+
 #gameboard {
   display: flex;
   flex-direction: column;

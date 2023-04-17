@@ -134,6 +134,7 @@ function App() {
 
     setCurrentPlayer(updatedCurrentPlayer);
     setGameboard(updatedGameboard);
+    setSelectedPieceAndPlayer([]);
     if (checkWin(updatedGameboard)) {
       setWinnerPlayer(currentPlayer.name);
     }
@@ -148,9 +149,14 @@ function App() {
       <div id="game-content">
         <div id="player1-field">
           {player1Piece.map((piece, index) => {
+            let classname = "piece";
+            if (currentPlayer === P1 && selectedPieceAndPlayer[0] === index) {
+              classname = classname + " selected";
+            }
+            console.log(selectedPieceAndPlayer, piece, index);
             return (
               <div
-                className="piece"
+                className={classname}
                 onClick={() => handlePieceSelect(index, P1)}
               >
                 {piece.character}
@@ -180,9 +186,15 @@ function App() {
         </div>
         <div id="player2-field">
           {player2Piece.map((piece, index) => {
+            let classname = "piece";
+            if (currentPlayer === P2 && selectedPieceAndPlayer[0] === index) {
+              classname = classname + " selected";
+            }
+            console.log(selectedPieceAndPlayer, piece, index);
+
             return (
               <div
-                className="piece"
+                className={classname}
                 onClick={() => handlePieceSelect(index, P2)}
               >
                 {piece.character}
