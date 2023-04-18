@@ -24,7 +24,11 @@ const checkWin = function (updatedGameboard) {
       updatedGameboard[i][1].pieces[0]?.character ===
         updatedGameboard[i][2].pieces[0]?.character
     ) {
-      return true;
+      return [
+        [i, 0],
+        [i, 1],
+        [i, 2],
+      ];
     }
   }
 
@@ -37,7 +41,11 @@ const checkWin = function (updatedGameboard) {
       updatedGameboard[1][j].pieces[0]?.character ===
         updatedGameboard[2][j].pieces[0]?.character
     ) {
-      return true;
+      return [
+        [0, j],
+        [1, j],
+        [2, j],
+      ];
     }
   }
 
@@ -49,7 +57,11 @@ const checkWin = function (updatedGameboard) {
     updatedGameboard[1][1].pieces[0]?.character ===
       updatedGameboard[2][2].pieces[0]?.character
   ) {
-    return true;
+    return [
+      [0, 0],
+      [1, 1],
+      [2, 2],
+    ];
   }
 
   if (
@@ -59,7 +71,11 @@ const checkWin = function (updatedGameboard) {
     updatedGameboard[1][1].pieces[0]?.character ===
       updatedGameboard[0][2].pieces[0]?.character
   ) {
-    return true;
+    return [
+      [2, 0],
+      [1, 1],
+      [0, 2],
+    ];
   }
 
   return false;
@@ -86,9 +102,8 @@ function App() {
   const [winnerPlayer, setWinnerPlayer] = useState();
   const [player1Piece, setPlayer1Piece] = useState(P1.piece);
   const [player2Piece, setPlayer2Piece] = useState(P2.piece);
-  // const [player1Piece, setPlayer1Piece] = useState([P1, P1, P1, P1, P1, P1]);
-  // const [player2Piece, setPlayer2Piece] = useState([P2, P2, P2, P2, P2, P2]);
   const [selectedPieceAndPlayer, setSelectedPieceAndPlayer] = useState([]);
+  const [winnerCells, setWinnerCells] = useState([]);
 
   const handlePieceSelect = function (index, player) {
     if (currentPlayer !== player) {
@@ -96,8 +111,7 @@ function App() {
     }
     const currentSelectedPiece = index;
     setSelectedPieceAndPlayer([currentSelectedPiece, currentPlayer]);
-
-    console.log(currentSelectedPiece, currentPlayer);
+    // console.log(currentSelectedPiece, currentPlayer);
   };
 
   const handleCellClick = function (cell, r, c) {
@@ -135,11 +149,14 @@ function App() {
     setCurrentPlayer(updatedCurrentPlayer);
     setGameboard(updatedGameboard);
     setSelectedPieceAndPlayer([]);
-    if (checkWin(updatedGameboard)) {
+
+    const winnerPos = checkWin(updatedGameboard);
+    console.log(winnerPos);
+
+    if (winnerPos) {
+      setWinnerCells(winnerPos);
       setWinnerPlayer(currentPlayer.name);
     }
-
-    console.log(player1Piece, player2Piece);
   };
 
   const isTie = checkTie(gameboard) && !winnerPlayer;
@@ -153,7 +170,7 @@ function App() {
             if (currentPlayer === P1 && selectedPieceAndPlayer[0] === index) {
               classname = classname + " selected";
             }
-            console.log(selectedPieceAndPlayer, piece, index);
+            // console.log(selectedPieceAndPlayer, piece, index);
             return (
               <div
                 className={classname}
@@ -167,13 +184,24 @@ function App() {
 
         <div id="gameboard">
           {gameboard.map((row, r) => {
-            // console.log(row, r);
             return (
               <div className="row">
                 {row.map((cell, c) => {
+                  let classname = "cell";
+                  console.log(winnerCells, r, c);
+
+                  if (
+                    winnerPlayer &&
+                    ((winnerCells[0][0] === r && winnerCells[0][1] === c) ||
+                      (winnerCells[1][0] === r && winnerCells[1][1] === c) ||
+                      (winnerCells[2][0] === r && winnerCells[2][1] === c))
+                  ) {
+                    classname = classname + " win";
+                  }
+
                   return (
                     <div
-                      className="cell"
+                      className={classname}
                       onClick={() => handleCellClick(cell, r, c)}
                     >
                       {cell.pieces[0]?.character}
@@ -190,7 +218,6 @@ function App() {
             if (currentPlayer === P2 && selectedPieceAndPlayer[0] === index) {
               classname = classname + " selected";
             }
-            console.log(selectedPieceAndPlayer, piece, index);
 
             return (
               <div

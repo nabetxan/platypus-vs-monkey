@@ -46,6 +46,11 @@
   width: 100px;
   align-items: center;
   text-align: center;
+  
+}
+
+.win{
+  background-color:brown;
 }
 
 /* .App {
