@@ -1,6 +1,5 @@
 to do:
 
-*different size piece
 *you can put encima
 *you can move piece
 *add reset button

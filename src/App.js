@@ -2,9 +2,11 @@ import "./App.css";
 import { Player } from "./Player";
 import { Cell } from "./Cell";
 import { useState } from "react";
+import monkey from "./vector-monkey.png";
+import platypus from "./vector-platypus.png";
 
-const P1 = new Player("Perry", "○");
-const P2 = new Player("Mino", "x");
+const P1 = new Player("Perry", platypus);
+const P2 = new Player("Mino", monkey);
 
 const isCellEmpty = function (cell) {
   if (cell.pieces.length === 0) {
@@ -184,7 +186,8 @@ function App() {
                 className={classname}
                 onClick={() => handlePieceSelect(index, P1)}
               >
-                {piece.character}
+                {" "}
+                <img src={platypus} alt="platypus"></img>
               </div>
             );
           })}
@@ -207,12 +210,25 @@ function App() {
                     classname = classname + " win";
                   }
 
+                  if (cell.pieces[0]) {
+                    if (cell.pieces[0].size === "S") {
+                      classname = classname + " small";
+                    }
+                    if (cell.pieces[0].size === "M") {
+                      classname = classname + " medium";
+                    }
+                    if (cell.pieces[0].size === "L") {
+                      classname = classname + " large";
+                    }
+                  }
                   return (
                     <div
                       className={classname}
                       onClick={() => handleCellClick(cell, r, c)}
                     >
-                      {cell.pieces[0]?.character}
+                      {cell.pieces[0] && (
+                        <img src={cell.pieces[0].character} alt="piece"></img>
+                      )}
                     </div>
                   );
                 })}
@@ -240,7 +256,7 @@ function App() {
                 className={classname}
                 onClick={() => handlePieceSelect(index, P2)}
               >
-                {piece.character}
+                <img src={monkey} alt="monkey"></img>
               </div>
             );
           })}

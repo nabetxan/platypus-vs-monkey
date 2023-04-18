@@ -1,6 +1,4 @@
-*{
-  border: solid 1px red;
-}
+
 #game-content {
   display: flex;
   justify-content:center;
@@ -28,20 +26,6 @@
   align-items: center;
   text-align: center;
   justify-content: center;
-}
-
-.small{
-  height:30px;
-  width:30px;
-}
-
-.medium{
-  height:60px;
-  width:60px;
-}
-.large{
-  height:90px;
-  width:90px;
 }
 
 .selected {
@@ -77,6 +61,27 @@
 .win{
   background-color:brown;
 }
+
+.small > img{
+  height:30px;
+  width:30px;
+}
+
+.medium > img{
+  height:60px;
+  width:60px;
+}
+.large > img{
+  height:90px;
+  width:90px;
+}
+
+/* .piece > img, .cell > img{
+ height: 100%;
+ width: 100%;
+} */
+
+
 
 /* .App {
   text-align: center;
