@@ -151,7 +151,7 @@ function App() {
     setSelectedPieceAndPlayer([]);
 
     const winnerPos = checkWin(updatedGameboard);
-    console.log(winnerPos);
+    // console.log(winnerPos);
 
     if (winnerPos) {
       setWinnerCells(winnerPos);
@@ -170,7 +170,15 @@ function App() {
             if (currentPlayer === P1 && selectedPieceAndPlayer[0] === index) {
               classname = classname + " selected";
             }
-            // console.log(selectedPieceAndPlayer, piece, index);
+            if (piece.size === "S") {
+              classname = classname + " small";
+            }
+            if (piece.size === "M") {
+              classname = classname + " medium";
+            }
+            if (piece.size === "L") {
+              classname = classname + " large";
+            }
             return (
               <div
                 className={classname}
@@ -188,7 +196,7 @@ function App() {
               <div className="row">
                 {row.map((cell, c) => {
                   let classname = "cell";
-                  console.log(winnerCells, r, c);
+                  // console.log(winnerCells, r, c);
 
                   if (
                     winnerPlayer &&
@@ -218,7 +226,15 @@ function App() {
             if (currentPlayer === P2 && selectedPieceAndPlayer[0] === index) {
               classname = classname + " selected";
             }
-
+            if (piece.size === "S") {
+              classname = classname + " small";
+            }
+            if (piece.size === "M") {
+              classname = classname + " medium";
+            }
+            if (piece.size === "L") {
+              classname = classname + " large";
+            }
             return (
               <div
                 className={classname}

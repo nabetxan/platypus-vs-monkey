@@ -1,6 +1,9 @@
 to do:
 
-*make EMPTY as object too so that it can contain more info
+*different size piece
+*you can put encima
+*you can move piece
+*add reset button
 
 
 # Getting Started with Create React App

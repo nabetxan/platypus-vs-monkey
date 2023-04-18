@@ -1,6 +1,9 @@
+*{
+  border: solid 1px red;
+}
 #game-content {
   display: flex;
-  justify-content: center;
+  justify-content:center;
 }
 
 #player1-field,
@@ -10,6 +13,9 @@
   margin: 20px 0px;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
 }
 
 .piece {
@@ -18,6 +24,24 @@
   border-radius: 5px;
   padding: 2px;
   margin: 2px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.small{
+  height:30px;
+  width:30px;
+}
+
+.medium{
+  height:60px;
+  width:60px;
+}
+.large{
+  height:90px;
+  width:90px;
 }
 
 .selected {
@@ -30,12 +54,11 @@
   align-items: center;
   width: fit-content;
   margin: 20px 0px 20px 0px;
-  flex-grow: 3;
+  flex-grow: 1;
 }
 
 .row {
   background-color: bisque;
-
   display: flex;
   justify-content: center;
 }
@@ -44,8 +67,10 @@
   border: solid 1px black;
   height: 100px;
   width: 100px;
+  display: flex;
   align-items: center;
   text-align: center;
+  justify-content: center;
   
 }
 
