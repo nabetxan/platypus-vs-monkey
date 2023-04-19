@@ -109,12 +109,12 @@ function App() {
   const [winnerCells, setWinnerCells] = useState([]);
 
   const handlePieceSelect = function (index, player) {
-    console.log(index, player1Piece)
+    // console.log(index, player1Piece);
     if (currentPlayer !== player) {
       return;
     }
 
-    if(winnerPlayer) {
+    if (winnerPlayer) {
       return;
     }
 
@@ -129,12 +129,20 @@ function App() {
 
     const currentSelectedPieceSize =
       currentPlayerPiece[currentSelectedPieceIndex].size;
-    setSelectedPieceAndPlayer([
-      currentSelectedPieceIndex,
-      currentPlayer,
-      currentSelectedPieceSize,
-    ]);
-    // console.log(currentSelectedPiece, currentPlayer);
+
+    if (
+      currentSelectedPieceIndex === selectedPieceAndPlayer[0] &&
+      currentSelectedPieceSize === selectedPieceAndPlayer[2]
+    ) {
+      setSelectedPieceAndPlayer([]);
+    } else {
+      setSelectedPieceAndPlayer([
+        currentSelectedPieceIndex,
+        currentPlayer,
+        currentSelectedPieceSize,
+        false,
+      ]);
+    }
   };
 
   const handleCellClick = function (cell, r, c) {
@@ -142,8 +150,21 @@ function App() {
       return;
     }
 
+    if (cell.pieces[0]?.player === currentPlayer) {
+      // const swapSelectedPieceIndex = cell.pieces[0].index
+      // const swapSelectedPieceSize = cell.pieces[0].size
+      // setSelectedPieceAndPlayer([
+      //   swapSelectedPieceIndex,
+      //   currentPlayer,
+      //   swapSelectedPieceSize,
+      //   true
+      // ]);
+      // } else {
+      //   // do nothing
+      // }
+    }
+
     if (!isCellEmpty(cell)) {
-      console.log(cell.pieces[0]);
       if (selectedPieceAndPlayer[2] === "S") {
         return;
       }
@@ -153,8 +174,8 @@ function App() {
       }
       if (
         selectedPieceAndPlayer[2] === "L" &&
-        (cell.pieces[0].size !== "S" &&
-        cell.pieces[0].size !== "M")
+        cell.pieces[0].size !== "S" &&
+        cell.pieces[0].size !== "M"
       ) {
         return;
       }
