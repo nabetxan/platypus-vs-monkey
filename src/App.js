@@ -2,12 +2,13 @@ import "./App.css";
 import { Player } from "./Player";
 import { Cell } from "./Cell";
 import { useState } from "react";
-import monkey from "./vector-monkey.png";
 import platypus from "./vector-platypus.png";
+import monkey from "./vector-monkey.png";
 
 const P1 = new Player("Perry", platypus);
 const P2 = new Player("Mino", monkey);
 
+// game strategy
 const isCellEmpty = function (cell) {
   if (cell.pieces.length === 0) {
     return true;
@@ -108,11 +109,31 @@ function App() {
   const [winnerCells, setWinnerCells] = useState([]);
 
   const handlePieceSelect = function (index, player) {
+    console.log(index, player1Piece)
     if (currentPlayer !== player) {
       return;
     }
-    const currentSelectedPiece = index;
-    setSelectedPieceAndPlayer([currentSelectedPiece, currentPlayer]);
+
+    if(winnerPlayer) {
+      return;
+    }
+
+    let currentPlayerPiece;
+    if (currentPlayer === P1) {
+      currentPlayerPiece = [...player1Piece];
+    } else {
+      currentPlayerPiece = [...player2Piece];
+    }
+
+    const currentSelectedPieceIndex = index;
+
+    const currentSelectedPieceSize =
+      currentPlayerPiece[currentSelectedPieceIndex].size;
+    setSelectedPieceAndPlayer([
+      currentSelectedPieceIndex,
+      currentPlayer,
+      currentSelectedPieceSize,
+    ]);
     // console.log(currentSelectedPiece, currentPlayer);
   };
 
@@ -122,11 +143,25 @@ function App() {
     }
 
     if (!isCellEmpty(cell)) {
-      return;
-    }
+      console.log(cell.pieces[0]);
+      if (selectedPieceAndPlayer[2] === "S") {
+        return;
+      }
 
-    if (winnerPlayer) {
-      return;
+      if (selectedPieceAndPlayer[2] === "M" && cell.pieces[0].size !== "S") {
+        return;
+      }
+      if (
+        selectedPieceAndPlayer[2] === "L" &&
+        (cell.pieces[0].size !== "S" &&
+        cell.pieces[0].size !== "M")
+      ) {
+        return;
+      }
+
+      if (winnerPlayer) {
+        return;
+      }
     }
 
     const updatedGameboard = [...gameboard];
@@ -153,7 +188,6 @@ function App() {
     setSelectedPieceAndPlayer([]);
 
     const winnerPos = checkWin(updatedGameboard);
-    // console.log(winnerPos);
 
     if (winnerPos) {
       setWinnerCells(winnerPos);

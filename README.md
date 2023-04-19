@@ -1,8 +1,9 @@
 to do:
 
-*you can put encima
 *you can move piece
 *add reset button
+*can change player name
+*show it's a tie when no more piece left?
 
 
 # Getting Started with Create React App
