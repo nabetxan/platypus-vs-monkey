@@ -109,7 +109,7 @@ function App() {
   const [winnerCells, setWinnerCells] = useState([]);
 
   const handlePieceSelect = function (index, player) {
-    // console.log(index, player1Piece);
+    console.log(index, currentPlayer);
     if (currentPlayer !== player) {
       return;
     }
@@ -125,19 +125,21 @@ function App() {
       currentPlayerPiece = [...player2Piece];
     }
 
-    const currentSelectedPieceIndex = index;
+    const currentSelectedPieceIndex = currentPlayerPiece.findIndex(
+      (piece) => piece.index === index
+    );
 
     const currentSelectedPieceSize =
       currentPlayerPiece[currentSelectedPieceIndex].size;
 
     if (
-      currentSelectedPieceIndex === selectedPieceAndPlayer[0] &&
+      index === selectedPieceAndPlayer[0] &&
       currentSelectedPieceSize === selectedPieceAndPlayer[2]
     ) {
       setSelectedPieceAndPlayer([]);
     } else {
       setSelectedPieceAndPlayer([
-        currentSelectedPieceIndex,
+        index,
         currentPlayer,
         currentSelectedPieceSize,
         false,
@@ -146,23 +148,31 @@ function App() {
   };
 
   const handleCellClick = function (cell, r, c) {
+    console.log(selectedPieceAndPlayer);
+    // console.log(selectedPieceAndPlayer[0]);
+    if (
+      cell.pieces[0]?.player === currentPlayer &&
+      selectedPieceAndPlayer[0] === undefined &&
+      !isCellEmpty(cell)
+    ) {
+      const swapSelectedPieceIndex = cell.pieces[0].index;
+      const swapSelectedPieceSize = cell.pieces[0].size;
+      setSelectedPieceAndPlayer([
+        swapSelectedPieceIndex,
+        currentPlayer,
+        swapSelectedPieceSize,
+        true,
+        [r, c],
+      ]);
+    } else {
+      // do nothing
+    }
+
     if (selectedPieceAndPlayer[1] !== currentPlayer) {
       return;
     }
 
-    if (cell.pieces[0]?.player === currentPlayer) {
-      // const swapSelectedPieceIndex = cell.pieces[0].index
-      // const swapSelectedPieceSize = cell.pieces[0].size
-      // setSelectedPieceAndPlayer([
-      //   swapSelectedPieceIndex,
-      //   currentPlayer,
-      //   swapSelectedPieceSize,
-      //   true
-      // ]);
-      // } else {
-      //   // do nothing
-      // }
-    }
+    console.log(selectedPieceAndPlayer);
 
     if (!isCellEmpty(cell)) {
       if (selectedPieceAndPlayer[2] === "S") {
@@ -189,18 +199,21 @@ function App() {
     const updatedCurrentPlayer = currentPlayer === P1 ? P2 : P1;
 
     if (currentPlayer === P1) {
-      updatedGameboard[r][c].pieces.unshift(
-        player1Piece[selectedPieceAndPlayer[0]]
+      const pieceIndex = player1Piece.findIndex(
+        (piece) => piece.index === selectedPieceAndPlayer[0]
       );
+      updatedGameboard[r][c].pieces.unshift(player1Piece[pieceIndex]);
       const updatePlayer1Piece = [...player1Piece];
-      updatePlayer1Piece.splice(selectedPieceAndPlayer[0], 1);
+      updatePlayer1Piece.splice(pieceIndex, 1);
       setPlayer1Piece(updatePlayer1Piece);
     } else {
-      updatedGameboard[r][c].pieces.unshift(
-        player2Piece[selectedPieceAndPlayer[0]]
+      const pieceIndex = player2Piece.findIndex(
+        (piece) => piece.index === selectedPieceAndPlayer[0]
       );
+
+      updatedGameboard[r][c].pieces.unshift(player2Piece[pieceIndex]);
       const updatePlayer2Piece = [...player2Piece];
-      updatePlayer2Piece.splice(selectedPieceAndPlayer[0], 1);
+      updatePlayer2Piece.splice(pieceIndex, 1);
       setPlayer2Piece(updatePlayer2Piece);
     }
 
@@ -222,9 +235,12 @@ function App() {
     <div className="App">
       <div id="game-content">
         <div id="player1-field">
-          {player1Piece.map((piece, index) => {
+          {player1Piece.map((piece) => {
             let classname = "piece";
-            if (currentPlayer === P1 && selectedPieceAndPlayer[0] === index) {
+            if (
+              currentPlayer === P1 &&
+              selectedPieceAndPlayer[0] === piece.index
+            ) {
               classname = classname + " selected";
             }
             if (piece.size === "S") {
@@ -239,7 +255,7 @@ function App() {
             return (
               <div
                 className={classname}
-                onClick={() => handlePieceSelect(index, P1)}
+                onClick={() => handlePieceSelect(piece.index, P1)}
               >
                 {" "}
                 <img src={platypus} alt="platypus"></img>
@@ -292,9 +308,12 @@ function App() {
           })}
         </div>
         <div id="player2-field">
-          {player2Piece.map((piece, index) => {
+          {player2Piece.map((piece) => {
             let classname = "piece";
-            if (currentPlayer === P2 && selectedPieceAndPlayer[0] === index) {
+            if (
+              currentPlayer === P2 &&
+              selectedPieceAndPlayer[0] === piece.index
+            ) {
               classname = classname + " selected";
             }
             if (piece.size === "S") {
@@ -309,7 +328,7 @@ function App() {
             return (
               <div
                 className={classname}
-                onClick={() => handlePieceSelect(index, P2)}
+                onClick={() => handlePieceSelect(piece.index, P2)}
               >
                 <img src={monkey} alt="monkey"></img>
               </div>
