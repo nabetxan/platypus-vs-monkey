@@ -93,8 +93,6 @@ const checkWin = function (updatedGameboard) {
 //     }
 //   }
 
-//   // console.log(player1Piece, player2Piece)
-
 //   return true;
 // };
 
@@ -151,66 +149,74 @@ function App() {
         index,
         currentPlayer,
         currentSelectedPieceSize,
+        //is the piece selected from board?
         false,
       ]);
     }
   };
 
   const handleCellClick = function (cell, r, c) {
-    console.log(selectedPieceAndPlayer);
+    // if the game is already finished --> noop
+    if (winnerPlayer) {
+      return;
+    }
 
-    if (
-      cell.pieces[0]?.player === currentPlayer &&
+    // when nothing is selected for selectedPieceAndPlayer
+    // you clicked an empty cell? --> noop
+    // you clicked an cell with opponent char on top? --> noop
+
+    if (selectedPieceAndPlayer[0] === undefined && isCellEmpty(cell)) {
+      return;
+    } else if (
       selectedPieceAndPlayer[0] === undefined &&
-      !setSelectedPieceAndPlayer[3]
+      cell.pieces[0]?.player !== currentPlayer
     ) {
+      return;
+    } else if (
+      selectedPieceAndPlayer[0] === undefined &&
+      cell.pieces[0]?.player === currentPlayer
+    ) {
+      // you clicked an cell with your character on top? --> select
       const swapSelectedPieceIndex = cell.pieces[0].index;
       const swapSelectedPieceSize = cell.pieces[0].size;
+      const pieceInfo = cell.pieces[0];
       setSelectedPieceAndPlayer([
         swapSelectedPieceIndex,
         currentPlayer,
         swapSelectedPieceSize,
+        //is the piece selected from board?
         true,
         [r, c],
+        pieceInfo,
       ]);
-    } else {
-      // do nothing
-    }
-
-    if (selectedPieceAndPlayer[1] !== currentPlayer) {
       return;
     }
 
-    console.log(selectedPieceAndPlayer);
+    // when a piece is already selected from hand pieces
+    if (!selectedPieceAndPlayer[3]) {
+      // when the cell is not empty and and the piece is equal or bigger --> noop
 
-    if (!isCellEmpty(cell)) {
-      if (selectedPieceAndPlayer[2] === "S") {
-        return;
+      if (!isCellEmpty(cell)) {
+        if (selectedPieceAndPlayer[2] === "S") {
+          return;
+        }
+
+        if (selectedPieceAndPlayer[2] === "M" && cell.pieces[0].size !== "S") {
+          return;
+        }
+        if (
+          selectedPieceAndPlayer[2] === "L" &&
+          cell.pieces[0].size !== "S" &&
+          cell.pieces[0].size !== "M"
+        ) {
+          return;
+        }
       }
+      // in other cases (if it's smaller or the cell is empty), play the piece
 
-      if (selectedPieceAndPlayer[2] === "M" && cell.pieces[0].size !== "S") {
-        return;
-      }
-      if (
-        selectedPieceAndPlayer[2] === "L" &&
-        cell.pieces[0].size !== "S" &&
-        cell.pieces[0].size !== "M"
-      ) {
-        return;
-      }
+      const updatedGameboard = [...gameboard];
+      const updatedCurrentPlayer = currentPlayer === P1 ? P2 : P1;
 
-      if (winnerPlayer) {
-        return;
-      }
-    }
-
-    const updatedGameboard = [...gameboard];
-    const updatedCurrentPlayer = currentPlayer === P1 ? P2 : P1;
-
-    if (setSelectedPieceAndPlayer[3] === true) {
-      updatedGameboard[r][c].pieces.shift();
-      setSelectedPieceAndPlayer[3] = false;
-    } else {
       if (currentPlayer === P1) {
         const pieceIndex = player1Piece.findIndex(
           (piece) => piece.index === selectedPieceAndPlayer[0]
@@ -223,28 +229,67 @@ function App() {
         const pieceIndex = player2Piece.findIndex(
           (piece) => piece.index === selectedPieceAndPlayer[0]
         );
-
         updatedGameboard[r][c].pieces.unshift(player2Piece[pieceIndex]);
         const updatePlayer2Piece = [...player2Piece];
         updatePlayer2Piece.splice(pieceIndex, 1);
         setPlayer2Piece(updatePlayer2Piece);
       }
-    }
 
-    setCurrentPlayer(updatedCurrentPlayer);
-    setGameboard(updatedGameboard);
-    setSelectedPieceAndPlayer([]);
+      setCurrentPlayer(updatedCurrentPlayer);
+      setGameboard(updatedGameboard);
+      setSelectedPieceAndPlayer([]);
 
-    const winnerPos = checkWin(updatedGameboard);
+      const winnerPos = checkWin(updatedGameboard);
 
-    if (winnerPos) {
-      setWinnerCells(winnerPos);
-      setWinnerPlayer(currentPlayer.name);
+      if (winnerPos) {
+        setWinnerCells(winnerPos);
+        setWinnerPlayer(currentPlayer.name);
+      }
+    } else if (selectedPieceAndPlayer[3]) {
+      // when a piece is already selected from the board
+      // when the cell is not empty and and the piece is equal or bigger --> noop
+
+      if (!isCellEmpty(cell)) {
+        if (selectedPieceAndPlayer[2] === "S") {
+          return;
+        }
+
+        if (selectedPieceAndPlayer[2] === "M" && cell.pieces[0].size !== "S") {
+          return;
+        }
+        if (
+          selectedPieceAndPlayer[2] === "L" &&
+          cell.pieces[0].size !== "S" &&
+          cell.pieces[0].size !== "M"
+        ) {
+          return;
+        }
+      }
+      // in other cases (if it's smaller or the cell is empty),
+      // first remove the piece from the original cell
+
+      const updatedGameboard = [...gameboard];
+      updatedGameboard[selectedPieceAndPlayer[4][0]][
+        selectedPieceAndPlayer[4][1]
+      ].pieces.shift();
+
+      //then, play the piece
+      const updatedCurrentPlayer = currentPlayer === P1 ? P2 : P1;
+
+      updatedGameboard[r][c].pieces.unshift(selectedPieceAndPlayer[5]);
+
+      setCurrentPlayer(updatedCurrentPlayer);
+      setGameboard(updatedGameboard);
+      setSelectedPieceAndPlayer([]);
+
+      const winnerPos = checkWin(updatedGameboard);
+
+      if (winnerPos) {
+        setWinnerCells(winnerPos);
+        setWinnerPlayer(currentPlayer.name);
+      }
     }
   };
-
-  // console.log(player1Piece, player2Piece)
-  // const isTie = checkTie(gameboard) && !winnerPlayer;
 
   return (
     <div className="App">
@@ -352,6 +397,7 @@ function App() {
         </div>
       </div>
       <div>
+        {/* {selectedPieceAndPlayer ? <div>{selectedPieceAndPlayer[1].piece[0].character}</div> : null} */}
         {winnerPlayer ? <div id="message">{winnerPlayer} wins!</div> : null}
         {/* {isTie ? <div id="message">Its a tie!</div> : null} */}
       </div>
