@@ -3,6 +3,7 @@ to do:
 *you can move piece
 *add reset button
 *can change player name
+*you lose if you take a piece from cell and you and the opponent get bingo at the same time
 
 
 # Getting Started with Create React App

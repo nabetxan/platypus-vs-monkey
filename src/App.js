@@ -84,16 +84,19 @@ const checkWin = function (updatedGameboard) {
   return false;
 };
 
-const checkTie = function (updatedGameboard) {
-  for (let i = 0; i < 3; i++) {
-    for (let j = 0; j < 3; j++) {
-      if (isCellEmpty(updatedGameboard[i][j])) {
-        return false;
-      }
-    }
-  }
-  return true;
-};
+// const checkTie = function (updatedGameboard, player1Piece, player2Piece) {
+//   for (let i = 0; i < 3; i++) {
+//     for (let j = 0; j < 3; j++) {
+//       if (isCellEmpty(updatedGameboard[i][j])) {
+//         return false;
+//       }
+//     }
+//   }
+
+//   // console.log(player1Piece, player2Piece)
+
+//   return true;
+// };
 
 function App() {
   const [gameboard, setGameboard] = useState([
@@ -109,12 +112,18 @@ function App() {
   const [winnerCells, setWinnerCells] = useState([]);
 
   const handlePieceSelect = function (index, player) {
-    console.log(index, currentPlayer);
+    // if it's not your turn, return
     if (currentPlayer !== player) {
       return;
     }
 
+    // if the game is finished, return
     if (winnerPlayer) {
+      return;
+    }
+
+    // if it's in the middle of piece swap, return
+    if (selectedPieceAndPlayer[3]) {
       return;
     }
 
@@ -149,11 +158,11 @@ function App() {
 
   const handleCellClick = function (cell, r, c) {
     console.log(selectedPieceAndPlayer);
-    // console.log(selectedPieceAndPlayer[0]);
+
     if (
       cell.pieces[0]?.player === currentPlayer &&
       selectedPieceAndPlayer[0] === undefined &&
-      !isCellEmpty(cell)
+      !setSelectedPieceAndPlayer[3]
     ) {
       const swapSelectedPieceIndex = cell.pieces[0].index;
       const swapSelectedPieceSize = cell.pieces[0].size;
@@ -198,23 +207,28 @@ function App() {
     const updatedGameboard = [...gameboard];
     const updatedCurrentPlayer = currentPlayer === P1 ? P2 : P1;
 
-    if (currentPlayer === P1) {
-      const pieceIndex = player1Piece.findIndex(
-        (piece) => piece.index === selectedPieceAndPlayer[0]
-      );
-      updatedGameboard[r][c].pieces.unshift(player1Piece[pieceIndex]);
-      const updatePlayer1Piece = [...player1Piece];
-      updatePlayer1Piece.splice(pieceIndex, 1);
-      setPlayer1Piece(updatePlayer1Piece);
+    if (setSelectedPieceAndPlayer[3] === true) {
+      updatedGameboard[r][c].pieces.shift();
+      setSelectedPieceAndPlayer[3] = false;
     } else {
-      const pieceIndex = player2Piece.findIndex(
-        (piece) => piece.index === selectedPieceAndPlayer[0]
-      );
+      if (currentPlayer === P1) {
+        const pieceIndex = player1Piece.findIndex(
+          (piece) => piece.index === selectedPieceAndPlayer[0]
+        );
+        updatedGameboard[r][c].pieces.unshift(player1Piece[pieceIndex]);
+        const updatePlayer1Piece = [...player1Piece];
+        updatePlayer1Piece.splice(pieceIndex, 1);
+        setPlayer1Piece(updatePlayer1Piece);
+      } else {
+        const pieceIndex = player2Piece.findIndex(
+          (piece) => piece.index === selectedPieceAndPlayer[0]
+        );
 
-      updatedGameboard[r][c].pieces.unshift(player2Piece[pieceIndex]);
-      const updatePlayer2Piece = [...player2Piece];
-      updatePlayer2Piece.splice(pieceIndex, 1);
-      setPlayer2Piece(updatePlayer2Piece);
+        updatedGameboard[r][c].pieces.unshift(player2Piece[pieceIndex]);
+        const updatePlayer2Piece = [...player2Piece];
+        updatePlayer2Piece.splice(pieceIndex, 1);
+        setPlayer2Piece(updatePlayer2Piece);
+      }
     }
 
     setCurrentPlayer(updatedCurrentPlayer);
@@ -229,7 +243,8 @@ function App() {
     }
   };
 
-  const isTie = checkTie(gameboard) && !winnerPlayer;
+  // console.log(player1Piece, player2Piece)
+  // const isTie = checkTie(gameboard) && !winnerPlayer;
 
   return (
     <div className="App">
@@ -338,7 +353,7 @@ function App() {
       </div>
       <div>
         {winnerPlayer ? <div id="message">{winnerPlayer} wins!</div> : null}
-        {isTie ? <div id="message">Its a tie!</div> : null}
+        {/* {isTie ? <div id="message">Its a tie!</div> : null} */}
       </div>
     </div>
   );
