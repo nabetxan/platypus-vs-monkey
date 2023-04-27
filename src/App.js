@@ -330,7 +330,15 @@ function App() {
               <div className="row">
                 {row.map((cell, c) => {
                   let classname = "cell";
-                  // console.log(winnerCells, r, c);
+                  // if a piece is selected from the board, highlight it
+                  if (selectedPieceAndPlayer[4] !== undefined) {
+                    if (
+                      selectedPieceAndPlayer[4][0] === r &&
+                      selectedPieceAndPlayer[4][1] === c
+                    ) {
+                      classname = classname + " selected-cell";
+                    }
+                  }
 
                   if (
                     winnerPlayer &&

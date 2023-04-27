@@ -72,16 +72,13 @@
   width:60px;
 }
 .large > img{
-  height:90px;
-  width:90px;
+  height:100px;
+  width:100px;
 }
 
-/* .piece > img, .cell > img{
- height: 100%;
- width: 100%;
-} */
-
-
+.selected-cell{
+  background-color: blueviolet;
+}
 
 /* .App {
   text-align: center;
