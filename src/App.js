@@ -27,11 +27,7 @@ const checkWin = function (updatedGameboard) {
       updatedGameboard[i][1].pieces[0]?.character ===
         updatedGameboard[i][2].pieces[0]?.character
     ) {
-      return [
-        [i, 0],
-        [i, 1],
-        [i, 2],
-      ];
+      return [[i, 0], [i, 1], [i, 2], updatedGameboard[i][0].pieces[0].player];
     }
   }
 
@@ -44,11 +40,7 @@ const checkWin = function (updatedGameboard) {
       updatedGameboard[1][j].pieces[0]?.character ===
         updatedGameboard[2][j].pieces[0]?.character
     ) {
-      return [
-        [0, j],
-        [1, j],
-        [2, j],
-      ];
+      return [[0, j], [1, j], [2, j], updatedGameboard[0][j].pieces[0].player];
     }
   }
 
@@ -60,11 +52,7 @@ const checkWin = function (updatedGameboard) {
     updatedGameboard[1][1].pieces[0]?.character ===
       updatedGameboard[2][2].pieces[0]?.character
   ) {
-    return [
-      [0, 0],
-      [1, 1],
-      [2, 2],
-    ];
+    return [[0, 0], [1, 1], [2, 2], updatedGameboard[0][0].pieces[0].player];
   }
 
   if (
@@ -74,11 +62,7 @@ const checkWin = function (updatedGameboard) {
     updatedGameboard[1][1].pieces[0]?.character ===
       updatedGameboard[0][2].pieces[0]?.character
   ) {
-    return [
-      [2, 0],
-      [1, 1],
-      [0, 2],
-    ];
+    return [[2, 0], [1, 1], [0, 2], updatedGameboard[2][0].pieces[0].player];
   }
 
   return false;
@@ -243,7 +227,8 @@ function App() {
 
       if (winnerPos) {
         setWinnerCells(winnerPos);
-        setWinnerPlayer(currentPlayer.name);
+        setWinnerPlayer(winnerPos[3].name);
+        // setWinnerPlayer(currentPlayer.name);
       }
     } else if (selectedPieceAndPlayer[3]) {
       // when a piece is already selected from the board
@@ -286,7 +271,8 @@ function App() {
 
       if (winnerPos) {
         setWinnerCells(winnerPos);
-        setWinnerPlayer(currentPlayer.name);
+        setWinnerPlayer(winnerPos[3].name);
+        // setWinnerPlayer(currentPlayer.name);
       }
     }
   };
