@@ -6,14 +6,14 @@ body {
 
 #game-content {
   display: flex;
-  justify-content:center;
+  justify-content: center;
 }
 
 #player1-field,
 #player2-field {
   border-radius: 10px;
   box-shadow: 1px 4px 6px black;
-  height:520px;
+  height: 520px;
   max-width: 150px;
   background-color: rgba(255, 255, 255, 0.792);
   margin: 20px 20px;
@@ -24,15 +24,23 @@ body {
   align-items: center;
 }
 
-#player1-field > .piece{
+#player1-field > .piece {
   border: solid 3px rgb(49, 224, 255);
 }
 
-#player2-field > .piece{
+#player2-field > .piece {
   border: solid 3px rgb(255, 164, 60);
 }
 
-.piece {  
+.name {
+  font-size: 20px;
+  font-weight: 900;
+  display: flex;
+  flex: 1;
+  margin-top: 20px;
+}
+
+.piece {
   text-align: center;
   border-radius: 10px;
   margin: 5px;
@@ -70,29 +78,29 @@ body {
   justify-content: center;
 }
 
-.win{
-  background-color:brown;
+.win {
+  background-color: brown;
 }
 
-.small > img{
-  height:30px;
-  width:30px;
+.small > img {
+  height: 30px;
+  width: 30px;
 }
 
-.medium > img{
-  height:60px;
-  width:60px;
+.medium > img {
+  height: 60px;
+  width: 60px;
 }
-.large > img{
-  height:100px;
-  width:100px;
+.large > img {
+  height: 100px;
+  width: 100px;
 }
 
-.selected-cell{
+.selected-cell {
   background-color: blueviolet;
 }
 
-#score-board{
+#score-board {
   height: 100px;
   margin: 20px;
   border-radius: 10px;
@@ -105,7 +113,7 @@ body {
   align-items: center;
 }
 
-#reMatch-btn{
+#reMatch-btn {
   background-color: brown;
   margin: auto 30px;
   padding: 20px;

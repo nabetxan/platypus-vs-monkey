@@ -68,18 +68,6 @@ const checkWin = function (updatedGameboard) {
   return false;
 };
 
-// const checkTie = function (updatedGameboard, player1Piece, player2Piece) {
-//   for (let i = 0; i < 3; i++) {
-//     for (let j = 0; j < 3; j++) {
-//       if (isCellEmpty(updatedGameboard[i][j])) {
-//         return false;
-//       }
-//     }
-//   }
-
-//   return true;
-// };
-
 function App() {
   const [gameboard, setGameboard] = useState([
     [new Cell(), new Cell(), new Cell()],
@@ -295,6 +283,7 @@ function App() {
     <div className="App">
       <div id="game-content">
         <div id="player1-field">
+          <div class="name">{P1.name}</div>
           {player1Piece.map((piece) => {
             let classname = "piece";
             if (
@@ -376,6 +365,7 @@ function App() {
           })}
         </div>
         <div id="player2-field">
+          <div class="name">{P2.name}</div>
           {player2Piece.map((piece) => {
             let classname = "piece";
             if (
@@ -407,7 +397,10 @@ function App() {
       <div id="score-board">
         {winnerPlayer ? (
           <div id="message">
-            {winnerPlayer} wins! <button id="reMatch-btn" onClick={reMatch}>Re-match?</button>
+            {winnerPlayer} wins!{" "}
+            <button id="reMatch-btn" onClick={reMatch}>
+              Re-match?
+            </button>
           </div>
         ) : (
           <div>It's {currentPlayer.name}'s turn</div>
