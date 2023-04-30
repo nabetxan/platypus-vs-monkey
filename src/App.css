@@ -1,5 +1,6 @@
 body {
-  background-image: url("stonewall.jpg");
+  background-image: url("tile.jpg");
+  background-size: 350px;
   min-width: 700px;
 }
 
@@ -14,7 +15,7 @@ body {
   box-shadow: 1px 4px 6px black;
   height:520px;
   max-width: 150px;
-  background-color: rgba(255, 255, 255, 0.578);
+  background-color: rgba(255, 255, 255, 0.792);
   margin: 20px 20px;
   display: flex;
   flex-direction: column;
@@ -91,6 +92,18 @@ body {
   background-color: blueviolet;
 }
 
+#score-board{
+  height: 100px;
+  margin: 20px;
+  border-radius: 10px;
+  box-shadow: 1px 4px 6px black;
+  background-color: antiquewhite;
+  font-size: 26px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 /* .App {
   text-align: center;
 }

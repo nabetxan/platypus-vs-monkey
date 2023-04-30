@@ -390,10 +390,8 @@ function App() {
           })}
         </div>
       </div>
-      <div>
-        {/* {selectedPieceAndPlayer ? <div>{selectedPieceAndPlayer[1].piece[0].character}</div> : null} */}
-        {winnerPlayer ? <div id="message">{winnerPlayer} wins!</div> : null}
-        {/* {isTie ? <div id="message">Its a tie!</div> : null} */}
+      <div id="score-board">       
+        {winnerPlayer ? <div id="message">{winnerPlayer} wins!</div> : <div>It's {currentPlayer.name}'s turn</div>}
       </div>
     </div>
   );
