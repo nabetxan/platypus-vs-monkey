@@ -80,6 +80,7 @@ function App() {
   const [player2Piece, setPlayer2Piece] = useState(P2.piece);
   const [selectedPieceAndPlayer, setSelectedPieceAndPlayer] = useState([]);
   const [winnerCells, setWinnerCells] = useState([]);
+  const [scoreKeep, setScoreKeep] = useState([0, 0]);
 
   const reMatch = function () {
     setGameboard([
@@ -230,6 +231,15 @@ function App() {
       if (winnerPos) {
         setWinnerCells(winnerPos);
         setWinnerPlayer(winnerPos[3].name);
+
+        if (winnerPos[3] === P1) {
+          const newScore = scoreKeep[0] + 1
+          setScoreKeep([newScore, scoreKeep[1]]);
+        } else {
+          const newScore = scoreKeep[1] + 1
+          setScoreKeep([scoreKeep[0],newScore]);
+        }
+
         // setWinnerPlayer(currentPlayer.name);
       }
     } else if (selectedPieceAndPlayer[3]) {
@@ -284,6 +294,7 @@ function App() {
       <div id="game-content">
         <div id="player1-field">
           <div class="name">{P1.name}</div>
+          <div class="score">{scoreKeep[0]}</div>
           {player1Piece.map((piece) => {
             let classname = "piece";
             if (
@@ -366,6 +377,8 @@ function App() {
         </div>
         <div id="player2-field">
           <div class="name">{P2.name}</div>
+          <div class="score">{scoreKeep[1]}</div>
+
           {player2Piece.map((piece) => {
             let classname = "piece";
             if (

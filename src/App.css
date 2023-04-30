@@ -13,7 +13,7 @@ body {
 #player2-field {
   border-radius: 10px;
   box-shadow: 1px 4px 6px black;
-  height: 520px;
+  height: 580px;
   max-width: 150px;
   background-color: rgba(255, 255, 255, 0.792);
   margin: 20px 20px;
@@ -35,11 +35,13 @@ body {
 .name {
   font-size: 20px;
   font-weight: 900;
-  display: flex;
-  flex: 1;
   margin-top: 20px;
 }
 
+.score{
+  font-size: 40px;
+  font-weight: 900;
+}
 .piece {
   text-align: center;
   border-radius: 10px;
