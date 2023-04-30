@@ -93,6 +93,20 @@ function App() {
   const [selectedPieceAndPlayer, setSelectedPieceAndPlayer] = useState([]);
   const [winnerCells, setWinnerCells] = useState([]);
 
+  const reMatch = function () {
+    setGameboard([
+      [new Cell(), new Cell(), new Cell()],
+      [new Cell(), new Cell(), new Cell()],
+      [new Cell(), new Cell(), new Cell()],
+    ]);
+    setCurrentPlayer(P1);
+    setWinnerPlayer();
+    setPlayer1Piece(P1.piece);
+    setPlayer2Piece(P2.piece);
+    setSelectedPieceAndPlayer([]);
+    setWinnerCells([]);
+  };
+
   const handlePieceSelect = function (index, player) {
     // if it's not your turn, return
     if (currentPlayer !== player) {
@@ -390,8 +404,14 @@ function App() {
           })}
         </div>
       </div>
-      <div id="score-board">       
-        {winnerPlayer ? <div id="message">{winnerPlayer} wins!</div> : <div>It's {currentPlayer.name}'s turn</div>}
+      <div id="score-board">
+        {winnerPlayer ? (
+          <div id="message">
+            {winnerPlayer} wins! <button id="reMatch-btn" onClick={reMatch}>Re-match?</button>
+          </div>
+        ) : (
+          <div>It's {currentPlayer.name}'s turn</div>
+        )}
       </div>
     </div>
   );

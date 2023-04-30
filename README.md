@@ -1,6 +1,5 @@
 to do:
 
-*add reset button
 *can change player name
 *improve css
 *you lose if you take a piece from cell and you and the opponent get bingo at the same time
