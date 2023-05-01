@@ -2,13 +2,14 @@ body {
   background-image: url("tile.jpg");
   background-size: 350px;
   min-width: 700px;
-  font-family: 'Sigmar', cursive;
+  font-family: "Sigmar", cursive;
 }
 
-.App {
+#center-content {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 #game-content {
@@ -35,7 +36,7 @@ body {
   border: solid 3px rgb(49, 224, 255);
 }
 
-#player2-field > #player2-fieldーpieces> .piece {
+#player2-field > #player2-fieldーpieces > .piece {
   border: solid 3px rgb(255, 164, 60);
 }
 
@@ -45,12 +46,13 @@ body {
   margin-top: 20px;
 }
 
-.score{
+.score {
   font-size: 40px;
   font-weight: 900;
 }
 
-#player1-fieldーpieces, #player2-fieldーpieces {
+#player1-fieldーpieces,
+#player2-fieldーpieces {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -61,8 +63,8 @@ body {
   border-radius: 8px;
   margin: 5px;
   display: flex;
-  width:fit-content;
- }
+  width: fit-content;
+}
 
 .selected {
   background-color: blueviolet;
@@ -115,9 +117,9 @@ body {
 }
 
 #score-board {
-  height: 100px;
-  width: 700px;
-  margin: auto;
+  height: 150px;
+  width: 350px;
+  margin: 20px auto;
   border-radius: 10px;
   box-shadow: 1px 4px 6px black;
   background-color: antiquewhite;
@@ -132,12 +134,12 @@ body {
 #reMatch-btn {
   background-color: brown;
   margin: auto 30px;
-  padding: 20px;
-  font-weight: 600;
+  padding: 15px;
+  font-weight: 400;
   border-radius: 10px;
   font-size: 20px;
   color: antiquewhite;
-  font-family: 'Sigmar', cursive;
+  font-family: "Sigmar", cursive;
   border-style: none;
 }
 /* .App {

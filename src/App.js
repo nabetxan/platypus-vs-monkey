@@ -233,11 +233,11 @@ function App() {
         setWinnerPlayer(winnerPos[3].name);
 
         if (winnerPos[3] === P1) {
-          const newScore = scoreKeep[0] + 1
+          const newScore = scoreKeep[0] + 1;
           setScoreKeep([newScore, scoreKeep[1]]);
         } else {
-          const newScore = scoreKeep[1] + 1
-          setScoreKeep([scoreKeep[0],newScore]);
+          const newScore = scoreKeep[1] + 1;
+          setScoreKeep([scoreKeep[0], newScore]);
         }
 
         // setWinnerPlayer(currentPlayer.name);
@@ -296,132 +296,134 @@ function App() {
           <div class="name">{P1.name}</div>
           <div class="score">{scoreKeep[0]}</div>
           <div id="player1-fieldーpieces">
-          {player1Piece.map((piece) => {
-            let classname = "piece";
-            if (
-              currentPlayer === P1 &&
-              selectedPieceAndPlayer[0] === piece.index
-            ) {
-              classname = classname + " selected";
-            }
-            if (piece.size === "S") {
-              classname = classname + " small";
-            }
-            if (piece.size === "M") {
-              classname = classname + " medium";
-            }
-            if (piece.size === "L") {
-              classname = classname + " large";
-            }
-            return (
-              <div
-                className={classname}
-                onClick={() => handlePieceSelect(piece.index, P1)}
-              >
-                {" "}
-                <img src={platypus} alt="platypus"></img>
-              </div>
-            );
-          })}
+            {player1Piece.map((piece) => {
+              let classname = "piece";
+              if (
+                currentPlayer === P1 &&
+                selectedPieceAndPlayer[0] === piece.index
+              ) {
+                classname = classname + " selected";
+              }
+              if (piece.size === "S") {
+                classname = classname + " small";
+              }
+              if (piece.size === "M") {
+                classname = classname + " medium";
+              }
+              if (piece.size === "L") {
+                classname = classname + " large";
+              }
+              return (
+                <div
+                  className={classname}
+                  onClick={() => handlePieceSelect(piece.index, P1)}
+                >
+                  {" "}
+                  <img src={platypus} alt="platypus"></img>
+                </div>
+              );
+            })}
           </div>
         </div>
 
-        <div id="gameboard">
-          {gameboard.map((row, r) => {
-            return (
-              <div className="row">
-                {row.map((cell, c) => {
-                  let classname = "cell";
-                  // if a piece is selected from the board, highlight it
-                  if (selectedPieceAndPlayer[4] !== undefined) {
-                    if (
-                      selectedPieceAndPlayer[4][0] === r &&
-                      selectedPieceAndPlayer[4][1] === c
-                    ) {
-                      classname = classname + " selected-cell";
-                    }
-                  }
-
-                  if (
-                    winnerPlayer &&
-                    ((winnerCells[0][0] === r && winnerCells[0][1] === c) ||
-                      (winnerCells[1][0] === r && winnerCells[1][1] === c) ||
-                      (winnerCells[2][0] === r && winnerCells[2][1] === c))
-                  ) {
-                    classname = classname + " win";
-                  }
-
-                  if (cell.pieces[0]) {
-                    if (cell.pieces[0].size === "S") {
-                      classname = classname + " small";
-                    }
-                    if (cell.pieces[0].size === "M") {
-                      classname = classname + " medium";
-                    }
-                    if (cell.pieces[0].size === "L") {
-                      classname = classname + " large";
-                    }
-                  }
-                  return (
-                    <div
-                      className={classname}
-                      onClick={() => handleCellClick(cell, r, c)}
-                    >
-                      {cell.pieces[0] && (
-                        <img src={cell.pieces[0].character} alt="piece"></img>
-                      )}
-                    </div>
-                  );
-                })}
+        <div id="center-content">
+          <div id="score-board">
+            {winnerPlayer ? (
+              <div id="message">
+                {winnerPlayer} wins!{" "}
+                <button id="reMatch-btn" onClick={reMatch}>
+                  Re-match?
+                </button>
               </div>
-            );
-          })}
+            ) : (
+              <div>It's {currentPlayer.name}'s turn</div>
+            )}
+          </div>
+
+          <div id="gameboard">
+            {gameboard.map((row, r) => {
+              return (
+                <div className="row">
+                  {row.map((cell, c) => {
+                    let classname = "cell";
+                    // if a piece is selected from the board, highlight it
+                    if (selectedPieceAndPlayer[4] !== undefined) {
+                      if (
+                        selectedPieceAndPlayer[4][0] === r &&
+                        selectedPieceAndPlayer[4][1] === c
+                      ) {
+                        classname = classname + " selected-cell";
+                      }
+                    }
+
+                    if (
+                      winnerPlayer &&
+                      ((winnerCells[0][0] === r && winnerCells[0][1] === c) ||
+                        (winnerCells[1][0] === r && winnerCells[1][1] === c) ||
+                        (winnerCells[2][0] === r && winnerCells[2][1] === c))
+                    ) {
+                      classname = classname + " win";
+                    }
+
+                    if (cell.pieces[0]) {
+                      if (cell.pieces[0].size === "S") {
+                        classname = classname + " small";
+                      }
+                      if (cell.pieces[0].size === "M") {
+                        classname = classname + " medium";
+                      }
+                      if (cell.pieces[0].size === "L") {
+                        classname = classname + " large";
+                      }
+                    }
+                    return (
+                      <div
+                        className={classname}
+                        onClick={() => handleCellClick(cell, r, c)}
+                      >
+                        {cell.pieces[0] && (
+                          <img src={cell.pieces[0].character} alt="piece"></img>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
         </div>
         <div id="player2-field">
           <div class="name">{P2.name}</div>
           <div class="score">{scoreKeep[1]}</div>
           <div id="player2-fieldーpieces">
-
-          {player2Piece.map((piece) => {
-            let classname = "piece";
-            if (
-              currentPlayer === P2 &&
-              selectedPieceAndPlayer[0] === piece.index
-            ) {
-              classname = classname + " selected";
-            }
-            if (piece.size === "S") {
-              classname = classname + " small";
-            }
-            if (piece.size === "M") {
-              classname = classname + " medium";
-            }
-            if (piece.size === "L") {
-              classname = classname + " large";
-            }
-            return (
-              <div
-                className={classname}
-                onClick={() => handlePieceSelect(piece.index, P2)}
-              >
-                <img src={monkey} alt="monkey"></img>
-              </div>
-            );
-          })}
-        </div>
-        </div>
-      </div>
-      <div id="score-board">
-        {winnerPlayer ? (
-          <div id="message">
-            {winnerPlayer} wins!{" "}
-            <button id="reMatch-btn" onClick={reMatch}>
-              Re-match?
-            </button>
+            {player2Piece.map((piece) => {
+              let classname = "piece";
+              if (
+                currentPlayer === P2 &&
+                selectedPieceAndPlayer[0] === piece.index
+              ) {
+                classname = classname + " selected";
+              }
+              if (piece.size === "S") {
+                classname = classname + " small";
+              }
+              if (piece.size === "M") {
+                classname = classname + " medium";
+              }
+              if (piece.size === "L") {
+                classname = classname + " large";
+              }
+              return (
+                <div
+                  className={classname}
+                  onClick={() => handlePieceSelect(piece.index, P2)}
+                >
+                  <img src={monkey} alt="monkey"></img>
+                </div>
+              );
+            })}
           </div>
-        ) : (
-          <div>It's {currentPlayer.name}'s turn</div>
-        )}
+        </div>
       </div>
     </div>
   );
