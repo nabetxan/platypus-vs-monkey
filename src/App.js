@@ -295,6 +295,7 @@ function App() {
         <div id="player1-field">
           <div class="name">{P1.name}</div>
           <div class="score">{scoreKeep[0]}</div>
+          <div id="player1-fieldーpieces">
           {player1Piece.map((piece) => {
             let classname = "piece";
             if (
@@ -322,6 +323,7 @@ function App() {
               </div>
             );
           })}
+          </div>
         </div>
 
         <div id="gameboard">
@@ -378,6 +380,7 @@ function App() {
         <div id="player2-field">
           <div class="name">{P2.name}</div>
           <div class="score">{scoreKeep[1]}</div>
+          <div id="player2-fieldーpieces">
 
           {player2Piece.map((piece) => {
             let classname = "piece";
@@ -405,6 +408,7 @@ function App() {
               </div>
             );
           })}
+        </div>
         </div>
       </div>
       <div id="score-board">

@@ -13,7 +13,7 @@ body {
 #player2-field {
   border-radius: 10px;
   box-shadow: 1px 4px 6px black;
-  height: 580px;
+  height: 600px;
   max-width: 150px;
   background-color: rgba(255, 255, 255, 0.792);
   margin: 20px 20px;
@@ -24,11 +24,11 @@ body {
   align-items: center;
 }
 
-#player1-field > .piece {
+#player1-field > #player1-fieldーpieces > .piece {
   border: solid 3px rgb(49, 224, 255);
 }
 
-#player2-field > .piece {
+#player2-field > #player2-fieldーpieces> .piece {
   border: solid 3px rgb(255, 164, 60);
 }
 
@@ -41,16 +41,22 @@ body {
 .score{
   font-size: 40px;
   font-weight: 900;
+  margin-bottom: 20px;
 }
+
+#player1-fieldーpieces, #player2-fieldーpieces {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
 .piece {
-  text-align: center;
-  border-radius: 10px;
+  border-radius: 8px;
   margin: 5px;
   display: flex;
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-}
+  width:fit-content;
+ }
 
 .selected {
   background-color: blueviolet;
@@ -150,9 +156,6 @@ body {
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
 
 @keyframes App-logo-spin {
   from {
