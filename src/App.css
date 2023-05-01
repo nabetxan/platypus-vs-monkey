@@ -142,6 +142,22 @@ body {
   font-family: "Sigmar", cursive;
   border-style: none;
 }
+
+#option-menu {
+  height: 100px;
+  width: 350px;
+  margin: 20px auto;
+  border-radius: 10px;
+  box-shadow: 1px 4px 6px black;
+  background-color: antiquewhite;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.material-symbols-outlined {
+  font-size: 30px;
+}
 /* .App {
   text-align: center;
 }

@@ -391,6 +391,23 @@ function App() {
               );
             })}
           </div>
+
+          <div id="option-menu">
+            <div>
+              <span class="material-symbols-outlined">help</span>
+            </div>
+
+            <div>
+              <span class="material-symbols-outlined">edit_square</span>
+            </div>
+            <div>
+              <span class="material-symbols-outlined">change_circle</span>
+            </div>
+
+            <div>
+              <span class="material-symbols-outlined">delete</span>
+            </div>
+          </div>
         </div>
         <div id="player2-field">
           <div class="name">{P2.name}</div>
