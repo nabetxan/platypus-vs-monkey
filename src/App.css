@@ -155,6 +155,16 @@ body {
   justify-content: space-around;
 }
 
+#icon-platypus, #icon-monkey{
+  height: 40px;
+}
+
+.player1-name-edit, .player2-name-edit{
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items:end
+}
 /* .App {
   text-align: center;
 }

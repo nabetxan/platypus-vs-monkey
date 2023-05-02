@@ -10,15 +10,12 @@ import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import ChangeCircleOutlinedIcon from "@mui/icons-material/ChangeCircleOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import Alert from "@mui/material/Alert";
-// import AlertTitle from "@mui/material/AlertTitle";
-// import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import TextField from "@mui/material/TextField";
 
 const P1 = new Player("Perry", platypus);
 const P2 = new Player("Mino", monkey);
@@ -97,6 +94,7 @@ function App() {
   const [winnerCells, setWinnerCells] = useState([]);
   const [scoreKeep, setScoreKeep] = useState([0, 0]);
   const [openRule, setOpenRule] = useState(false);
+  const [openEditPlayerName, setOpenEditPlayerName] = useState(false);
 
   const handleClickOpenRule = () => {
     setOpenRule(true);
@@ -104,6 +102,14 @@ function App() {
 
   const handleCloseRule = () => {
     setOpenRule(false);
+  };
+
+  const handleClickOpenEditPlayerName = () => {
+    setOpenEditPlayerName(true);
+  };
+
+  const handleCloseEditPlayerName = () => {
+    setOpenEditPlayerName(false);
   };
 
   const reMatch = function () {
@@ -125,22 +131,28 @@ function App() {
     setScoreKeep([0, 0]);
   };
 
-  const changePlayerTurn = function () {
+  const canChangePlayerTurn = function () {
     const updatedGameboard = [...gameboard];
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
         if (isCellEmpty(updatedGameboard[i][j])) {
         } else {
           console.log(isCellEmpty(updatedGameboard[i][j]));
-          return (
-            <Alert variant="outlined" severity="warning">
-              You cannot change the Player turn until a match ends.
-            </Alert>
-          );
+          if (!winnerPlayer) {
+            return false;
+          }
         }
       }
     }
+    return true;
+  };
 
+  const changePlayerTurn = function () {
+    if (!canChangePlayerTurn()) {
+      return;
+    }
+
+    reMatch();
     if (currentPlayer === P1) {
       setCurrentPlayer(P2);
     } else {
@@ -462,7 +474,7 @@ function App() {
                 <DialogContent>
                   <DialogContentText id="how-to-play-dialog-description">
                     1. The game starts with an empty 3x3 grid. <br />
-                    2. Player has 6 Platypus or 6 Monkeys. There are 2 small
+                    2. Player has 6 Platypuses or 6 Monkeys. There are 2 small
                     pieces, 2 medium pieces, and 2 large pieces for each player.{" "}
                     <br />
                     3. Player place one of their pieces to the gameboard cell in
@@ -482,21 +494,66 @@ function App() {
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={handleCloseRule}>Close</Button>
+                  <IconButton onClick={handleCloseRule}>Close</IconButton>
                 </DialogActions>
               </Dialog>
             </div>
 
             <div>
               <Tooltip title="Change Player Name" placement="top">
-                <IconButton>
+                <IconButton onClick={handleClickOpenEditPlayerName}>
                   <ModeEditOutlineOutlinedIcon fontSize="large" />
                 </IconButton>
               </Tooltip>
+              <Dialog
+                open={openEditPlayerName}
+                onClose={handleCloseEditPlayerName}
+              >
+                <DialogTitle>Edit Player Name</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Please input player's name.
+                  </DialogContentText>
+                  <div className="player1-name-edit">
+                    <img id="icon-platypus" src={platypus} alt="platypus"></img>
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="p1-name"
+                      label="Player1 Name"
+                      defaultValue="Perry"
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </div>
+                  <div className="player2-name-edit">
+                    <img id="icon-monkey" src={monkey} alt="monkey"></img>
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="p2-name"
+                      label="Player2 Name"
+                      defaultValue="Mino"
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </div>
+                </DialogContent>
+                <DialogActions>
+                  <IconButton onClick={handleCloseEditPlayerName}>
+                    Cancel
+                  </IconButton>
+                  <IconButton onClick={handleCloseEditPlayerName}>
+                    Save
+                  </IconButton>
+                </DialogActions>
+              </Dialog>
             </div>
             <div>
               <Tooltip title="Change Player Turn" placement="top">
-                <IconButton onClick={changePlayerTurn}>
+                <IconButton onClick={changePlayerTurn} disabled={!canChangePlayerTurn()}>
                   <ChangeCircleOutlinedIcon fontSize="large" />
                 </IconButton>
               </Tooltip>
