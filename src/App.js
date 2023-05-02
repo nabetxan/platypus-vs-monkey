@@ -10,6 +10,15 @@ import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import ChangeCircleOutlinedIcon from "@mui/icons-material/ChangeCircleOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import Alert from "@mui/material/Alert";
+// import AlertTitle from "@mui/material/AlertTitle";
+// import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const P1 = new Player("Perry", platypus);
 const P2 = new Player("Mino", monkey);
@@ -87,6 +96,15 @@ function App() {
   const [selectedPieceAndPlayer, setSelectedPieceAndPlayer] = useState([]);
   const [winnerCells, setWinnerCells] = useState([]);
   const [scoreKeep, setScoreKeep] = useState([0, 0]);
+  const [openRule, setOpenRule] = useState(false);
+
+  const handleClickOpenRule = () => {
+    setOpenRule(true);
+  };
+
+  const handleCloseRule = () => {
+    setOpenRule(false);
+  };
 
   const reMatch = function () {
     setGameboard([
@@ -102,6 +120,33 @@ function App() {
     setWinnerCells([]);
   };
 
+  const deleteMatchRecord = function () {
+    reMatch();
+    setScoreKeep([0, 0]);
+  };
+
+  const changePlayerTurn = function () {
+    const updatedGameboard = [...gameboard];
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        if (isCellEmpty(updatedGameboard[i][j])) {
+        } else {
+          console.log(isCellEmpty(updatedGameboard[i][j]));
+          return (
+            <Alert variant="outlined" severity="warning">
+              You cannot change the Player turn until a match ends.
+            </Alert>
+          );
+        }
+      }
+    }
+
+    if (currentPlayer === P1) {
+      setCurrentPlayer(P2);
+    } else {
+      setCurrentPlayer(P1);
+    }
+  };
   const handlePieceSelect = function (index, player) {
     // if it's not your turn, return
     if (currentPlayer !== player) {
@@ -401,10 +446,45 @@ function App() {
           <div id="option-menu">
             <div>
               <Tooltip title="How to Play" placement="top">
-                <IconButton>
+                <IconButton onClick={handleClickOpenRule}>
                   <HelpOutlineOutlinedIcon fontSize="large" />
                 </IconButton>
               </Tooltip>
+              <Dialog
+                open={openRule}
+                onClose={handleCloseRule}
+                aria-labelledby="How to Play the Platypus vs Monkey Game"
+                aria-describedby="It's a very fun game!"
+              >
+                <DialogTitle id="how-to-play-dialog-title">
+                  {"⭐️How to Play⭐️"}
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="how-to-play-dialog-description">
+                    1. The game starts with an empty 3x3 grid. <br />
+                    2. Player has 6 Platypus or 6 Monkeys. There are 2 small
+                    pieces, 2 medium pieces, and 2 large pieces for each player.{" "}
+                    <br />
+                    3. Player place one of their pieces to the gameboard cell in
+                    turn. <br />
+                    4. Just like the Tic Tac Toe, the game ends when one player
+                    lines up three cells in a row with their character, either
+                    horizontally, vertically or diagonally. <br />
+                    5. The big difference from Tic Tac Toe is that the player
+                    can either put their piece from their hand OR move the piece
+                    which is already on the gameboard. <br />
+                    6. Even if there is already another piece on the cell,
+                    regardless of whether it belongs to you or your opponent, if
+                    the piece is smaller, you can place your piece over it.{" "}
+                    <br />
+                    7. Player cannot move the piece if it's underneath of
+                    another bigger piece. <br />
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleCloseRule}>Close</Button>
+                </DialogActions>
+              </Dialog>
             </div>
 
             <div>
@@ -416,7 +496,7 @@ function App() {
             </div>
             <div>
               <Tooltip title="Change Player Turn" placement="top">
-                <IconButton>
+                <IconButton onClick={changePlayerTurn}>
                   <ChangeCircleOutlinedIcon fontSize="large" />
                 </IconButton>
               </Tooltip>
@@ -424,7 +504,7 @@ function App() {
 
             <div>
               <Tooltip title="Delete Match Record" placement="top">
-                <IconButton>
+                <IconButton onClick={deleteMatchRecord}>
                   <DeleteOutlineOutlinedIcon fontSize="large" />
                 </IconButton>
               </Tooltip>
