@@ -4,6 +4,12 @@ import { Cell } from "./Cell";
 import { useState } from "react";
 import platypus from "./vector-platypus.png";
 import monkey from "./vector-monkey.png";
+import { Tooltip } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
+import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
+import ChangeCircleOutlinedIcon from "@mui/icons-material/ChangeCircleOutlined";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
 const P1 = new Player("Perry", platypus);
 const P2 = new Player("Mino", monkey);
@@ -394,18 +400,34 @@ function App() {
 
           <div id="option-menu">
             <div>
-              <span class="material-symbols-outlined">help</span>
+              <Tooltip title="How to Play" placement="top">
+                <IconButton>
+                  <HelpOutlineOutlinedIcon fontSize="large" />
+                </IconButton>
+              </Tooltip>
             </div>
 
             <div>
-              <span class="material-symbols-outlined">edit_square</span>
+              <Tooltip title="Change Player Name" placement="top">
+                <IconButton>
+                  <ModeEditOutlineOutlinedIcon fontSize="large" />
+                </IconButton>
+              </Tooltip>
             </div>
             <div>
-              <span class="material-symbols-outlined">change_circle</span>
+              <Tooltip title="Change Player Turn" placement="top">
+                <IconButton>
+                  <ChangeCircleOutlinedIcon fontSize="large" />
+                </IconButton>
+              </Tooltip>
             </div>
 
             <div>
-              <span class="material-symbols-outlined">delete</span>
+              <Tooltip title="Delete Match Record" placement="top">
+                <IconButton>
+                  <DeleteOutlineOutlinedIcon fontSize="large" />
+                </IconButton>
+              </Tooltip>
             </div>
           </div>
         </div>
