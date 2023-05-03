@@ -81,6 +81,7 @@ const checkWin = function (updatedGameboard) {
 };
 
 function App() {
+  const [playerName, setPlayerName] = useState(["Perry", "Mino"]);
   const [gameboard, setGameboard] = useState([
     [new Cell(), new Cell(), new Cell()],
     [new Cell(), new Cell(), new Cell()],
@@ -110,6 +111,22 @@ function App() {
 
   const handleCloseEditPlayerName = () => {
     setOpenEditPlayerName(false);
+  };
+
+  const handlePlayer1NameChange = (event) => {
+    const newP1Name = event.target.value;
+    setPlayerName([newP1Name, playerName[1]]);
+  };
+
+  const handlePlayer2NameChange = (event) => {
+    const newP2Name = event.target.value;
+    setPlayerName([playerName[0], newP2Name]);
+  };
+
+  const savePlayerName = () => {
+    P1.name = playerName[0];
+    P2.name = playerName[1];
+    handleCloseEditPlayerName();
   };
 
   const reMatch = function () {
@@ -356,8 +373,8 @@ function App() {
     <div className="App">
       <div id="game-content">
         <div id="player1-field">
-          <div class="name">{P1.name}</div>
-          <div class="score">{scoreKeep[0]}</div>
+          <div className="name">{P1.name}</div>
+          <div className="score">{scoreKeep[0]}</div>
           <div id="player1-fieldーpieces">
             {player1Piece.map((piece) => {
               let classname = "piece";
@@ -521,7 +538,8 @@ function App() {
                       margin="dense"
                       id="p1-name"
                       label="Player1 Name"
-                      defaultValue="Perry"
+                      defaultValue={P1.name}
+                      onChange={handlePlayer1NameChange}
                       type="text"
                       fullWidth
                       variant="standard"
@@ -534,7 +552,8 @@ function App() {
                       margin="dense"
                       id="p2-name"
                       label="Player2 Name"
-                      defaultValue="Mino"
+                      defaultValue={P2.name}
+                      onChange={handlePlayer2NameChange}
                       type="text"
                       fullWidth
                       variant="standard"
@@ -545,15 +564,16 @@ function App() {
                   <IconButton onClick={handleCloseEditPlayerName}>
                     Cancel
                   </IconButton>
-                  <IconButton onClick={handleCloseEditPlayerName}>
-                    Save
-                  </IconButton>
+                  <IconButton onClick={savePlayerName}>Save</IconButton>
                 </DialogActions>
               </Dialog>
             </div>
             <div>
               <Tooltip title="Change Player Turn" placement="top">
-                <IconButton onClick={changePlayerTurn} disabled={!canChangePlayerTurn()}>
+                <IconButton
+                  onClick={changePlayerTurn}
+                  disabled={!canChangePlayerTurn()}
+                >
                   <ChangeCircleOutlinedIcon fontSize="large" />
                 </IconButton>
               </Tooltip>
@@ -569,8 +589,8 @@ function App() {
           </div>
         </div>
         <div id="player2-field">
-          <div class="name">{P2.name}</div>
-          <div class="score">{scoreKeep[1]}</div>
+          <div className="name">{P2.name}</div>
+          <div className="score">{scoreKeep[1]}</div>
           <div id="player2-fieldーpieces">
             {player2Piece.map((piece) => {
               let classname = "piece";
