@@ -80,6 +80,25 @@ const checkWin = function (updatedGameboard) {
   return false;
 };
 
+function addConfetti(div) {
+  const numConfetti = 50; // Number of confetti particles to create
+  const container = document.createElement("div");
+  container.setAttribute("id", "confetti-container");
+  container.style.position = "relative";
+  container.style.width = "100%";
+  container.style.height = "100%";
+
+  for (let i = 0; i < numConfetti; i++) {
+    const confetti = document.createElement("div");
+    confetti.classList.add("confetti");
+    confetti.style.left = Math.random() * 100 + "%";
+    confetti.style.animationDelay = Math.random() * 5 + "s";
+    container.appendChild(confetti);
+  }
+
+  div.appendChild(container);
+}
+
 function App() {
   const [playerName, setPlayerName] = useState(["Perry", "Mino"]);
   const [gameboard, setGameboard] = useState([
@@ -141,6 +160,12 @@ function App() {
     setPlayer2Piece(P2.piece);
     setSelectedPieceAndPlayer([]);
     setWinnerCells([]);
+
+    const parent = document.getElementById("score-board");
+    const childToRemove = document.getElementById("confetti-container");
+    if (childToRemove) {
+      parent.removeChild(childToRemove);
+    }
   };
 
   const deleteMatchRecord = function () {
@@ -315,9 +340,11 @@ function App() {
         if (winnerPos[3] === P1) {
           const newScore = scoreKeep[0] + 1;
           setScoreKeep([newScore, scoreKeep[1]]);
+          addConfetti(document.getElementById("score-board"));
         } else {
           const newScore = scoreKeep[1] + 1;
           setScoreKeep([scoreKeep[0], newScore]);
+          addConfetti(document.getElementById("score-board"));
         }
 
         // setWinnerPlayer(currentPlayer.name);
@@ -411,7 +438,7 @@ function App() {
             {(() => {
               if (winnerPlayer) {
                 return (
-                  <div id="message">
+                  <div id="winner-message">
                     {winnerPlayer} wins!{" "}
                     <button id="reMatch-btn" onClick={reMatch}>
                       Re-match?
@@ -420,7 +447,7 @@ function App() {
                 );
               } else {
                 return (
-                  <div>
+                  <div id="on-play-message">
                     <div>It's {currentPlayer.name}'s turn</div>
                     <div id="score-board-player-image">
                       {currentPlayer.name === P1.name ? (

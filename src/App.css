@@ -128,21 +128,40 @@ body {
   border-radius: 10px;
   box-shadow: 1px 4px 6px black;
   background-color: antiquewhite;
+  display: flex;
+  position: relative;
+  justify-content: center;
+}
+
+#on-play-message,
+#winner-message {
   font-size: 26px;
   display: flex;
+  flex-direction: column;
   text-align: center;
   align-content: center;
   justify-content: center;
   align-items: center;
 }
 
-#score-board-player-image > img{
-  margin: 0;
-  width:100px;
-  overflow: hidden;
-  position: fixed;
-  top:100px;
+#on-play-message {
+  margin-top: 70px;
 }
+
+#winner-message {
+  position: absolute;
+  width: 100%;
+  margin-top: 20px;
+}
+
+#score-board-player-image > img {
+  margin: 0;
+  width: 100px;
+  overflow: hidden;
+  position: relative;
+  top: 10px;
+}
+
 #reMatch-btn {
   background-color: brown;
   margin: auto 30px;
@@ -153,6 +172,7 @@ body {
   color: antiquewhite;
   font-family: "Sigmar", cursive;
   border-style: none;
+  z-index: 10;
 }
 
 #option-menu {
@@ -179,6 +199,32 @@ body {
   align-content: center;
   align-items: flex-end;
 }
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(2100%);
+  }
+}
+
+.confetti {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background-color: rgb(255, 255, 0);
+  animation: confetti-fall 5s linear infinite;
+}
+
+#confetti-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
 /* .App {
   text-align: center;
 }
