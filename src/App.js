@@ -408,16 +408,31 @@ function App() {
 
         <div id="center-content">
           <div id="score-board">
-            {winnerPlayer ? (
-              <div id="message">
-                {winnerPlayer} wins!{" "}
-                <button id="reMatch-btn" onClick={reMatch}>
-                  Re-match?
-                </button>
-              </div>
-            ) : (
-              <div>It's {currentPlayer.name}'s turn</div>
-            )}
+            {(() => {
+              if (winnerPlayer) {
+                return (
+                  <div id="message">
+                    {winnerPlayer} wins!{" "}
+                    <button id="reMatch-btn" onClick={reMatch}>
+                      Re-match?
+                    </button>
+                  </div>
+                );
+              } else {
+                return (
+                  <div>
+                    <div>It's {currentPlayer.name}'s turn</div>
+                    <div id="score-board-player-image">
+                      {currentPlayer.name === P1.name ? (
+                        <img src={platypus} alt="platypus"></img>
+                      ) : (
+                        <img src={monkey} alt="monkey"></img>
+                      )}
+                    </div>
+                  </div>
+                );
+              }
+            })()}
           </div>
 
           <div id="gameboard">

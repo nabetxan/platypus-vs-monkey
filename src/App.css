@@ -136,6 +136,13 @@ body {
   align-items: center;
 }
 
+#score-board-player-image > img{
+  margin: 0;
+  width:100px;
+  overflow: hidden;
+  position: fixed;
+  top:100px;
+}
 #reMatch-btn {
   background-color: brown;
   margin: auto 30px;
