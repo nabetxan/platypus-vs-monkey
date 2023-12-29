@@ -1,21 +1,21 @@
-import "./App.css";
-import { Player } from "./Player";
-import { Cell } from "./Cell";
-import { useState } from "react";
-import platypus from "./vector-platypus.png";
-import monkey from "./vector-monkey.png";
-import { Tooltip } from "@mui/material";
-import IconButton from "@mui/material/IconButton";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import ChangeCircleOutlinedIcon from "@mui/icons-material/ChangeCircleOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
+import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
+import { Tooltip } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
+import { useState } from "react";
+import "./App.css";
+import { Cell } from "./Cell";
+import { Player } from "./Player";
+import monkey from "./vector-monkey.png";
+import platypus from "./vector-platypus.png";
 
 const P1 = new Player("Perry", platypus);
 const P2 = new Player("Mino", monkey);
@@ -104,7 +104,7 @@ function App() {
   const [gameboard, setGameboard] = useState([
     [new Cell(), new Cell(), new Cell()],
     [new Cell(), new Cell(), new Cell()],
-    [new Cell(), new Cell(), new Cell()],
+    [new Cell(), new Cell(), new Cell()]
   ]);
   const [currentPlayer, setCurrentPlayer] = useState(P1);
   const [winnerPlayer, setWinnerPlayer] = useState();
@@ -152,7 +152,7 @@ function App() {
     setGameboard([
       [new Cell(), new Cell(), new Cell()],
       [new Cell(), new Cell(), new Cell()],
-      [new Cell(), new Cell(), new Cell()],
+      [new Cell(), new Cell(), new Cell()]
     ]);
     setCurrentPlayer(P1);
     setWinnerPlayer();
@@ -179,7 +179,6 @@ function App() {
       for (let j = 0; j < 3; j++) {
         if (isCellEmpty(updatedGameboard[i][j])) {
         } else {
-          console.log(isCellEmpty(updatedGameboard[i][j]));
           if (!winnerPlayer) {
             return false;
           }
@@ -242,7 +241,7 @@ function App() {
         currentPlayer,
         currentSelectedPieceSize,
         //is the piece selected from board?
-        false,
+        false
       ]);
     }
   };
@@ -279,7 +278,7 @@ function App() {
         //is the piece selected from board?
         true,
         [r, c],
-        pieceInfo,
+        pieceInfo
       ]);
       return;
     }

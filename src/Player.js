@@ -8,7 +8,7 @@ export class Player {
       { character: this.char, index: 2, size: "M", player: this },
       { character: this.char, index: 3, size: "M", player: this },
       { character: this.char, index: 4, size: "L", player: this },
-      { character: this.char, index: 5, size: "L", player: this },
+      { character: this.char, index: 5, size: "L", player: this }
     ];
   }
 }
