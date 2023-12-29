@@ -5,8 +5,12 @@ html {
 
 body {
   margin: 0;
-  background-image: url("tile.jpg");
+  background-image: url("/src/images/tile.jpg");
   background-size: 350px;
   min-width: 700px;
   font-family: "Sigmar", cursive;
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
