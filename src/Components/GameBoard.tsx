@@ -1,0 +1,52 @@
+// import { Menu } from "@mui/material";
+import { useState } from "react";
+import monkey from "../img/vector-monkey.png";
+import platypus from "../img/vector-platypus.png";
+import Board from "./Board/Board";
+import Cell from "./Board/Cell";
+import Player from "./Player/Player";
+// import PlayerField from "./Player/PlayerField";
+// import ScoreBoard from "./ScoreBoard/ScoreBoard";
+
+const P1 = new Player("Perry", platypus);
+const P2 = new Player("Mino", monkey);
+const GameBoard = function () {
+  // const [playerName, setPlayerName] = useState(["Perry", "Mino"]);
+  const [gameboard, setGameboard] = useState([
+    [new Cell(), new Cell(), new Cell()],
+    [new Cell(), new Cell(), new Cell()],
+    [new Cell(), new Cell(), new Cell()]
+  ]);
+
+  const [currentPlayer, setCurrentPlayer] = useState(P1);
+  const [winnerPlayer, setWinnerPlayer] = useState();
+  const [player1Piece, setPlayer1Piece] = useState(P1.piece);
+  const [player2Piece, setPlayer2Piece] = useState(P2.piece);
+  const [selectedPieceAndPlayer, setSelectedPieceAndPlayer] = useState([]);
+  // const [winnerCells, setWinnerCells] = useState([]);
+  // const [scoreKeep, setScoreKeep] = useState([0, 0]);
+
+  console.log(
+    P1,
+    P2,
+    gameboard,
+    currentPlayer,
+    winnerPlayer,
+    player1Piece,
+    player2Piece,
+    selectedPieceAndPlayer
+  );
+  return (
+    <div id="game-content">
+      {/* <PlayerField /> */}
+      <div id="center-content">
+        {/* <ScoreBoard /> */}
+        <Board />
+        {/* <Menu /> */}
+      </div>
+      {/* <PlayerField /> */}
+    </div>
+  );
+};
+
+export default GameBoard;

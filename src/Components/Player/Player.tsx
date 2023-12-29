@@ -1,4 +1,4 @@
-type Piece = {
+export type Piece = {
   character: string;
   index: number;
   size: "S" | "M" | "L";
