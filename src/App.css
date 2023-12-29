@@ -10,8 +10,7 @@
   justify-content: center;
 }
 
-#player1-field,
-#player2-field {
+#player-field {
   border-radius: 10px;
   box-shadow: 1px 4px 6px black;
   height: 600px;
@@ -25,12 +24,9 @@
   align-items: center;
 }
 
-#player1-field > #player1-fieldーpieces > .piece {
+#player-field > #player-fieldーpieces > .piece {
   border: solid 3px rgb(49, 224, 255);
-}
-
-#player2-field > #player2-fieldーpieces > .piece {
-  border: solid 3px rgb(255, 164, 60);
+  /* border: solid 3px rgb(255, 164, 60); */
 }
 
 .name {
@@ -49,8 +45,7 @@
   font-weight: 900;
 }
 
-#player1-fieldーpieces,
-#player2-fieldーpieces {
+#player-fieldーpieces {
   display: flex;
   flex-direction: column;
   align-items: center;

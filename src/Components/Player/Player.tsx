@@ -2,7 +2,7 @@ export type Piece = {
   character: string;
   index: number;
   size: "S" | "M" | "L";
-  player: unknown;
+  player: Player;
 };
 
 export default class Player {
