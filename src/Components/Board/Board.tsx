@@ -5,11 +5,13 @@ import Cell from "./Cell";
 const Board: React.FC<{
   gameboard: Cell[][];
   selectedPieceAndPlayer: SelectedPieceAndPlayer;
+  currentPlayer: Player;
   winnerPlayer?: Player;
   winnerCells?: Cell[][];
 }> = function ({
   gameboard,
   selectedPieceAndPlayer,
+  currentPlayer,
   winnerPlayer,
   winnerCells
 }) {
@@ -45,7 +47,17 @@ const Board: React.FC<{
               return (
                 <div
                   className={classname}
-                  onClick={() => handleCellClick(cell, r, c)}
+                  onClick={() =>
+                    handleCellClick(
+                      selectedPieceAndPlayer,
+                      currentPlayer,
+                      winnerPlayer,
+                      cell,
+                      r,
+                      c,
+                      onSelectPP
+                    )
+                  }
                 >
                   {cell.pieces[0] && (
                     <img src={cell.pieces[0].character} alt="piece"></img>

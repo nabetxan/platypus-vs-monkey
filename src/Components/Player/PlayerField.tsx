@@ -6,6 +6,7 @@ export type SelectedPieceAndPlayer = {
   currentSelectedPieceSize?: Size;
   isPieceSelectedFromBoard?: boolean;
   positionOnBoard?: number[];
+  pieceInfo: Piece;
 };
 
 const PlayerField: React.FC<{

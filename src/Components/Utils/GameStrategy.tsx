@@ -1,4 +1,6 @@
 import Cell from "../Board/Cell";
+import Player from "../Player/Player";
+import { SelectedPieceAndPlayer } from "../Player/PlayerField";
 
 export const isCellEmpty = function (cell: Cell) {
   if (cell.pieces.length === 0) {
@@ -7,7 +9,6 @@ export const isCellEmpty = function (cell: Cell) {
     return false;
   }
 };
-
 export const checkWin = function (updatedGameboard: Cell[][]) {
   // Check rows
   for (let i = 0; i < 3; i++) {
@@ -59,60 +60,58 @@ export const checkWin = function (updatedGameboard: Cell[][]) {
   return false;
 };
 
-export const handleCellClick = function (cell, r, c) {
+export const handleCellClick = function (
+  gameboard: Cell[][],
+  selectedPieceAndPlayer: SelectedPieceAndPlayer,
+  currentPlayer: Player,
+  winnerPlayer: Player,
+  cell: Cell,
+  r: number,
+  c: number,
+  onSelectPP: (selectPP: SelectedPieceAndPlayer) => void
+) {
   // if the game is already finished --> noop
-  if (winnerPlayer) {
-    return;
-  }
+  if (winnerPlayer) return;
 
   // when nothing is selected for selectedPieceAndPlayer
   // you clicked an empty cell? --> noop
   // you clicked an cell with opponent char on top? --> noop
 
-  if (selectedPieceAndPlayer[0] === undefined && isCellEmpty(cell)) {
-    return;
-  } else if (
-    selectedPieceAndPlayer[0] === undefined &&
-    cell.pieces[0]?.player !== currentPlayer
-  ) {
-    return;
-  } else if (
-    selectedPieceAndPlayer[0] === undefined &&
-    cell.pieces[0]?.player === currentPlayer
-  ) {
-    // you clicked an cell with your character on top? --> select
-    const swapSelectedPieceIndex = cell.pieces[0].index;
-    const swapSelectedPieceSize = cell.pieces[0].size;
-    const pieceInfo = cell.pieces[0];
-    setSelectedPieceAndPlayer([
-      swapSelectedPieceIndex,
-      currentPlayer,
-      swapSelectedPieceSize,
-      //is the piece selected from board?
-      true,
-      [r, c],
-      pieceInfo
-    ]);
-    return;
+  if (!selectedPieceAndPlayer.index) {
+    if (isCellEmpty(cell) || cell.pieces[0]?.player !== currentPlayer) {
+      return;
+    } else if (cell.pieces[0]?.player === currentPlayer) {
+      // you clicked an cell with your character on top? --> select
+      const swapSelectedPieceIndex = cell.pieces[0].index;
+      const swapSelectedPieceSize = cell.pieces[0].size;
+      const pieceInfo = cell.pieces[0];
+      onSelectPP({
+        index: swapSelectedPieceIndex,
+        currentPlayer: currentPlayer,
+        currentSelectedPieceSize: swapSelectedPieceSize,
+        isPieceSelectedFromBoard: true,
+        positionOnBoard: [r, c],
+        pieceInfo: pieceInfo
+      });
+      return;
+    }
   }
 
   // when a piece is already selected from hand pieces
-  if (!selectedPieceAndPlayer[3]) {
+  if (!selectedPieceAndPlayer.isPieceSelectedFromBoard) {
     // when the cell is not empty and and the piece is equal or bigger --> noop
 
     if (!isCellEmpty(cell)) {
-      if (selectedPieceAndPlayer[2] === "small") {
-        return;
-      }
+      if (selectedPieceAndPlayer.currentSelectedPieceSize === "small") return;
 
       if (
-        selectedPieceAndPlayer[2] === "medium" &&
+        selectedPieceAndPlayer.currentSelectedPieceSize === "medium" &&
         cell.pieces[0].size !== "small"
       ) {
         return;
       }
       if (
-        selectedPieceAndPlayer[2] === "large" &&
+        selectedPieceAndPlayer.currentSelectedPieceSize === "large" &&
         cell.pieces[0].size !== "small" &&
         cell.pieces[0].size !== "medium"
       ) {
@@ -164,23 +163,23 @@ export const handleCellClick = function (cell, r, c) {
 
       // setWinnerPlayer(currentPlayer.name);
     }
-  } else if (selectedPieceAndPlayer[3]) {
+  } else if (selectedPieceAndPlayer.isPieceSelectedFromBoard) {
     // when a piece is already selected from the board
     // when the cell is not empty and and the piece is equal or bigger --> noop
 
     if (!isCellEmpty(cell)) {
-      if (selectedPieceAndPlayer[2] === "small") {
+      if (selectedPieceAndPlayer.currentSelectedPieceSize === "small") {
         return;
       }
 
       if (
-        selectedPieceAndPlayer[2] === "medium" &&
+        selectedPieceAndPlayer.currentSelectedPieceSize === "medium" &&
         cell.pieces[0].size !== "small"
       ) {
         return;
       }
       if (
-        selectedPieceAndPlayer[2] === "large" &&
+        selectedPieceAndPlayer.currentSelectedPieceSize === "large" &&
         cell.pieces[0].size !== "small" &&
         cell.pieces[0].size !== "medium"
       ) {
@@ -191,14 +190,14 @@ export const handleCellClick = function (cell, r, c) {
     // first remove the piece from the original cell
 
     const updatedGameboard = [...gameboard];
-    updatedGameboard[selectedPieceAndPlayer[4][0]][
-      selectedPieceAndPlayer[4][1]
+    updatedGameboard[selectedPieceAndPlayer.positionOnBoard[0]][
+      selectedPieceAndPlayer.positionOnBoard[1]
     ].pieces.shift();
 
     //then, play the piece
     const updatedCurrentPlayer = currentPlayer === P1 ? P2 : P1;
 
-    updatedGameboard[r][c].pieces.unshift(selectedPieceAndPlayer[5]);
+    updatedGameboard[r][c].pieces.unshift(selectedPieceAndPlayer.pieceInfo);
 
     setCurrentPlayer(updatedCurrentPlayer);
     setGameboard(updatedGameboard);

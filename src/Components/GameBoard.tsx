@@ -10,6 +10,7 @@ import ScoreBoard from "./ScoreBoard/ScoreBoard";
 
 const P1 = new Player("Perry", platypus, "rgb(49, 224, 255)");
 const P2 = new Player("Mino", monkey, "rgb(255, 164, 60)");
+
 const GameBoard = function () {
   // const [playerName, setPlayerName] = useState(["Perry", "Mino"]);
   const [gameboard, setGameboard] = useState([
@@ -36,7 +37,7 @@ const GameBoard = function () {
     setWinnerPlayer(undefined);
     setPlayer1Piece(P1.piece);
     setPlayer2Piece(P2.piece);
-    setSelectedPieceAndPlayer([]);
+    setSelectedPieceAndPlayer({});
     setWinnerCells([]);
 
     const parent = document.getElementById("score-board");
@@ -77,6 +78,7 @@ const GameBoard = function () {
         <Board
           gameboard={gameboard}
           selectedPieceAndPlayer={selectedPieceAndPlayer}
+          currentPlayer={currentPlayer}
           winnerPlayer={winnerPlayer}
           winnerCells={winnerCells}
         />
