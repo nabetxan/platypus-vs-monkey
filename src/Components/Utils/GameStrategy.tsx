@@ -102,17 +102,17 @@ export const isCellEmpty = function (cell: Cell) {
 //     // when the cell is not empty and and the piece is equal or bigger --> noop
 
 //     if (!isCellEmpty(cell)) {
-//       if (selectedPieceAndPlayer[2] === "S") {
+//       if (selectedPieceAndPlayer[2] === "small") {
 //         return;
 //       }
 
-//       if (selectedPieceAndPlayer[2] === "M" && cell.pieces[0].size !== "S") {
+//       if (selectedPieceAndPlayer[2] === "medium" && cell.pieces[0].size !== "small") {
 //         return;
 //       }
 //       if (
-//         selectedPieceAndPlayer[2] === "L" &&
-//         cell.pieces[0].size !== "S" &&
-//         cell.pieces[0].size !== "M"
+//         selectedPieceAndPlayer[2] === "large" &&
+//         cell.pieces[0].size !== "small" &&
+//         cell.pieces[0].size !== "medium"
 //       ) {
 //         return;
 //       }
@@ -167,17 +167,17 @@ export const isCellEmpty = function (cell: Cell) {
 //     // when the cell is not empty and and the piece is equal or bigger --> noop
 
 //     if (!isCellEmpty(cell)) {
-//       if (selectedPieceAndPlayer[2] === "S") {
+//       if (selectedPieceAndPlayer[2] === "small") {
 //         return;
 //       }
 
-//       if (selectedPieceAndPlayer[2] === "M" && cell.pieces[0].size !== "S") {
+//       if (selectedPieceAndPlayer[2] === "medium" && cell.pieces[0].size !== "small") {
 //         return;
 //       }
 //       if (
-//         selectedPieceAndPlayer[2] === "L" &&
-//         cell.pieces[0].size !== "S" &&
-//         cell.pieces[0].size !== "M"
+//         selectedPieceAndPlayer[2] === "large" &&
+//         cell.pieces[0].size !== "small" &&
+//         cell.pieces[0].size !== "medium"
 //       ) {
 //         return;
 //       }
@@ -206,5 +206,25 @@ export const isCellEmpty = function (cell: Cell) {
 //       setWinnerPlayer(winnerPos[3].name);
 //       // setWinnerPlayer(currentPlayer.name);
 //     }
+//   }
+// };
+
+// const reMatch = function () {
+//   setGameboard([
+//     [new Cell(), new Cell(), new Cell()],
+//     [new Cell(), new Cell(), new Cell()],
+//     [new Cell(), new Cell(), new Cell()]
+//   ]);
+//   setCurrentPlayer(P1);
+//   setWinnerPlayer();
+//   setPlayer1Piece(P1.piece);
+//   setPlayer2Piece(P2.piece);
+//   setSelectedPieceAndPlayer([]);
+//   setWinnerCells([]);
+
+//   const parent = document.getElementById("score-board");
+//   const childToRemove = document.getElementById("confetti-container");
+//   if (childToRemove) {
+//     parent.removeChild(childToRemove);
 //   }
 // };

@@ -26,13 +26,13 @@ const Board = function () {
               }
 
               if (cell.pieces[0]) {
-                if (cell.pieces[0].size === "S") {
+                if (cell.pieces[0].size === "small") {
                   classname = classname + " small";
                 }
-                if (cell.pieces[0].size === "M") {
+                if (cell.pieces[0].size === "medium") {
                   classname = classname + " medium";
                 }
-                if (cell.pieces[0].size === "L") {
+                if (cell.pieces[0].size === "large") {
                   classname = classname + " large";
                 }
               }

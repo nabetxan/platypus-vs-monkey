@@ -50,26 +50,6 @@ const Menu = function () {
   //   handleCloseEditPlayerName();
   // };
 
-  // const reMatch = function () {
-  //   setGameboard([
-  //     [new Cell(), new Cell(), new Cell()],
-  //     [new Cell(), new Cell(), new Cell()],
-  //     [new Cell(), new Cell(), new Cell()]
-  //   ]);
-  //   setCurrentPlayer(P1);
-  //   setWinnerPlayer();
-  //   setPlayer1Piece(P1.piece);
-  //   setPlayer2Piece(P2.piece);
-  //   setSelectedPieceAndPlayer([]);
-  //   setWinnerCells([]);
-
-  //   const parent = document.getElementById("score-board");
-  //   const childToRemove = document.getElementById("confetti-container");
-  //   if (childToRemove) {
-  //     parent.removeChild(childToRemove);
-  //   }
-  // };
-
   // const deleteMatchRecord = function () {
   //   reMatch();
   //   setScoreKeep([0, 0]);

@@ -25,8 +25,7 @@
 }
 
 #player-field > #player-fieldーpieces > .piece {
-  border: solid 3px rgb(49, 224, 255);
-  /* border: solid 3px rgb(255, 164, 60); */
+  border: solid 3px;
 }
 
 .name {

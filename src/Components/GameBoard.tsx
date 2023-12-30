@@ -8,8 +8,8 @@ import Player from "./Player/Player";
 import PlayerField from "./Player/PlayerField";
 // import ScoreBoard from "./ScoreBoard/ScoreBoard";
 
-const P1 = new Player("Perry", platypus);
-const P2 = new Player("Mino", monkey);
+const P1 = new Player("Perry", platypus, "rgb(49, 224, 255)");
+const P2 = new Player("Mino", monkey, "rgb(255, 164, 60)");
 const GameBoard = function () {
   // const [playerName, setPlayerName] = useState(["Perry", "Mino"]);
   const [gameboard, setGameboard] = useState([
@@ -22,7 +22,7 @@ const GameBoard = function () {
   const [winnerPlayer, setWinnerPlayer] = useState();
   const [player1Piece, setPlayer1Piece] = useState(P1.piece);
   const [player2Piece, setPlayer2Piece] = useState(P2.piece);
-  const [selectedPieceAndPlayer, setSelectedPieceAndPlayer] = useState([]);
+  const [selectedPieceAndPlayer, setSelectedPieceAndPlayer] = useState({});
   // const [winnerCells, setWinnerCells] = useState([]);
   const [scoreKeep, setScoreKeep] = useState([0, 0]);
 
@@ -45,7 +45,7 @@ const GameBoard = function () {
         opponentPiece={player2Piece}
         currentPlayer={currentPlayer}
         selectedPieceAndPlayer={selectedPieceAndPlayer}
-        setSelectedPieceAndPlayer={setSelectedPieceAndPlayer}
+        onChange={(selectedPP) => setSelectedPieceAndPlayer(selectedPP)}
         winnerPlayer={winnerPlayer}
       />
       <div id="center-content">
@@ -60,7 +60,7 @@ const GameBoard = function () {
         opponentPiece={player1Piece}
         currentPlayer={currentPlayer}
         selectedPieceAndPlayer={selectedPieceAndPlayer}
-        setSelectedPieceAndPlayer={setSelectedPieceAndPlayer}
+        onChange={(selectedPP) => setSelectedPieceAndPlayer(selectedPP)}
         winnerPlayer={winnerPlayer}
       />
     </div>

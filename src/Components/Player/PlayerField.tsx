@@ -1,4 +1,11 @@
-import Player, { Piece } from "./Player";
+import Player, { Piece, Size } from "./Player";
+
+export type SelectedPieceAndPlayer = {
+  index?: number;
+  currentPlayer?: Player;
+  currentSelectedPieceSize?: Size;
+  isPieceSelectedFromBoard?: boolean;
+};
 
 const PlayerField: React.FC<{
   P: Player;
@@ -6,8 +13,8 @@ const PlayerField: React.FC<{
   playerPiece: Piece[];
   opponentPiece: Piece[];
   currentPlayer: Player;
-  selectedPieceAndPlayer: (number | Player | string | boolean)[];
-  setSelectedPieceAndPlayer: React.Dispatch<React.SetStateAction<any>>;
+  selectedPieceAndPlayer: SelectedPieceAndPlayer;
+  onChange: (selectedPP: SelectedPieceAndPlayer) => void;
   winnerPlayer?: Player;
 }> = function ({
   P,
@@ -16,7 +23,7 @@ const PlayerField: React.FC<{
   opponentPiece,
   currentPlayer,
   selectedPieceAndPlayer,
-  setSelectedPieceAndPlayer,
+  onChange,
   winnerPlayer
 }) {
   const handlePieceSelect = function (index: number, player: Player) {
@@ -25,7 +32,7 @@ const PlayerField: React.FC<{
     // if the game is finished, return
     if (winnerPlayer) return;
     // if it's in the middle of piece swap, return
-    if (selectedPieceAndPlayer[3]) return;
+    if (selectedPieceAndPlayer.isPieceSelectedFromBoard) return;
 
     let currentPlayerPiece;
     currentPlayer === P
@@ -40,18 +47,19 @@ const PlayerField: React.FC<{
       currentPlayerPiece[currentSelectedPieceIndex].size;
 
     if (
-      index === selectedPieceAndPlayer[0] &&
-      currentSelectedPieceSize === selectedPieceAndPlayer[2]
+      index === selectedPieceAndPlayer.index &&
+      currentSelectedPieceSize ===
+        selectedPieceAndPlayer.currentSelectedPieceSize
     ) {
-      setSelectedPieceAndPlayer([]);
+      return;
+      // TODO:default valueを渡すべき？
     } else {
-      setSelectedPieceAndPlayer([
-        index,
-        currentPlayer,
-        currentSelectedPieceSize,
-        //is the piece selected from board?
-        false
-      ]);
+      onChange({
+        index: index,
+        currentPlayer: currentPlayer,
+        currentSelectedPieceSize: currentSelectedPieceSize,
+        isPieceSelectedFromBoard: false
+      });
     }
   };
   return (
@@ -62,25 +70,19 @@ const PlayerField: React.FC<{
         <div id="player-fieldーpieces">
           {playerPiece.map((piece: Piece) => {
             let classname = "piece";
+            classname = classname + " " + piece.size;
+
             if (
               currentPlayer === P &&
-              selectedPieceAndPlayer[0] === piece.index
+              selectedPieceAndPlayer.index === piece.index
             ) {
               classname = classname + " selected";
-            }
-            if (piece.size === "S") {
-              classname = classname + " small";
-            }
-            if (piece.size === "M") {
-              classname = classname + " medium";
-            }
-            if (piece.size === "L") {
-              classname = classname + " large";
             }
             return (
               <div
                 className={classname}
                 onClick={() => handlePieceSelect(piece.index, P)}
+                style={{ borderColor: P.color }}
               >
                 <img src={P.char} alt="player-character"></img>
               </div>
