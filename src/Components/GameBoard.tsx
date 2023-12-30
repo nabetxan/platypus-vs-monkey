@@ -6,7 +6,7 @@ import Cell from "./Board/Cell";
 import Menu from "./Menu/Menu";
 import Player from "./Player/Player";
 import PlayerField from "./Player/PlayerField";
-// import ScoreBoard from "./ScoreBoard/ScoreBoard";
+import ScoreBoard from "./ScoreBoard/ScoreBoard";
 
 const P1 = new Player("Perry", platypus, "rgb(49, 224, 255)");
 const P2 = new Player("Mino", monkey, "rgb(255, 164, 60)");
@@ -23,8 +23,28 @@ const GameBoard = function () {
   const [player1Piece, setPlayer1Piece] = useState(P1.piece);
   const [player2Piece, setPlayer2Piece] = useState(P2.piece);
   const [selectedPieceAndPlayer, setSelectedPieceAndPlayer] = useState({});
-  // const [winnerCells, setWinnerCells] = useState([]);
+  const [winnerCells, setWinnerCells] = useState([]);
   const [scoreKeep, setScoreKeep] = useState([0, 0]);
+
+  const reMatch = function () {
+    setGameboard([
+      [new Cell(), new Cell(), new Cell()],
+      [new Cell(), new Cell(), new Cell()],
+      [new Cell(), new Cell(), new Cell()]
+    ]);
+    setCurrentPlayer(P1);
+    setWinnerPlayer(undefined);
+    setPlayer1Piece(P1.piece);
+    setPlayer2Piece(P2.piece);
+    setSelectedPieceAndPlayer([]);
+    setWinnerCells([]);
+
+    const parent = document.getElementById("score-board");
+    const childToRemove = document.getElementById("confetti-container");
+    if (parent && childToRemove) {
+      parent.removeChild(childToRemove);
+    }
+  };
 
   console.log(
     P1,
@@ -49,8 +69,17 @@ const GameBoard = function () {
         winnerPlayer={winnerPlayer}
       />
       <div id="center-content">
-        {/* <ScoreBoard /> */}
-        <Board />
+        <ScoreBoard
+          currentPlayer={currentPlayer}
+          winnerPlayer={winnerPlayer}
+          onReMatch={reMatch}
+        />
+        <Board
+          gameboard={gameboard}
+          selectedPieceAndPlayer={selectedPieceAndPlayer}
+          winnerPlayer={winnerPlayer}
+          winnerCells={winnerCells}
+        />
         <Menu />
       </div>
       <PlayerField

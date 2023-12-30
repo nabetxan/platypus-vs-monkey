@@ -1,12 +1,18 @@
-const ScoreBoard = function () {
+import Player from "../Player/Player";
+
+const ScoreBoard: React.FC<{
+  currentPlayer: Player;
+  winnerPlayer?: Player;
+  onReMatch: () => void;
+}> = function ({ currentPlayer, winnerPlayer, onReMatch }) {
   return (
     <div id="score-board">
-      {/* {(() => {
+      {(() => {
         if (winnerPlayer) {
           return (
             <div id="winner-message">
-              {winnerPlayer} wins!{" "}
-              <button id="reMatch-btn" onClick={reMatch}>
+              {winnerPlayer.name} wins!
+              <button id="reMatch-btn" onClick={onReMatch}>
                 Re-match?
               </button>
             </div>
@@ -16,16 +22,12 @@ const ScoreBoard = function () {
             <div id="on-play-message">
               <div>It's {currentPlayer.name}'s turn</div>
               <div id="score-board-player-image">
-                {currentPlayer.name === P1.name ? (
-                  <img src={platypus} alt="platypus"></img>
-                ) : (
-                  <img src={monkey} alt="monkey"></img>
-                )}
+                <img src={currentPlayer.char} alt="player-character"></img>
               </div>
             </div>
           );
         }
-      })()} */}
+      })()}
     </div>
   );
 };

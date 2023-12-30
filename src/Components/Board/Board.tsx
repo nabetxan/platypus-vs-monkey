@@ -1,16 +1,30 @@
-const Board = function () {
+import Player from "../Player/Player";
+import { SelectedPieceAndPlayer } from "../Player/PlayerField";
+import Cell from "./Cell";
+
+const Board: React.FC<{
+  gameboard: Cell[][];
+  selectedPieceAndPlayer: SelectedPieceAndPlayer;
+  winnerPlayer?: Player;
+  winnerCells?: Cell[][];
+}> = function ({
+  gameboard,
+  selectedPieceAndPlayer,
+  winnerPlayer,
+  winnerCells
+}) {
   return (
     <div id="gameboard">
-      {/* {gameboard.map((row, r) => {
+      {gameboard.map((row, r) => {
         return (
           <div className="row">
             {row.map((cell, c) => {
               let classname = "cell";
               // if a piece is selected from the board, highlight it
-              if (selectedPieceAndPlayer[4] !== undefined) {
+              if (selectedPieceAndPlayer.positionOnBoard) {
                 if (
-                  selectedPieceAndPlayer[4][0] === r &&
-                  selectedPieceAndPlayer[4][1] === c
+                  selectedPieceAndPlayer.positionOnBoard[0] === r &&
+                  selectedPieceAndPlayer.positionOnBoard[1] === c
                 ) {
                   classname = classname + " selected-cell";
                 }
@@ -26,15 +40,7 @@ const Board = function () {
               }
 
               if (cell.pieces[0]) {
-                if (cell.pieces[0].size === "small") {
-                  classname = classname + " small";
-                }
-                if (cell.pieces[0].size === "medium") {
-                  classname = classname + " medium";
-                }
-                if (cell.pieces[0].size === "large") {
-                  classname = classname + " large";
-                }
+                classname = classname + " " + cell.pieces[0].size;
               }
               return (
                 <div
@@ -49,7 +55,7 @@ const Board = function () {
             })}
           </div>
         );
-      })} */}
+      })}
     </div>
   );
 };
