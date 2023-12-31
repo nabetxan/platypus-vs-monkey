@@ -5,6 +5,8 @@ export type Piece = {
   player: Player;
 };
 
+export type Status = "P1" | "P2" | "not-in-play";
+
 export type Size = "small" | "medium" | "large";
 
 export default class Player {
@@ -12,10 +14,12 @@ export default class Player {
   char: string;
   color: string;
   piece: Piece[];
-  constructor(name: string, char: string, color: string) {
+  status: Status;
+  constructor(name: string, char: string, color: string, status: Status) {
     this.name = name;
     this.char = char;
     this.color = color;
+    this.status = status;
     this.piece = [
       { character: this.char, index: 0, size: "small", player: this },
       { character: this.char, index: 1, size: "small", player: this },

@@ -3,30 +3,28 @@ import Player, { Piece, Size } from "./Player";
 export type SelectedPieceAndPlayer = {
   index?: number;
   currentPlayer?: Player;
-  currentSelectedPieceSize?: Size;
-  isPieceSelectedFromBoard?: boolean;
+  pieceSize?: Size;
+  isSelectedFromBoard?: boolean;
   positionOnBoard?: number[];
-  pieceInfo: Piece;
+  pieceInfo?: Piece;
 };
 
 const PlayerField: React.FC<{
-  P: Player;
-  scoreKeep: number[];
-  playerPiece: Piece[];
-  opponentPiece: Piece[];
+  player: Player;
+  opponent: Player;
   currentPlayer: Player;
   selectedPieceAndPlayer: SelectedPieceAndPlayer;
   onChange: (selectedPP: SelectedPieceAndPlayer) => void;
   winnerPlayer?: Player;
+  scoreKeep: number[];
 }> = function ({
-  P,
-  scoreKeep,
-  playerPiece,
-  opponentPiece,
+  player,
+  opponent,
   currentPlayer,
   selectedPieceAndPlayer,
   onChange,
-  winnerPlayer
+  winnerPlayer,
+  scoreKeep
 }) {
   const handlePieceSelect = function (index: number, player: Player) {
     // if it's not your turn, return
@@ -34,12 +32,12 @@ const PlayerField: React.FC<{
     // if the game is finished, return
     if (winnerPlayer) return;
     // if it's in the middle of piece swap, return
-    if (selectedPieceAndPlayer.isPieceSelectedFromBoard) return;
+    if (selectedPieceAndPlayer.isSelectedFromBoard) return;
 
     let currentPlayerPiece;
-    currentPlayer === P
-      ? (currentPlayerPiece = [...playerPiece])
-      : (currentPlayerPiece = [...opponentPiece]);
+    currentPlayer === player
+      ? (currentPlayerPiece = [...player.piece])
+      : (currentPlayerPiece = [...opponent.piece]);
 
     const currentSelectedPieceIndex = currentPlayerPiece.findIndex(
       (piece) => piece.index === index
@@ -50,8 +48,7 @@ const PlayerField: React.FC<{
 
     if (
       index === selectedPieceAndPlayer.index &&
-      currentSelectedPieceSize ===
-        selectedPieceAndPlayer.currentSelectedPieceSize
+      currentSelectedPieceSize === selectedPieceAndPlayer.pieceSize
     ) {
       return;
       // TODO:default valueを渡すべき？
@@ -59,23 +56,23 @@ const PlayerField: React.FC<{
       onChange({
         index: index,
         currentPlayer: currentPlayer,
-        currentSelectedPieceSize: currentSelectedPieceSize,
-        isPieceSelectedFromBoard: false
+        pieceSize: currentSelectedPieceSize,
+        isSelectedFromBoard: false
       });
     }
   };
   return (
     <>
       <div id="player-field">
-        <div className="name">{P.name}</div>
+        <div className="name">{player.name}</div>
         <div className="score">{scoreKeep[0]}</div>
         <div id="player-fieldーpieces">
-          {playerPiece.map((piece: Piece) => {
+          {player.piece.map((piece: Piece) => {
             let classname = "piece";
             classname = classname + " " + piece.size;
 
             if (
-              currentPlayer === P &&
+              currentPlayer === player &&
               selectedPieceAndPlayer.index === piece.index
             ) {
               classname = classname + " selected";
@@ -83,10 +80,10 @@ const PlayerField: React.FC<{
             return (
               <div
                 className={classname}
-                onClick={() => handlePieceSelect(piece.index, P)}
-                style={{ borderColor: P.color }}
+                onClick={() => handlePieceSelect(piece.index, player)}
+                style={{ borderColor: player.color }}
               >
-                <img src={P.char} alt="player-character"></img>
+                <img src={player.char} alt="player-character"></img>
               </div>
             );
           })}

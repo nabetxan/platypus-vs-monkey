@@ -1,14 +1,17 @@
 import Player from "../Player/Player";
 import { SelectedPieceAndPlayer } from "../Player/PlayerField";
+import { handleCellClick } from "../Utils/GameStrategy";
 import Cell from "./Cell";
 
 const Board: React.FC<{
+  players: Player[];
   gameboard: Cell[][];
   selectedPieceAndPlayer: SelectedPieceAndPlayer;
   currentPlayer: Player;
   winnerPlayer?: Player;
-  winnerCells?: Cell[][];
+  winnerCells?: Cell[];
 }> = function ({
+  players,
   gameboard,
   selectedPieceAndPlayer,
   currentPlayer,
@@ -49,13 +52,21 @@ const Board: React.FC<{
                   className={classname}
                   onClick={() =>
                     handleCellClick(
+                      players[0],
+                      players[1],
+                      gameboard,
                       selectedPieceAndPlayer,
                       currentPlayer,
-                      winnerPlayer,
                       cell,
                       r,
                       c,
-                      onSelectPP
+                      onSelectPP((selectPP) => onChangeselectPP(selectPP)),
+                      onPlayPiece(
+                        setCurrentPlayer(updatedCurrentPlayer),
+                        setGameboard(updatedGameboard),
+                        setSelectedPieceAndPlayer({})
+                      ),
+                      winnerPlayer
                     )
                   }
                 >

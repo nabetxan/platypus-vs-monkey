@@ -8,11 +8,11 @@ import Player from "./Player/Player";
 import PlayerField from "./Player/PlayerField";
 import ScoreBoard from "./ScoreBoard/ScoreBoard";
 
-const P1 = new Player("Perry", platypus, "rgb(49, 224, 255)");
-const P2 = new Player("Mino", monkey, "rgb(255, 164, 60)");
+const P1 = new Player("Perry", platypus, "rgb(49, 224, 255)", "P1");
+const P2 = new Player("Mino", monkey, "rgb(255, 164, 60)", "P2");
 
 const GameBoard = function () {
-  // const [playerName, setPlayerName] = useState(["Perry", "Mino"]);
+  const [players, setPlayers] = useState([P1, P2]);
   const [gameboard, setGameboard] = useState([
     [new Cell(), new Cell(), new Cell()],
     [new Cell(), new Cell(), new Cell()],
@@ -21,8 +21,6 @@ const GameBoard = function () {
 
   const [currentPlayer, setCurrentPlayer] = useState(P1);
   const [winnerPlayer, setWinnerPlayer] = useState();
-  const [player1Piece, setPlayer1Piece] = useState(P1.piece);
-  const [player2Piece, setPlayer2Piece] = useState(P2.piece);
   const [selectedPieceAndPlayer, setSelectedPieceAndPlayer] = useState({});
   const [winnerCells, setWinnerCells] = useState([]);
   const [scoreKeep, setScoreKeep] = useState([0, 0]);
@@ -35,8 +33,6 @@ const GameBoard = function () {
     ]);
     setCurrentPlayer(P1);
     setWinnerPlayer(undefined);
-    setPlayer1Piece(P1.piece);
-    setPlayer2Piece(P2.piece);
     setSelectedPieceAndPlayer({});
     setWinnerCells([]);
 
@@ -47,27 +43,16 @@ const GameBoard = function () {
     }
   };
 
-  console.log(
-    P1,
-    P2,
-    gameboard,
-    currentPlayer,
-    winnerPlayer,
-    player1Piece,
-    player2Piece,
-    selectedPieceAndPlayer
-  );
   return (
     <div id="game-content">
       <PlayerField
-        P={P1}
-        scoreKeep={scoreKeep}
-        playerPiece={player1Piece}
-        opponentPiece={player2Piece}
+        player={P1}
+        opponent={P2}
         currentPlayer={currentPlayer}
         selectedPieceAndPlayer={selectedPieceAndPlayer}
         onChange={(selectedPP) => setSelectedPieceAndPlayer(selectedPP)}
         winnerPlayer={winnerPlayer}
+        scoreKeep={scoreKeep}
       />
       <div id="center-content">
         <ScoreBoard
@@ -76,6 +61,7 @@ const GameBoard = function () {
           onReMatch={reMatch}
         />
         <Board
+          players={players}
           gameboard={gameboard}
           selectedPieceAndPlayer={selectedPieceAndPlayer}
           currentPlayer={currentPlayer}
@@ -85,14 +71,13 @@ const GameBoard = function () {
         <Menu />
       </div>
       <PlayerField
-        P={P2}
-        scoreKeep={scoreKeep}
-        playerPiece={player2Piece}
-        opponentPiece={player1Piece}
+        player={P2}
+        opponent={P1}
         currentPlayer={currentPlayer}
         selectedPieceAndPlayer={selectedPieceAndPlayer}
         onChange={(selectedPP) => setSelectedPieceAndPlayer(selectedPP)}
         winnerPlayer={winnerPlayer}
+        scoreKeep={scoreKeep}
       />
     </div>
   );
