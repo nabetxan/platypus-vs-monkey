@@ -1,4 +1,14 @@
 import Cell, { Gameboard } from "../Board/Cell";
+import Player from "../Player/Player";
+import { SelectedPieceAndPlayer } from "../Player/PlayerField";
+
+export type GameStatus = {
+  P1: Player;
+  P2: Player;
+  isP1CurrentPlayer: boolean;
+  selectedPnP?: SelectedPieceAndPlayer;
+  winner?: Player;
+};
 
 export const isCellEmpty = function (cell: Cell) {
   return cell.pieces.length === 0 ? true : false;

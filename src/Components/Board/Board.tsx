@@ -1,31 +1,19 @@
-import Player from "../Player/Player";
-import { SelectedPieceAndPlayer } from "../Player/PlayerField";
-import { checkWin, isCellEmpty } from "../Utils/GameStrategy";
+import { GameStatus, checkWin, isCellEmpty } from "../Utils/GameStrategy";
 import Cell, { Gameboard } from "./Cell";
 
 const Board: React.FC<{
-  players: Player[];
   gameboard: Gameboard;
-  selectedPnP: SelectedPieceAndPlayer;
-  currentPlayer: Player;
-  winner?: Player;
-  onChange: (
-    selectedPnP?: SelectedPieceAndPlayer,
-    currentPlayer?: Player,
-    updatedGameboard?: Gameboard
-  ) => void;
-}> = function ({
-  players,
-  gameboard,
-  selectedPnP,
-  currentPlayer,
-  winner,
-  onChange
-}) {
-  // check if the cell is a winnerCell
+  gameStatus: GameStatus;
+  onChange: (gameboard: Gameboard, gameStatus: GameStatus) => void;
+}> = function ({ gameboard, gameStatus, onChange }) {
+  const currentPlayer = gameStatus.isP1CurrentPlayer
+    ? gameStatus.P1
+    : gameStatus.P2;
+  const PnP = gameStatus.selectedPnP;
 
+  // check if the cell is a winnerCell
   const isWinnerCell = function (r: number, c: number) {
-    if (!winner) return false;
+    if (!gameStatus.winner) return false;
     const winnerObj = checkWin(gameboard);
     if (!winnerObj) return false;
     const winnerPos = winnerObj.winnerPos;
@@ -39,13 +27,12 @@ const Board: React.FC<{
 
   const handleCellClick = function (cell: Cell, r: number, c: number) {
     // if the game is already finished --> noop
-    if (winner) return;
+    if (gameStatus.winner) return;
 
     // when nothing is selected for selectedPieceAndPlayer
     // you clicked an empty cell? --> noop
     // you clicked an cell with opponent char on top? --> noop
-
-    if (!selectedPnP.index) {
+    if (!PnP?.index) {
       if (isCellEmpty(cell) || cell.pieces[0]?.player !== currentPlayer) {
         return;
       } else if (cell.pieces[0]?.player === currentPlayer) {
@@ -53,35 +40,32 @@ const Board: React.FC<{
         const swapPieceIndex = cell.pieces[0].index;
         const swapPieceSize = cell.pieces[0].size;
         const pieceInfo = cell.pieces[0];
-        onChange(
-          {
+        const newGameStatus = {
+          ...gameStatus,
+          selectedPnP: {
             index: swapPieceIndex,
             currentPlayer: currentPlayer,
             pieceSize: swapPieceSize,
             isSelectedFromBoard: true,
             positionOnBoard: [r, c],
             pieceInfo: pieceInfo
-          },
-          currentPlayer,
-          gameboard
-        );
+          }
+        };
+        onChange({ ...gameboard }, newGameStatus);
         return;
       }
     }
 
     // when a piece is already selected from hand pieces
-    if (!selectedPnP.isSelectedFromBoard) {
+    if (!PnP?.isSelectedFromBoard) {
       // when the cell is not empty and and the piece is equal or bigger --> noop
       if (!isCellEmpty(cell)) {
-        if (selectedPnP.pieceSize === "small") return;
-        if (
-          selectedPnP.pieceSize === "medium" &&
-          cell.pieces[0].size !== "small"
-        ) {
+        if (PnP?.pieceSize === "small") return;
+        if (PnP?.pieceSize === "medium" && cell.pieces[0].size !== "small") {
           return;
         }
         if (
-          selectedPnP.pieceSize === "large" &&
+          PnP?.pieceSize === "large" &&
           cell.pieces[0].size !== "small" &&
           cell.pieces[0].size !== "medium"
         ) {
@@ -91,11 +75,9 @@ const Board: React.FC<{
       // in other cases (if it's smaller or the cell is empty), play the piece
 
       const updatedGameboard = [...gameboard];
-      const updatedCurrentPlayer =
-        currentPlayer === players[0] ? players[1] : players[0];
 
       const pieceIndex = currentPlayer.piece.findIndex(
-        (piece) => piece.index === selectedPnP.index
+        (piece) => piece.index === PnP?.index
       );
       updatedGameboard[r][c].pieces.unshift(currentPlayer.piece[pieceIndex]);
       const updatePlayerPiece = [...currentPlayer.piece];
@@ -103,13 +85,21 @@ const Board: React.FC<{
       currentPlayer.piece = updatePlayerPiece;
       // TODO: あってる？？
       //元々setPlayer2Piece(updatePlayer2Piece);のように管理していた
-      onChange({}, updatedCurrentPlayer, updatedGameboard);
+      const newGameStatus = {
+        ...gameStatus,
+        isP1CurrentPlayer: gameStatus.isP1CurrentPlayer ? false : true
+      };
+      onChange(updatedGameboard, newGameStatus);
 
       const winnerPos = checkWin(updatedGameboard);
 
       if (winnerPos) {
-        // setWinnerCells(winnerPos);
-        // setwinner(winnerPos.winner.name);
+        const newGameStatus = {
+          ...gameStatus,
+          winner: winnerPos.winner
+        };
+        onChange({ ...gameboard }, newGameStatus);
+
         // if (winnerPos.winner === P1) {
         //   const newScore = scoreKeep[0] + 1;
         //   setScoreKeep([newScore, scoreKeep[1]]);
@@ -119,54 +109,50 @@ const Board: React.FC<{
         //   setScoreKeep([scoreKeep[0], newScore]);
         //   addConfetti(document.getElementById("score-board"));
         // }
-        // setwinner(currentPlayer.name);
       }
-    } else if (selectedPnP.isSelectedFromBoard) {
+    } else if (PnP.isSelectedFromBoard) {
       // when a piece is already selected from the board
       // when the cell is not empty and and the piece is equal or bigger --> noop
 
-      if (!isCellEmpty(cell)) {
-        if (selectedPnP.pieceSize === "small") {
-          return;
-        }
+      if (
+        !isCellEmpty(cell) &&
+        (PnP.pieceSize === "small" ||
+          (PnP.pieceSize === "medium" && cell.pieces[0].size !== "small") ||
+          (PnP.pieceSize === "large" &&
+            cell.pieces[0].size !== "small" &&
+            cell.pieces[0].size !== "medium"))
+      )
+        return;
 
-        if (
-          selectedPnP.pieceSize === "medium" &&
-          cell.pieces[0].size !== "small"
-        ) {
-          return;
-        }
-        if (
-          selectedPnP.pieceSize === "large" &&
-          cell.pieces[0].size !== "small" &&
-          cell.pieces[0].size !== "medium"
-        ) {
-          return;
-        }
-      }
       // in other cases (if it's smaller or the cell is empty),
       // first remove the piece from the original cell
 
       const updatedGameboard = [...gameboard];
-      updatedGameboard[selectedPnP.positionOnBoard[0]][
-        selectedPnP.positionOnBoard[1]
-      ].pieces.shift();
+
+      PnP.positionOnBoard &&
+        updatedGameboard[PnP.positionOnBoard[0]][
+          PnP.positionOnBoard[1]
+        ].pieces.shift();
 
       //then, play the piece
-      const updatedCurrentPlayer = currentPlayer === P1 ? P2 : P1;
 
-      updatedGameboard[r][c].pieces.unshift(selectedPnP.pieceInfo);
+      PnP.pieceInfo && updatedGameboard[r][c].pieces.unshift(PnP.pieceInfo);
 
-      setCurrentPlayer(updatedCurrentPlayer);
-      setGameboard(updatedGameboard);
-      setSelectedPieceAndPlayer([]);
+      const newGameStatus = {
+        ...gameStatus,
+        isP1CurrentPlayer: gameStatus.isP1CurrentPlayer ? false : true,
+        selectedPnP: {}
+      };
+      onChange(updatedGameboard, newGameStatus);
 
       const winnerPos = checkWin(updatedGameboard);
 
       if (winnerPos) {
-        setWinnerCells(winnerPos);
-        setwinner(winnerPos[3].name);
-        // setwinner(currentPlayer.name);
+        const newGameStatus = {
+          ...gameStatus,
+          winner: winnerPos.winner
+        };
+        onChange(updatedGameboard, newGameStatus);
       }
     }
   };
@@ -175,14 +161,14 @@ const Board: React.FC<{
     <div id="gameboard">
       {gameboard.map((row, r) => {
         return (
-          <div className="row">
+          <div className="row" key={r}>
             {row.map((cell, c) => {
               let classname = "cell";
               // if a piece is selected from the board, highlight it
-              if (selectedPnP.positionOnBoard) {
+              if (PnP?.positionOnBoard) {
                 if (
-                  selectedPnP.positionOnBoard[0] === r &&
-                  selectedPnP.positionOnBoard[1] === c
+                  PnP.positionOnBoard[0] === r &&
+                  PnP.positionOnBoard[1] === c
                 ) {
                   classname = classname + " selected-cell";
                 }
@@ -197,6 +183,7 @@ const Board: React.FC<{
                 <div
                   className={classname}
                   onClick={() => handleCellClick(cell, r, c)}
+                  key={`${r}-${c}`}
                 >
                   {cell.pieces[0] && (
                     <img src={cell.pieces[0].character} alt="piece"></img>
