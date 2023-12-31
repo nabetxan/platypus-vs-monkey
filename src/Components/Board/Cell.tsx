@@ -7,3 +7,5 @@ export default class Cell {
     this.pieces = [];
   }
 }
+
+export type Gameboard = Cell[][];

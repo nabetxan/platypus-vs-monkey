@@ -62,7 +62,7 @@ const Menu = function () {
   //       if (isCellEmpty(updatedGameboard[i][j])) {
   //         //noop
   //       } else {
-  //         if (!winnerPlayer) {
+  //         if (!winner) {
   //           return false;
   //         }
   //       }

@@ -13,26 +13,26 @@ const PlayerField: React.FC<{
   player: Player;
   opponent: Player;
   currentPlayer: Player;
-  selectedPieceAndPlayer: SelectedPieceAndPlayer;
+  selectedPnP: SelectedPieceAndPlayer;
   onChange: (selectedPP: SelectedPieceAndPlayer) => void;
-  winnerPlayer?: Player;
+  winner?: Player;
   scoreKeep: number[];
 }> = function ({
   player,
   opponent,
   currentPlayer,
-  selectedPieceAndPlayer,
+  selectedPnP,
   onChange,
-  winnerPlayer,
+  winner,
   scoreKeep
 }) {
   const handlePieceSelect = function (index: number, player: Player) {
     // if it's not your turn, return
     if (currentPlayer !== player) return;
     // if the game is finished, return
-    if (winnerPlayer) return;
+    if (winner) return;
     // if it's in the middle of piece swap, return
-    if (selectedPieceAndPlayer.isSelectedFromBoard) return;
+    if (selectedPnP.isSelectedFromBoard) return;
 
     let currentPlayerPiece;
     currentPlayer === player
@@ -47,8 +47,8 @@ const PlayerField: React.FC<{
       currentPlayerPiece[currentSelectedPieceIndex].size;
 
     if (
-      index === selectedPieceAndPlayer.index &&
-      currentSelectedPieceSize === selectedPieceAndPlayer.pieceSize
+      index === selectedPnP.index &&
+      currentSelectedPieceSize === selectedPnP.pieceSize
     ) {
       return;
       // TODO:default valueを渡すべき？
@@ -71,10 +71,7 @@ const PlayerField: React.FC<{
             let classname = "piece";
             classname = classname + " " + piece.size;
 
-            if (
-              currentPlayer === player &&
-              selectedPieceAndPlayer.index === piece.index
-            ) {
+            if (currentPlayer === player && selectedPnP.index === piece.index) {
               classname = classname + " selected";
             }
             return (

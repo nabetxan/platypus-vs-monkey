@@ -2,16 +2,16 @@ import Player from "../Player/Player";
 
 const ScoreBoard: React.FC<{
   currentPlayer: Player;
-  winnerPlayer?: Player;
+  winner?: Player;
   onReMatch: () => void;
-}> = function ({ currentPlayer, winnerPlayer, onReMatch }) {
+}> = function ({ currentPlayer, winner, onReMatch }) {
   return (
     <div id="score-board">
       {(() => {
-        if (winnerPlayer) {
+        if (winner) {
           return (
             <div id="winner-message">
-              {winnerPlayer.name} wins!
+              {winner.name} wins!
               <button id="reMatch-btn" onClick={onReMatch}>
                 Re-match?
               </button>
