@@ -2,7 +2,7 @@ import { useState } from "react";
 import monkey from "../img/vector-monkey.png";
 import platypus from "../img/vector-platypus.png";
 import Board from "./Board/Board";
-import Cell, { Gameboard } from "./Board/Cell";
+import { Gameboard, generateBlankGameboard } from "./Board/Cell";
 import Menu from "./Menu/Menu";
 import Player from "./Player/Player";
 import PlayerField from "./Player/PlayerField";
@@ -10,13 +10,10 @@ import Confetti from "./ScoreBoard/Confetti";
 import ScoreBoard from "./ScoreBoard/ScoreBoard";
 import { GameStatus } from "./Utils/GameStrategy";
 
-const P1 = new Player("Perry", platypus, "rgb(49, 224, 255)", "P1");
-const P2 = new Player("Mino", monkey, "rgb(255, 164, 60)", "P2");
-const blankGameboard = [
-  [new Cell(), new Cell(), new Cell()],
-  [new Cell(), new Cell(), new Cell()],
-  [new Cell(), new Cell(), new Cell()]
-];
+const P1 = new Player("Perry", platypus, "rgb(49, 224, 255)", "P1", 1);
+const P2 = new Player("Mino", monkey, "rgb(255, 164, 60)", "P2", 0);
+
+const blankGameboard = generateBlankGameboard();
 const GameBoard = function () {
   const [gameboard, setGameboard] = useState(blankGameboard as Gameboard);
   const [gameStatus, setGameStatus] = useState<GameStatus>({
@@ -24,15 +21,15 @@ const GameBoard = function () {
     P2: P2,
     isP1CurrentPlayer: true
   });
-  const [scoreKeep, setScoreKeep] = useState([0, 0]);
-
   const reMatch = function () {
+    gameStatus.P1.resetPiece();
+    gameStatus.P2.resetPiece();
+    const blankGameboard = generateBlankGameboard();
     setGameboard(blankGameboard);
     setGameStatus({
-      P1: P1,
-      P2: P2,
-      isP1CurrentPlayer: true,
-      selectedPnP: {},
+      ...gameStatus,
+      isP1CurrentPlayer: gameStatus.isP1CurrentPlayer ? false : true,
+      selectedPnP: undefined,
       winner: undefined
     });
   };
@@ -44,7 +41,6 @@ const GameBoard = function () {
         opponent={gameStatus.P2}
         gameStatus={gameStatus}
         onChange={(gameStatus) => setGameStatus(gameStatus)}
-        scoreKeep={scoreKeep}
       />
 
       <div id="center-content">
@@ -73,7 +69,6 @@ const GameBoard = function () {
         opponent={gameStatus.P1}
         gameStatus={gameStatus}
         onChange={(gameStatus) => setGameStatus(gameStatus)}
-        scoreKeep={scoreKeep}
       />
     </div>
   );

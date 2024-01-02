@@ -3,7 +3,7 @@ import Player, { Piece, Size } from "./Player";
 
 export type SelectedPieceAndPlayer = {
   index?: number;
-  currentPlayer?: Player;
+  currentPlayer?: Player; //消す？
   pieceSize?: Size;
   isSelectedFromBoard?: boolean;
   positionOnBoard?: number[];
@@ -15,8 +15,7 @@ const PlayerField: React.FC<{
   opponent: Player;
   gameStatus: GameStatus;
   onChange: (gameStatus: GameStatus) => void;
-  scoreKeep: number[];
-}> = function ({ player, opponent, gameStatus, onChange, scoreKeep }) {
+}> = function ({ player, opponent, gameStatus, onChange }) {
   const currentPlayer = gameStatus.isP1CurrentPlayer
     ? gameStatus.P1
     : gameStatus.P2;
@@ -62,7 +61,7 @@ const PlayerField: React.FC<{
     <>
       <div id="player-field">
         <div className="name">{player.name}</div>
-        <div className="score">{scoreKeep[0]}</div>
+        <div className="score">{player.record.win}</div>
         <div id={`player-fieldーpieces`}>
           {player.piece.map((piece: Piece) => {
             let classname = "piece";

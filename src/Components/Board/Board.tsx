@@ -114,17 +114,9 @@ const Board: React.FC<{
         ...gameStatus,
         winner: winnerPos.winner
       };
+      winnerPos.winner.record.win = winnerPos.winner.record.win + 1;
       onChange(updatedGameboard, newGameStatus);
     }
-    // if (winnerPos.winner === P1) {
-    //   const newScore = scoreKeep[0] + 1;
-    //   setScoreKeep([newScore, scoreKeep[1]]);
-
-    // } else {
-    //   const newScore = scoreKeep[1] + 1;
-    //   setScoreKeep([scoreKeep[0], newScore]);
-
-    // }
   };
 
   const handleClassName = function (cell: Cell, r: number, c: number) {
