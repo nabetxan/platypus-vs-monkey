@@ -119,11 +119,11 @@ const Board: React.FC<{
     // if (winnerPos.winner === P1) {
     //   const newScore = scoreKeep[0] + 1;
     //   setScoreKeep([newScore, scoreKeep[1]]);
-    //   addConfetti(document.getElementById("score-board"));
+
     // } else {
     //   const newScore = scoreKeep[1] + 1;
     //   setScoreKeep([scoreKeep[0], newScore]);
-    //   addConfetti(document.getElementById("score-board"));
+
     // }
   };
 

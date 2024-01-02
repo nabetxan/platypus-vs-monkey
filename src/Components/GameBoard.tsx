@@ -6,6 +6,7 @@ import Cell, { Gameboard } from "./Board/Cell";
 import Menu from "./Menu/Menu";
 import Player from "./Player/Player";
 import PlayerField from "./Player/PlayerField";
+import Confetti from "./ScoreBoard/Confetti";
 import ScoreBoard from "./ScoreBoard/ScoreBoard";
 import { GameStatus } from "./Utils/GameStrategy";
 
@@ -34,11 +35,6 @@ const GameBoard = function () {
       selectedPnP: {},
       winner: undefined
     });
-    // const parent = document.getElementById("score-board");
-    // const childToRemove = document.getElementById("confetti-container");
-    // if (parent && childToRemove) {
-    //   parent.removeChild(childToRemove);
-    // }
   };
 
   return (
@@ -52,13 +48,15 @@ const GameBoard = function () {
       />
 
       <div id="center-content">
-        <ScoreBoard
-          currentPlayer={
-            gameStatus.isP1CurrentPlayer ? gameStatus.P1 : gameStatus.P2
-          }
-          winner={gameStatus.winner}
-          onReMatch={reMatch}
-        />
+        <Confetti winner={gameStatus.winner}>
+          <ScoreBoard
+            currentPlayer={
+              gameStatus.isP1CurrentPlayer ? gameStatus.P1 : gameStatus.P2
+            }
+            winner={gameStatus.winner}
+            onReMatch={reMatch}
+          />
+        </Confetti>
         <Board
           gameboard={gameboard}
           gameStatus={gameStatus}
