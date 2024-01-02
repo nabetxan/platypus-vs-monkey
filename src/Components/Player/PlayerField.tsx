@@ -3,7 +3,6 @@ import Player, { Piece, Size } from "./Player";
 
 export type SelectedPieceAndPlayer = {
   index?: number;
-  currentPlayer?: Player; //消す？
   pieceSize?: Size;
   isSelectedFromBoard?: boolean;
   positionOnBoard?: number[];
@@ -49,7 +48,6 @@ const PlayerField: React.FC<{
         selectedPnP: {
           ...gameStatus.selectedPnP,
           index: index,
-          currentPlayer: currentPlayer,
           pieceSize: currentSelectedPieceSize,
           isSelectedFromBoard: false
         }

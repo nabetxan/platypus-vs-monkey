@@ -50,7 +50,6 @@ const Board: React.FC<{
           ...gameStatus,
           selectedPnP: {
             index: pieceInfo.index,
-            currentPlayer: currentPlayer,
             pieceSize: pieceInfo.size,
             isSelectedFromBoard: true,
             positionOnBoard: [r, c],
@@ -98,7 +97,6 @@ const Board: React.FC<{
       selectedPnP: {
         ...gameStatus.selectedPnP,
         index: undefined,
-        currentPlayer: undefined,
         pieceSize: undefined,
         isSelectedFromBoard: undefined,
         positionOnBoard: undefined
