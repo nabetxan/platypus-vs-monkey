@@ -10,7 +10,7 @@ import Confetti from "./ScoreBoard/Confetti";
 import ScoreBoard from "./ScoreBoard/ScoreBoard";
 import { GameStatus } from "./Utils/GameStrategy";
 
-const P1 = new Player("Perry", platypus, "rgb(49, 224, 255)", "P1", 1);
+const P1 = new Player("Perry", platypus, "rgb(49, 224, 255)", "P1", 0);
 const P2 = new Player("Mino", monkey, "rgb(255, 164, 60)", "P2", 0);
 
 const blankGameboard = generateBlankGameboard();

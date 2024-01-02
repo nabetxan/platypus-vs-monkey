@@ -26,6 +26,11 @@
 
 #player-field > #player-fieldーpieces > .piece {
   border: solid 3px;
+  cursor: pointer;
+}
+
+#player-field > #player-fieldーpieces > .piece :hover {
+  scale: 1.2;
 }
 
 .name {
@@ -207,7 +212,7 @@
 #confetti-container {
   position: fixed;
   top: 26px;
-  height: 150px;
+  height: 250px;
   width: 340px;
   z-index: 10;
 }
