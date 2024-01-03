@@ -9,187 +9,157 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
-// import TextField from "@mui/material/TextField";
 import { useState } from "react";
-import monkey from "../../img/vector-monkey.png";
-import platypus from "../../img/vector-platypus.png";
+import { Gameboard } from "../Board/Cell";
+import { GameStatus, isCellEmpty } from "../Utils/GameStrategy";
 
-const Menu = function () {
-  const [openRule, setOpenRule] = useState(false);
+const Menu: React.FC<{
+  gameboard: Gameboard;
+  gameStatus: GameStatus;
+  onRematch: () => void;
+}> = function ({ gameboard, gameStatus, onRematch }) {
+  const [openHowTo, setOpenHowTo] = useState(false);
   const [openEditPlayerName, setOpenEditPlayerName] = useState(false);
 
-  const handleClickOpenRule = () => {
-    setOpenRule(true);
+  const handleClickHowTo = () => {
+    setOpenHowTo(!openHowTo);
   };
 
-  const handleCloseRule = () => {
-    setOpenRule(false);
+  const handleClickEditPlayerName = () => {
+    setOpenEditPlayerName(!openEditPlayerName);
   };
 
-  const handleClickOpenEditPlayerName = () => {
-    setOpenEditPlayerName(true);
+  const handlePlayerNameChange = (value: string) => {
+    gameStatus.P1.name = value;
   };
 
-  const handleCloseEditPlayerName = () => {
-    setOpenEditPlayerName(false);
+  const deleteMatchRecord = function () {
+    //TODO: ask if you can really reset the record
+    onRematch();
+    gameStatus.P1.record.win = 0;
+    gameStatus.P2.record.win = 0;
   };
 
-  // const handlePlayer1NameChange = (event) => {
-  //   const newP1Name = event.target.value;
-  //   setPlayerName([newP1Name, playerName[1]]);
-  // };
+  const canChangePlayerTurn = function () {
+    const updatedGameboard = [...gameboard];
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        if (!isCellEmpty(updatedGameboard[i][j])) {
+          //TODO: ask if you can really reset the game
+        }
+      }
+    }
+    return true;
+  };
 
-  // const handlePlayer2NameChange = (event) => {
-  //   const newP2Name = event.target.value;
-  //   setPlayerName([playerName[0], newP2Name]);
-  // };
-
-  // const savePlayerName = () => {
-  //   P1.name = playerName[0];
-  //   P2.name = playerName[1];
-  //   handleCloseEditPlayerName();
-  // };
-
-  // const deleteMatchRecord = function () {
-  //   reMatch();
-  //   setScoreKeep([0, 0]);
-  // };
-
-  // const canChangePlayerTurn = function () {
-  //   const updatedGameboard = [...gameboard];
-  //   for (let i = 0; i < 3; i++) {
-  //     for (let j = 0; j < 3; j++) {
-  //       if (isCellEmpty(updatedGameboard[i][j])) {
-  //         //noop
-  //       } else {
-  //         if (!winner) {
-  //           return false;
-  //         }
-  //       }
-  //     }
-  //   }
-  //   return true;
-  // };
-
-  // const changePlayerTurn = function () {
-  //   if (!canChangePlayerTurn()) {
-  //     return;
-  //   }
-
-  //   reMatch();
-  //   if (currentPlayer === P1) {
-  //     setCurrentPlayer(P2);
-  //   } else {
-  //     setCurrentPlayer(P1);
-  //   }
-  // };
+  const changePlayerTurn = function () {
+    if (!canChangePlayerTurn()) return;
+    return onRematch();
+  };
 
   return (
-    <div id="option-menu">
-      <div>
-        <Tooltip title="How to Play" placement="top">
-          <IconButton onClick={handleClickOpenRule}>
-            <HelpOutlineOutlinedIcon fontSize="large" />
-          </IconButton>
-        </Tooltip>
-        <Dialog
-          open={openRule}
-          onClose={handleCloseRule}
-          aria-labelledby="How to Play the Platypus vs Monkey Game"
-          aria-describedby="It's a very fun game!"
-        >
-          <DialogTitle id="how-to-play-dialog-title">
-            {"⭐️How to Play⭐️"}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="how-to-play-dialog-description">
-              1. The game starts with an empty 3x3 grid. <br />
-              2. Player has 6 Platypuses or 6 Monkeys. There are 2 small pieces,
-              2 medium pieces, and 2 large pieces for each player. <br />
-              3. Player place one of their pieces to the gameboard cell in turn.{" "}
-              <br />
-              4. Just like the Tic Tac Toe, the game ends when one player lines
-              up three cells in a row with their character, either horizontally,
-              vertically or diagonally. <br />
-              5. The big difference from Tic Tac Toe is that the player can
-              either put their piece from their hand OR move the piece which is
-              already on the gameboard. <br />
-              6. Even if there is already another piece on the cell, regardless
-              of whether it belongs to you or your opponent, if the piece is
-              smaller, you can place your piece over it. <br />
-              7. Player cannot move the piece if it's underneath of another
-              bigger piece. <br />
-            </DialogContentText>
-          </DialogContent>
+    <div>
+      <div id="option-menu">
+        <div>
+          <Tooltip title="How to Play" placement="top">
+            <IconButton onClick={handleClickHowTo}>
+              <HelpOutlineOutlinedIcon fontSize="large" />
+            </IconButton>
+          </Tooltip>
+        </div>
+
+        <div>
+          <Tooltip title="Change Player Name" placement="top">
+            <IconButton onClick={handleClickEditPlayerName}>
+              <ModeEditOutlineOutlinedIcon fontSize="large" />
+            </IconButton>
+          </Tooltip>
+          <Dialog open={openEditPlayerName} onClose={handleClickEditPlayerName}>
+            <DialogTitle>Edit Player Name</DialogTitle>
+            <DialogContent>
+              <DialogContentText>Please input player's name.</DialogContentText>
+              {[gameStatus.P1, gameStatus.P2].map((p) => {
+                return (
+                  <div className="player-name-edit" key={p.name}>
+                    <img id="icon" src={p.char} alt="player-icon"></img>
+                    <input
+                      type="text"
+                      id="player-name"
+                      autoFocus
+                      required
+                      minLength={1}
+                      defaultValue={p.name ?? "name"}
+                      onChange={(e) => {
+                        handlePlayerNameChange(e.target.value);
+                      }}
+                      className="border rounded p-2"
+                    ></input>
+                  </div>
+                );
+              })}
+            </DialogContent>
+          </Dialog>
+        </div>
+        <div>
+          <Tooltip title="Change Player Turn" placement="top">
+            <IconButton onClick={changePlayerTurn}>
+              <ChangeCircleOutlinedIcon fontSize="large" />
+            </IconButton>
+          </Tooltip>
+        </div>
+
+        <div>
+          <Tooltip title="Delete Match Record" placement="top">
+            <IconButton onClick={deleteMatchRecord}>
+              <DeleteOutlineOutlinedIcon fontSize="large" />
+            </IconButton>
+          </Tooltip>
+        </div>
+      </div>
+
+      {openHowTo && (
+        <div id="how-to-play-dialog">
+          <div id="how-to-play-dialog-title" className="text-3xl mb-3">
+            ⭐️How to Play⭐️
+          </div>
+          <div id="how-to-play-dialog-description">
+            <ol type="1">
+              <li>1. The game starts with an empty 3x3 grid.</li>
+              <li>
+                2. Player has 6 Platypuses or 6 Monkeys. There are 2 small
+                pieces, 2 medium pieces, and 2 large pieces for each player.
+              </li>
+              <li>
+                3. Player place one of their pieces to the gameboard cell in
+                turn.
+              </li>
+              <li>
+                4. Just like the Tic Tac Toe, the game ends when one player
+                lines up three cells in a row with their character, either
+                horizontally, vertically or diagonally.
+              </li>
+              <li>
+                5. The big difference from Tic Tac Toe is that the player can
+                either put their piece from their hand OR move the piece which
+                is already on the gameboard.
+              </li>
+              <li>
+                6. Even if there is already another piece on the cell,
+                regardless of whether it belongs to you or your opponent, if the
+                piece is smaller, you can place your piece over it.
+              </li>
+              <li>
+                7. Player cannot move the piece if it's underneath of another
+                bigger piece.
+              </li>
+            </ol>
+          </div>
+
           <DialogActions>
-            <IconButton onClick={handleCloseRule}>Close</IconButton>
+            <IconButton onClick={handleClickHowTo}>Close</IconButton>
           </DialogActions>
-        </Dialog>
-      </div>
-
-      <div>
-        <Tooltip title="Change Player Name" placement="top">
-          <IconButton onClick={handleClickOpenEditPlayerName}>
-            <ModeEditOutlineOutlinedIcon fontSize="large" />
-          </IconButton>
-        </Tooltip>
-        <Dialog open={openEditPlayerName} onClose={handleCloseEditPlayerName}>
-          <DialogTitle>Edit Player Name</DialogTitle>
-          <DialogContent>
-            <DialogContentText>Please input player's name.</DialogContentText>
-            <div className="player1-name-edit">
-              <img id="icon-platypus" src={platypus} alt="platypus"></img>
-              {/* <TextField
-                autoFocus
-                margin="dense"
-                id="p1-name"
-                label="Player1 Name"
-                defaultValue={P1.name}
-                onChange={handlePlayer1NameChange}
-                type="text"
-                fullWidth
-                variant="standard"
-              /> */}
-            </div>
-            <div className="player2-name-edit">
-              <img id="icon-monkey" src={monkey} alt="monkey"></img>
-              {/* <TextField
-                autoFocus
-                margin="dense"
-                id="p2-name"
-                label="Player2 Name"
-                defaultValue={P2.name}
-                onChange={handlePlayer2NameChange}
-                type="text"
-                fullWidth
-                variant="standard"
-              /> */}
-            </div>
-          </DialogContent>
-          {/* <DialogActions>
-            <IconButton onClick={handleCloseEditPlayerName}>Cancel</IconButton>
-            <IconButton onClick={savePlayerName}>Save</IconButton>
-          </DialogActions> */}
-        </Dialog>
-      </div>
-      <div>
-        <Tooltip title="Change Player Turn" placement="top">
-          {/* <IconButton
-            onClick={changePlayerTurn}
-            disabled={!canChangePlayerTurn()}
-          > */}
-          <ChangeCircleOutlinedIcon fontSize="large" />
-          {/* </IconButton> */}
-        </Tooltip>
-      </div>
-
-      <div>
-        <Tooltip title="Delete Match Record" placement="top">
-          {/* <IconButton onClick={deleteMatchRecord}> */}
-          <DeleteOutlineOutlinedIcon fontSize="large" />
-          {/* </IconButton> */}
-        </Tooltip>
-      </div>
+        </div>
+      )}
     </div>
   );
 };

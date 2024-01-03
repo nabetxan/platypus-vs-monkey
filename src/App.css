@@ -179,13 +179,11 @@
   justify-content: space-around;
 }
 
-#icon-platypus,
-#icon-monkey {
+#icon {
   height: 40px;
 }
 
-.player1-name-edit,
-.player2-name-edit {
+.player-name-edit {
   display: flex;
   justify-content: center;
   align-content: center;
@@ -215,4 +213,14 @@
   height: 250px;
   width: 340px;
   z-index: 10;
+}
+
+#how-to-play-dialog {
+  position: absolute;
+  padding: 20px 60px;
+  left: 0;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.792);
+  line-height: 2;
+  font-family: "Sigmar", cursive;
 }

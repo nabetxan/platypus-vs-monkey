@@ -61,7 +61,11 @@ const GameBoard = function () {
             setGameStatus(gameStatus);
           }}
         />
-        <Menu />
+        <Menu
+          gameboard={gameboard}
+          gameStatus={gameStatus}
+          onRematch={() => reMatch()}
+        />
       </div>
 
       <PlayerField
