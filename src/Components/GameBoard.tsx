@@ -65,6 +65,9 @@ const GameBoard = function () {
           gameboard={gameboard}
           gameStatus={gameStatus}
           onRematch={() => reMatch()}
+          onChange={(gameStatus) => {
+            setGameStatus(gameStatus);
+          }}
         />
       </div>
 

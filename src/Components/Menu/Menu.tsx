@@ -11,13 +11,15 @@ import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
 import { Gameboard } from "../Board/Cell";
+import Player from "../Player/Player";
 import { GameStatus, isCellEmpty } from "../Utils/GameStrategy";
 
 const Menu: React.FC<{
   gameboard: Gameboard;
   gameStatus: GameStatus;
   onRematch: () => void;
-}> = function ({ gameboard, gameStatus, onRematch }) {
+  onChange: (gameStatus: GameStatus) => void;
+}> = function ({ gameboard, gameStatus, onRematch, onChange }) {
   const [openHowTo, setOpenHowTo] = useState(false);
   const [openEditPlayerName, setOpenEditPlayerName] = useState(false);
 
@@ -29,8 +31,14 @@ const Menu: React.FC<{
     setOpenEditPlayerName(!openEditPlayerName);
   };
 
-  const handlePlayerNameChange = (value: string) => {
-    gameStatus.P1.name = value;
+  const handlePlayerNameChange = (name: string, p: Player) => {
+    const newGameStatus = { ...gameStatus };
+    if (gameStatus.P1 === p) {
+      newGameStatus.P1.name = name;
+    } else {
+      newGameStatus.P2.name = name;
+    }
+    onChange(newGameStatus);
   };
 
   const deleteMatchRecord = function () {
@@ -90,7 +98,7 @@ const Menu: React.FC<{
                       minLength={1}
                       defaultValue={p.name ?? "name"}
                       onChange={(e) => {
-                        handlePlayerNameChange(e.target.value);
+                        handlePlayerNameChange(e.target.value, p);
                       }}
                       className="border rounded p-2"
                     ></input>
