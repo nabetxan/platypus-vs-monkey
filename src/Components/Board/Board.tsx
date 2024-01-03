@@ -120,7 +120,7 @@ const Board: React.FC<{
   const handleClassName = function (cell: Cell, r: number, c: number) {
     let classname = "cell";
 
-    if (PnP?.positionOnBoard) {
+    if (!gameStatus.winner && PnP?.positionOnBoard) {
       if (PnP.positionOnBoard[0] === r && PnP.positionOnBoard[1] === c) {
         classname = classname + " selected-cell";
       }
