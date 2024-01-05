@@ -223,4 +223,21 @@
   background-color: rgba(255, 255, 255, 0.792);
   line-height: 2;
   font-family: "Sigmar", cursive;
+  transition: 1s all;
+  animation-name: fadeInUp;
+  animation-duration: 1s;
+}
+
+/* Animation */
+
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(10%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
 }

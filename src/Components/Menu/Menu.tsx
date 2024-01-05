@@ -126,7 +126,7 @@ const Menu: React.FC<{
       </div>
 
       {openHowTo && (
-        <div id="how-to-play-dialog">
+        <div id="how-to-play-dialog" className="fadeInUp">
           <div id="how-to-play-dialog-title" className="text-3xl mb-3">
             ⭐️How to Play⭐️
           </div>

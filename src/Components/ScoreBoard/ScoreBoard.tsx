@@ -15,6 +15,16 @@ const ScoreBoard: React.FC<{
               <button id="reMatch-btn" onClick={onReMatch}>
                 Re-match?
               </button>
+              <div
+                id="score-board-player-image"
+                className="fixed top-24 z-10 scale-50"
+              >
+                <img
+                  src={currentPlayer.char}
+                  alt="player-character"
+                  className="animate-bounce"
+                ></img>
+              </div>
             </div>
           );
         } else {
