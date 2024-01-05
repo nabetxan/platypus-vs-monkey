@@ -2,7 +2,7 @@ import ChangeCircleOutlinedIcon from "@mui/icons-material/ChangeCircleOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
-import { Tooltip } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -12,7 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
 import { Gameboard } from "../Board/Cell";
 import Player from "../Player/Player";
-import { GameStatus, isCellEmpty } from "../Utils/GameStrategy";
+import { GameStatus, isGameboardEmpty } from "../Utils/GameStrategy";
 
 const Menu: React.FC<{
   gameboard: Gameboard;
@@ -22,6 +22,44 @@ const Menu: React.FC<{
 }> = function ({ gameboard, gameStatus, onRematch, onChange }) {
   const [openHowTo, setOpenHowTo] = useState(false);
   const [openEditPlayerName, setOpenEditPlayerName] = useState(false);
+  const [openAlertDialog, setOpenAlertDialog] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+
+  const handleClickOpenAlertDialog = () => {
+    if (!isGameboardEmpty(gameboard) && !gameStatus.winner) {
+      setOpenAlertDialog(true);
+    } else {
+      onRematch();
+    }
+  };
+
+  const handleCloseAlertDialog = (answer: boolean) => {
+    setOpenAlertDialog(false);
+    if (answer) {
+      onRematch();
+    }
+    return;
+  };
+
+  const handleClickOpenDeleteDialog = () => {
+    if (
+      isGameboardEmpty(gameboard) &&
+      gameStatus.P1.record.win === 0 &&
+      gameStatus.P2.record.win === 0
+    ) {
+      deleteMatchRecord();
+    } else {
+      setOpenDeleteDialog(true);
+    }
+  };
+
+  const handleCloseDeleteDialog = (answer: boolean) => {
+    setOpenDeleteDialog(false);
+    if (answer) {
+      deleteMatchRecord();
+    }
+    return;
+  };
 
   const handleClickHowTo = () => {
     setOpenHowTo(!openHowTo);
@@ -42,27 +80,9 @@ const Menu: React.FC<{
   };
 
   const deleteMatchRecord = function () {
-    //TODO: ask if you can really reset the record
     onRematch();
     gameStatus.P1.record.win = 0;
     gameStatus.P2.record.win = 0;
-  };
-
-  const canChangePlayerTurn = function () {
-    const updatedGameboard = [...gameboard];
-    for (let i = 0; i < 3; i++) {
-      for (let j = 0; j < 3; j++) {
-        if (!isCellEmpty(updatedGameboard[i][j])) {
-          //TODO: ask if you can really reset the game
-        }
-      }
-    }
-    return true;
-  };
-
-  const changePlayerTurn = function () {
-    if (!canChangePlayerTurn()) return;
-    return onRematch();
   };
 
   return (
@@ -110,18 +130,71 @@ const Menu: React.FC<{
         </div>
         <div>
           <Tooltip title="Change Player Turn" placement="top">
-            <IconButton onClick={changePlayerTurn}>
+            <IconButton onClick={handleClickOpenAlertDialog}>
               <ChangeCircleOutlinedIcon fontSize="large" />
             </IconButton>
           </Tooltip>
+          <Dialog
+            open={openAlertDialog}
+            onClose={handleCloseAlertDialog}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"⚠️Game will be Reset⚠️"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                If you proceed, current game will be reset.
+                <br />
+                Are you sure you want to proceed?
+                <br />
+                (Record will not be deleted)
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => handleCloseAlertDialog(false)}>
+                Cancel
+              </Button>
+              <Button onClick={() => handleCloseAlertDialog(true)} autoFocus>
+                Agree
+              </Button>
+            </DialogActions>
+          </Dialog>
         </div>
 
         <div>
           <Tooltip title="Delete Match Record" placement="top">
-            <IconButton onClick={deleteMatchRecord}>
+            <IconButton onClick={handleClickOpenDeleteDialog}>
               <DeleteOutlineOutlinedIcon fontSize="large" />
             </IconButton>
           </Tooltip>
+
+          <Dialog
+            open={openDeleteDialog}
+            onClose={handleCloseDeleteDialog}
+            aria-labelledby="delete-dialog-title"
+            aria-describedby="delete-dialog-description"
+          >
+            <DialogTitle id="delete-dialog-title">
+              {"🚨All Game Record will be Reset🚨"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="delete-dialog-description">
+                If you proceed, your game record will be reset.
+                <br />
+                Are you sure you want to proceed????
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => handleCloseDeleteDialog(false)}>
+                Cancel
+              </Button>
+              <Button onClick={() => handleCloseDeleteDialog(true)} autoFocus>
+                Agree
+              </Button>
+            </DialogActions>
+          </Dialog>
         </div>
       </div>
 

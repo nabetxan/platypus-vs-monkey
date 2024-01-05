@@ -13,6 +13,13 @@ export type GameStatus = {
 export const isCellEmpty = function (cell: Cell) {
   return cell.pieces.length === 0 ? true : false;
 };
+
+export const isGameboardEmpty = function (gameboard: Gameboard) {
+  const updatedGameboard = [...gameboard];
+  const cells = updatedGameboard.flat(1);
+  return cells.every((cell) => isCellEmpty(cell));
+};
+
 export const checkWin = function (updatedGameboard: Gameboard) {
   // Check rows
   for (let i = 0; i < 3; i++) {
