@@ -24,13 +24,22 @@
   align-items: center;
 }
 
-#player-field > #player-fieldーpieces > .piece {
+#player-field > #player-field-pieces > .piece {
   border: solid 3px;
   cursor: pointer;
 }
 
-#player-field > #player-fieldーpieces > .piece :hover {
+#player-field > #player-field-pieces > .piece :hover {
   scale: 1.2;
+}
+
+#player-field > #player-field-pieces > .disabled-piece {
+  border: solid 3px;
+  cursor: not-allowed;
+}
+
+#player-field > #player-field-pieces > .disabled-piece :hover {
+  opacity: 0.5;
 }
 
 .name {
@@ -49,14 +58,15 @@
   font-weight: 900;
 }
 
-#player-fieldーpieces {
+#player-field-pieces {
   display: flex;
   flex-direction: column;
   align-items: center;
   flex: 1;
 }
 
-.piece {
+.piece,
+.disabled-piece {
   border-radius: 8px;
   margin: 5px;
   display: flex;

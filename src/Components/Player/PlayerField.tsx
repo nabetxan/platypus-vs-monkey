@@ -31,17 +31,14 @@ const PlayerField: React.FC<{
     currentPlayer === player
       ? (currentPlayerPiece = [...player.piece])
       : (currentPlayerPiece = [...opponent.piece]);
-
     const currentSelectedPieceIndex = currentPlayerPiece.findIndex(
       (piece) => piece.index === index
     );
-
     const currentSelectedPieceSize =
       currentPlayerPiece[currentSelectedPieceIndex].size;
 
     if (index === PnP?.index && currentSelectedPieceSize === PnP.pieceSize) {
       return;
-      // TODO:default valueを渡すべき？
     } else {
       const newGameStatus = {
         ...gameStatus,
@@ -56,13 +53,16 @@ const PlayerField: React.FC<{
     }
   };
   return (
-    <>
+    <div>
       <div id="player-field">
         <div className="name">{player.name}</div>
         <div className="score">{player.record.win}</div>
-        <div id={`player-fieldーpieces`}>
+        <div id="player-field-pieces">
           {player.piece.map((piece: Piece) => {
             let classname = "piece";
+            if (currentPlayer !== player) {
+              classname = "disabled-piece";
+            }
             classname = classname + " " + piece.size;
             if (currentPlayer === player && PnP?.index === piece.index) {
               classname = classname + " selected";
@@ -80,7 +80,7 @@ const PlayerField: React.FC<{
           })}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
