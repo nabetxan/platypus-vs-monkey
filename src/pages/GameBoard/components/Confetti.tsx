@@ -1,5 +1,3 @@
-import Player from "../Player/Player";
-
 const numConfetti = 70; // Number of confetti particles to create
 const confettis: {
   top: string;
@@ -18,12 +16,12 @@ for (let i = 0; i < numConfetti; i++) {
 }
 
 const Confetti: React.FC<{
-  winner?: Player;
+  show?: boolean;
   children: React.ReactNode;
-}> = function ({ winner, children }) {
+}> = function ({ show, children }) {
   return (
     <div>
-      {winner ? (
+      {show ? (
         <div id="confetti-container">
           {confettis.map((c, i) => (
             <div key={i} className="confetti" style={c}></div>

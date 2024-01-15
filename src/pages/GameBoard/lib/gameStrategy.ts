@@ -1,13 +1,12 @@
-import Cell, { Gameboard } from "../Board/Cell";
-import Player from "../Player/Player";
-import { SelectedPieceAndPlayer } from "../Player/PlayerField";
+import Cell from "../models/cell";
+import { GameStatus, Gameboard } from "./types";
 
-export type GameStatus = {
-  P1: Player;
-  P2: Player;
-  isP1CurrentPlayer: boolean;
-  selectedPnP?: SelectedPieceAndPlayer;
-  winner?: Player;
+export const generateBlankGameboard = function (): Gameboard {
+  return [
+    [new Cell(), new Cell(), new Cell()],
+    [new Cell(), new Cell(), new Cell()],
+    [new Cell(), new Cell(), new Cell()]
+  ];
 };
 
 export const isCellEmpty = function (cell: Cell) {
@@ -97,4 +96,23 @@ export const checkWin = function (updatedGameboard: Gameboard) {
   }
 
   return false;
+};
+
+// check if the cell is a winnerCell
+export const isWinnerCell = function (
+  r: number,
+  c: number,
+  gameboard: Gameboard,
+  gameStatus: GameStatus
+) {
+  if (!gameStatus.winner) return false;
+  const winnerObj = checkWin(gameboard);
+  if (!winnerObj) return false;
+  const winnerPos = winnerObj.winnerPos;
+  if (
+    (winnerPos[0][0] === r && winnerPos[0][1] === c) ||
+    (winnerPos[1][0] === r && winnerPos[1][1] === c) ||
+    (winnerPos[2][0] === r && winnerPos[2][1] === c)
+  )
+    return true;
 };

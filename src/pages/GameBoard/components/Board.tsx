@@ -1,24 +1,6 @@
-import { GameStatus, checkWin, isCellEmpty } from "../Utils/GameStrategy";
-import Cell, { Gameboard } from "./Cell";
-
-// check if the cell is a winnerCell
-const isWinnerCell = function (
-  r: number,
-  c: number,
-  gameboard: Gameboard,
-  gameStatus: GameStatus
-) {
-  if (!gameStatus.winner) return false;
-  const winnerObj = checkWin(gameboard);
-  if (!winnerObj) return false;
-  const winnerPos = winnerObj.winnerPos;
-  if (
-    (winnerPos[0][0] === r && winnerPos[0][1] === c) ||
-    (winnerPos[1][0] === r && winnerPos[1][1] === c) ||
-    (winnerPos[2][0] === r && winnerPos[2][1] === c)
-  )
-    return true;
-};
+import { checkWin, isCellEmpty, isWinnerCell } from "../lib/gameStrategy";
+import { GameStatus, Gameboard, Piece } from "../lib/types";
+import Cell from "../models/cell";
 
 const Board: React.FC<{
   gameboard: Gameboard;
@@ -84,7 +66,7 @@ const Board: React.FC<{
     } else {
       // piece selected from hand pieces?
       const targetIndex = currentPlayer.piece.findIndex(
-        (piece) => piece.index === PnP.index
+        (piece: Piece) => piece.index === PnP.index
       );
       updatedGameboard[r][c].pieces.unshift(currentPlayer.piece[targetIndex]);
       const updatePlayerPiece = [...currentPlayer.piece];
@@ -117,7 +99,7 @@ const Board: React.FC<{
     }
   };
 
-  const handleClassName = function (cell: Cell, r: number, c: number) {
+  const getClassName = function (cell: Cell, r: number, c: number) {
     let classname = "cell";
 
     if (!gameStatus.winner && PnP?.positionOnBoard) {
@@ -142,7 +124,7 @@ const Board: React.FC<{
             {row.map((cell, c) => {
               return (
                 <div
-                  className={handleClassName(cell, r, c)}
+                  className={getClassName(cell, r, c)}
                   onClick={() => handleCellClick(cell, r, c)}
                   key={`${r}-${c}`}
                 >

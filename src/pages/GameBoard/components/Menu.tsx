@@ -10,9 +10,9 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
-import { Gameboard } from "../Board/Cell";
-import Player from "../Player/Player";
-import { GameStatus, isGameboardEmpty } from "../Utils/GameStrategy";
+import { isGameboardEmpty } from "../lib/gameStrategy";
+import { GameStatus, Gameboard } from "../lib/types";
+import Player from "../models/player";
 
 const Menu: React.FC<{
   gameboard: Gameboard;

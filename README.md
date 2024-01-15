@@ -1,7 +1,6 @@
 # Game : Platypus vs Monkey
 
-![Gameboard](/src/img/Platypus_vs_Monkey.png)
-
+![Gameboard](/src/pages/GameBoard/img/platypus_vs_monkey.png)
 
 ## How to Play
 

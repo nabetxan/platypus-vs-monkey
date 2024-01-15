@@ -2,8 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import GameBoard from "./Components/GameBoard";
 import "./index.css";
+import GameBoard from "./pages/GameBoard/GameBoard";
 
 const router = createBrowserRouter([
   {

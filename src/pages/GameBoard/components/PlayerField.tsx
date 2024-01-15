@@ -1,13 +1,5 @@
-import { GameStatus } from "../Utils/GameStrategy";
-import Player, { Piece, Size } from "./Player";
-
-export type SelectedPieceAndPlayer = {
-  index?: number;
-  pieceSize?: Size;
-  isSelectedFromBoard?: boolean;
-  positionOnBoard?: number[];
-  pieceInfo?: Piece;
-};
+import { GameStatus, Piece } from "../lib/types";
+import Player from "../models/player";
 
 const PlayerField: React.FC<{
   player: Player;
