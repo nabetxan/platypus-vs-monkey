@@ -3,16 +3,15 @@ import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
+import ErrorPage from "./pages/ErrorPage";
 import GameBoard from "./pages/GameBoard/GameBoard";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    errorElement: (
-      <div className="pt-8 text-6xl text-gray-50 text-center">Error Page</div>
-    ),
-    children: [{ path: "", element: <GameBoard /> }]
+    errorElement: <ErrorPage />,
+    children: [{ path: "*?", element: <GameBoard /> }]
   }
 ]);
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
