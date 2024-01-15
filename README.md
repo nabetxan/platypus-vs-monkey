@@ -1,75 +1,28 @@
-to do:
+# Game : Platypus vs Monkey
 
-*you lose if you take a piece from cell and you and the opponent get bingo at the same time
+![Gameboard](/src/pages/GameBoard/img/platypus_vs_monkey.png)
 
+## How to Play
 
-# Getting Started with Create React App
+1.  The game starts with an empty 3x3 grid.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+2.  Player has 6 Platypuses or 6 Monkeys. There are 2 small
+    pieces, 2 medium pieces, and 2 large pieces for each player.
 
-## Available Scripts
+3.  Player place one of their pieces to the gameboard cell in
+    turn.
 
-In the project directory, you can run:
+4.  Just like the Tic Tac Toe, the game ends when one player
+    lines up three cells in a row with their character, either
+    horizontally, vertically or diagonally.
 
-### `npm start`
+5.  The big difference from Tic Tac Toe is that the player can
+    either put their piece from their hand OR move the piece which
+    is already on the gameboard.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+6.  Even if there is already another piece on the cell,
+    regardless of whether it belongs to you or your opponent, if the
+    piece is smaller, you can place your piece over it.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+7.  Player cannot move the piece if it's underneath of another
+    bigger piece.

@@ -5,8 +5,12 @@ html {
 
 body {
   margin: 0;
-  background-image: url("tile.jpg");
-  background-size: 350px;
-  min-width: 700px;
+  background-image: url("../src/pages/GameBoard/img/tile.jpg");
+  background-size: 100vw;
   font-family: "Sigmar", cursive;
+  overflow-x: hidden;
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

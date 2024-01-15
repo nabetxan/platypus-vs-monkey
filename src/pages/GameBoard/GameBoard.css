@@ -10,8 +10,7 @@
   justify-content: center;
 }
 
-#player1-field,
-#player2-field {
+#player-field {
   border-radius: 10px;
   box-shadow: 1px 4px 6px black;
   height: 600px;
@@ -25,12 +24,22 @@
   align-items: center;
 }
 
-#player1-field > #player1-fieldーpieces > .piece {
-  border: solid 3px rgb(49, 224, 255);
+#player-field > #player-field-pieces > .piece {
+  border: solid 3px;
+  cursor: pointer;
 }
 
-#player2-field > #player2-fieldーpieces > .piece {
-  border: solid 3px rgb(255, 164, 60);
+#player-field > #player-field-pieces > .piece :hover {
+  scale: 1.2;
+}
+
+#player-field > #player-field-pieces > .disabled-piece {
+  border: solid 3px;
+  cursor: not-allowed;
+}
+
+#player-field > #player-field-pieces > .disabled-piece :hover {
+  opacity: 0.5;
 }
 
 .name {
@@ -49,15 +58,15 @@
   font-weight: 900;
 }
 
-#player1-fieldーpieces,
-#player2-fieldーpieces {
+#player-field-pieces {
   display: flex;
   flex-direction: column;
   align-items: center;
   flex: 1;
 }
 
-.piece {
+.piece,
+.disabled-piece {
   border-radius: 8px;
   margin: 5px;
   display: flex;
@@ -180,13 +189,11 @@
   justify-content: space-around;
 }
 
-#icon-platypus,
-#icon-monkey {
+#icon {
   height: 40px;
 }
 
-.player1-name-edit,
-.player2-name-edit {
+.player-name-edit {
   display: flex;
   justify-content: center;
   align-content: center;
@@ -211,9 +218,36 @@
 }
 
 #confetti-container {
+  position: fixed;
+  top: 26px;
+  height: 250px;
+  width: 340px;
+  z-index: 10;
+}
+
+#how-to-play-dialog {
   position: absolute;
-  top: 0;
-  bottom: 0;
+  padding: 20px 60px;
   left: 0;
-  right: 0;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.792);
+  line-height: 2;
+  font-family: "Sigmar", cursive;
+  transition: 1s all;
+  animation-name: fadeInUp;
+  animation-duration: 1s;
+}
+
+/* Animation */
+
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(10%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
 }
