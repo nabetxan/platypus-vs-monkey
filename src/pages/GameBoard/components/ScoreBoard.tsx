@@ -8,17 +8,16 @@ const ScoreBoard: React.FC<{
   return (
     <div id="score-board">
       {winner && (
-        <div id="winner-message">
-          {winner.name} wins!
-          <button id="reMatch-btn" onClick={onReMatch}>
-            Re-match?
-          </button>
-          <div
-            id="score-board-player-image"
-            className="fixed top-24 z-10 scale-50"
-          >
+        <div id="winner-message-container">
+          <div id="winner-message">
+            {winner.name} wins!
+            <button id="reMatch-btn" onClick={onReMatch}>
+              Re-match?
+            </button>
+          </div>
+          <div id="score-board-player-image" className="scale-50">
             <img
-              src={currentPlayer.char}
+              src={winner.char}
               alt="player-character"
               className="animate-bounce"
             ></img>
@@ -27,8 +26,8 @@ const ScoreBoard: React.FC<{
       )}
 
       {!winner && (
-        <div id="on-play-message">
-          <div>It's {currentPlayer.name}'s turn</div>
+        <div id="on-play-message-container">
+          <div id="on-play-message">It's {currentPlayer.name}'s turn</div>
           <div id="score-board-player-image">
             <img src={currentPlayer.char} alt="player-character"></img>
           </div>

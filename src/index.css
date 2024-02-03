@@ -8,7 +8,6 @@ body {
   background-image: url("../src/pages/GameBoard/img/tile.jpg");
   background-size: 100vw;
   font-family: "Sigmar", cursive;
-  overflow-x: hidden;
 }
 
 @tailwind base;
