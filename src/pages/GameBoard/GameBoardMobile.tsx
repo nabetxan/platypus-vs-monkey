@@ -6,7 +6,7 @@ import PlayerField from "./components/PlayerField";
 import ScoreBoard from "./components/ScoreBoard";
 import { GameStatus, Gameboard } from "./lib/types";
 
-const GameBoard: React.FC<{
+const GameBoardMobile: React.FC<{
   gameboard: Gameboard;
   gameStatus: GameStatus;
   onChangeGameStatus: (gameStatus: GameStatus) => void;
@@ -62,4 +62,4 @@ const GameBoard: React.FC<{
   );
 };
 
-export default GameBoard;
+export default GameBoardMobile;

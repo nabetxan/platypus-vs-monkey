@@ -17,9 +17,9 @@ import Player from "../models/player";
 const Menu: React.FC<{
   gameboard: Gameboard;
   gameStatus: GameStatus;
-  onRematch: () => void;
+  onReMatch: () => void;
   onChange: (gameStatus: GameStatus) => void;
-}> = function ({ gameboard, gameStatus, onRematch, onChange }) {
+}> = function ({ gameboard, gameStatus, onReMatch, onChange }) {
   const [openHowTo, setOpenHowTo] = useState(false);
   const [openEditPlayerName, setOpenEditPlayerName] = useState(false);
   const [openAlertDialog, setOpenAlertDialog] = useState(false);
@@ -29,14 +29,14 @@ const Menu: React.FC<{
     if (!isGameboardEmpty(gameboard) && !gameStatus.winner) {
       setOpenAlertDialog(true);
     } else {
-      onRematch();
+      onReMatch();
     }
   };
 
   const handleCloseAlertDialog = (answer: boolean) => {
     setOpenAlertDialog(false);
     if (answer) {
-      onRematch();
+      onReMatch();
     }
     return;
   };
@@ -80,7 +80,7 @@ const Menu: React.FC<{
   };
 
   const deleteMatchRecord = function () {
-    onRematch();
+    onReMatch();
     gameStatus.P1.record.win = 0;
     gameStatus.P2.record.win = 0;
   };
