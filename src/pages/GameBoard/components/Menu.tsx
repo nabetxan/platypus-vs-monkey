@@ -157,7 +157,7 @@ const Menu: React.FC<{
                 Cancel
               </Button>
               <Button onClick={() => handleCloseAlertDialog(true)} autoFocus>
-                Agree
+                Reset Game
               </Button>
             </DialogActions>
           </Dialog>
@@ -191,7 +191,7 @@ const Menu: React.FC<{
                 Cancel
               </Button>
               <Button onClick={() => handleCloseDeleteDialog(true)} autoFocus>
-                Agree
+                Delete All Records
               </Button>
             </DialogActions>
           </Dialog>
