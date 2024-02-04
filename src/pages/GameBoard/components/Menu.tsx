@@ -17,9 +17,9 @@ import Player from "../models/player";
 const Menu: React.FC<{
   gameboard: Gameboard;
   gameStatus: GameStatus;
-  onRematch: () => void;
+  onReMatch: () => void;
   onChange: (gameStatus: GameStatus) => void;
-}> = function ({ gameboard, gameStatus, onRematch, onChange }) {
+}> = function ({ gameboard, gameStatus, onReMatch, onChange }) {
   const [openHowTo, setOpenHowTo] = useState(false);
   const [openEditPlayerName, setOpenEditPlayerName] = useState(false);
   const [openAlertDialog, setOpenAlertDialog] = useState(false);
@@ -29,14 +29,14 @@ const Menu: React.FC<{
     if (!isGameboardEmpty(gameboard) && !gameStatus.winner) {
       setOpenAlertDialog(true);
     } else {
-      onRematch();
+      onReMatch();
     }
   };
 
   const handleCloseAlertDialog = (answer: boolean) => {
     setOpenAlertDialog(false);
     if (answer) {
-      onRematch();
+      onReMatch();
     }
     return;
   };
@@ -80,13 +80,13 @@ const Menu: React.FC<{
   };
 
   const deleteMatchRecord = function () {
-    onRematch();
+    onReMatch();
     gameStatus.P1.record.win = 0;
     gameStatus.P2.record.win = 0;
   };
 
   return (
-    <div>
+    <div className="w-full">
       <div id="option-menu">
         <div>
           <Tooltip title="How to Play" placement="top">
@@ -108,7 +108,7 @@ const Menu: React.FC<{
               <DialogContentText>Please input player's name.</DialogContentText>
               {[gameStatus.P1, gameStatus.P2].map((p) => {
                 return (
-                  <div className="player-name-edit" key={p.name}>
+                  <div id="player-name-edit" key={p.name}>
                     <img id="icon" src={p.char} alt="player-icon"></img>
                     <input
                       type="text"
@@ -157,7 +157,7 @@ const Menu: React.FC<{
                 Cancel
               </Button>
               <Button onClick={() => handleCloseAlertDialog(true)} autoFocus>
-                Agree
+                Reset Game
               </Button>
             </DialogActions>
           </Dialog>
@@ -191,7 +191,7 @@ const Menu: React.FC<{
                 Cancel
               </Button>
               <Button onClick={() => handleCloseDeleteDialog(true)} autoFocus>
-                Agree
+                Delete All Records
               </Button>
             </DialogActions>
           </Dialog>
@@ -200,9 +200,7 @@ const Menu: React.FC<{
 
       {openHowTo && (
         <div id="how-to-play-dialog" className="fadeInUp">
-          <div id="how-to-play-dialog-title" className="text-3xl mb-3">
-            ⭐️How to Play⭐️
-          </div>
+          <div id="how-to-play-dialog-title">⭐️How to Play⭐️</div>
           <div id="how-to-play-dialog-description">
             <ol type="1">
               <li>1. The game starts with an empty 3x3 grid.</li>

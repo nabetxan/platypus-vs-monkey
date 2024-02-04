@@ -1,7 +1,9 @@
-#game-content {
+#game-content-mobile {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   width: 100dvw;
+  height: 100dvh;
   margin: 2% 0%;
 
   #center-content {
@@ -10,13 +12,13 @@
     justify-content: center;
     align-items: center;
     margin: 0%;
-    height: 600px;
   }
 
   #score-board {
-    height: 150px;
-    width: 350px;
-    margin: 20px auto;
+    height: 80px;
+    width: 100%;
+    max-width: 350px;
+    margin: 10px auto;
     border-radius: 10px;
     box-shadow: 1px 4px 6px black;
     background-color: antiquewhite;
@@ -33,7 +35,6 @@
   }
 
   .name-short {
-    width: 300px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -41,21 +42,16 @@
 
   #on-play-message,
   #winner-message {
-    font-size: 24px;
+    font-size: 1rem;
     display: inline-flex;
-    justify-content: center;
     align-items: center;
     gap: 4%;
-    width: 100%;
-  }
-
-  .breakline {
-    flex-direction: column;
+    width: 260px;
   }
 
   #reMatch-btn {
     background-color: brown;
-    padding: 15px;
+    padding: 10px 5px;
     border-radius: 10px;
     font-size: 1rem;
     color: antiquewhite;
@@ -67,19 +63,19 @@
 
   #winner-message-container #score-board-player-image {
     position: absolute;
-    width: 100px;
-    top: 76px;
-    left: 205px;
+    bottom: -35%;
+    left: 75%;
     z-index: 10;
+    max-width: 80px;
   }
 
   #on-play-message-container #score-board-player-image {
     position: absolute;
-    width: 100px;
+    max-width: 80px;
+    width: 14%;
     margin: 0;
-    top: 83px;
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: -10%;
+    left: 80%;
     z-index: 10;
   }
 
@@ -101,9 +97,11 @@
 
   #confetti-container {
     position: fixed;
-    top: 26px;
-    height: 250px;
-    width: 340px;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 30%;
+    width: 80%;
     z-index: 10;
   }
 
@@ -112,7 +110,8 @@
     flex-direction: column;
     align-items: center;
     width: fit-content;
-    margin: 5px;
+    margin: auto 0px;
+    margin-bottom: 10px;
   }
 
   .row {
@@ -123,8 +122,8 @@
 
   .cell {
     border: solid 1px black;
-    height: 100px;
-    width: 100px;
+    height: 90px;
+    width: 90px;
     display: flex;
     align-items: center;
     text-align: center;
@@ -135,106 +134,125 @@
     background-color: brown;
   }
 
-  .small > img {
-    height: 30px;
-    width: 30px;
-  }
+  #gameboard {
+    .small > img {
+      height: 30px;
+      width: 30px;
+    }
 
-  .medium > img {
-    height: 60px;
-    width: 60px;
-  }
-  .large > img {
-    height: 100px;
-    width: 100px;
+    .medium > img {
+      height: 60px;
+      width: 60px;
+    }
+    .large > img {
+      height: 100px;
+      width: 100px;
+    }
   }
 
   .selected-cell {
     background-color: blueviolet;
   }
 
-  #player-field {
+  #player-fields-mobile {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
-    justify-content: center;
-    align-items: center;
+    width: 100%;
+    max-width: 350px;
+  }
+
+  #player-field {
     border-radius: 10px;
     box-shadow: 1px 4px 6px black;
-    height: 600px;
-    max-width: 150px;
+    height: 106px;
+    max-width: 350px;
     background-color: rgba(255, 255, 255, 0.792);
-    margin: 0px 20px;
+    margin-bottom: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   #name_and_score {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     background-color: rgb(185, 185, 185);
-    width: 100%;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    width: 100%;
+    max-width: 350px;
+    margin: 0;
+    padding-left: 15px;
     align-items: center;
-    margin-bottom: 5px;
   }
 
-  #name {
-    font-size: 1.1rem;
-    margin-top: 1rem;
-    text-align: center;
-    width: 100px;
+  #name_and_score #name {
+    font-size: 1rem;
+    text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    width: 50%;
   }
 
-  #score {
-    font-size: 32px;
+  #name_and_score #score {
+    font-size: 1rem;
     text-align: center;
   }
 
   #player-field-pieces {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    align-items: flex-end;
     flex: 1;
+  }
+
+  #player-field-pieces {
+    .small > img {
+      height: 24px;
+      width: 24px;
+    }
+
+    .medium > img {
+      height: 48px;
+      width: 48px;
+    }
+    .large > img {
+      height: 72px;
+      width: 72px;
+    }
+    .selected {
+      background-color: blueviolet;
+    }
+  }
+
+  .piece,
+  .disabled-piece {
+    border-radius: 8px;
+    margin: 2px;
+    display: flex;
+    width: fit-content;
   }
 
   #player-field .piece {
     border: solid 3px;
     cursor: pointer;
   }
-
   #player-field .piece :hover {
     scale: 1.2;
   }
-
   #player-field .disabled-piece {
     border: solid 3px;
     cursor: not-allowed;
   }
-
   #player-field .disabled-piece :hover {
     opacity: 0.5;
   }
 
-  .piece,
-  .disabled-piece {
-    border-radius: 8px;
-    margin: 5px;
-    display: flex;
-    width: fit-content;
-  }
-
-  .selected {
-    background-color: blueviolet;
-  }
-
   #option-menu {
-    height: 100px;
-    width: 350px;
-    margin: 20px auto;
+    height: 70px;
+    width: 100%;
+    max-width: 350px;
+    margin: 8px auto;
     border-radius: 10px;
     box-shadow: 1px 4px 6px black;
     background-color: antiquewhite;
@@ -245,22 +263,24 @@
 
   #how-to-play-dialog {
     position: absolute;
-    padding: 20px 60px;
+    padding: 20px 20px;
     left: 0;
-    height: 200px;
+    top: 20%;
+    height: 70%;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.792);
-    line-height: 2;
-    font-family: "Sigmar", cursive;
+    background-color: rgba(255, 255, 255, 0.892);
+    line-height: 1.7rem;
     overflow-y: scroll;
     transition: 1s all;
     animation-name: fadeInUp;
     animation-duration: 1s;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    z-index: 40;
   }
 
   #how-to-play-dialog-title {
-    font-size: 30px;
-    margin-bottom: 0.75rem;
+    line-height: 2.5rem;
   }
 
   @keyframes fadeInUp {
@@ -282,7 +302,12 @@
 
 #player-name-edit {
   display: flex;
-  justify-content: center;
-  align-content: center;
+  justify-content: flex-start;
+  align-content: flex-start;
   align-items: flex-end;
+  width: 100%;
+}
+
+#player-name-edit input {
+  width: 80%;
 }

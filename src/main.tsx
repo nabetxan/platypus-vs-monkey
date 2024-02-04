@@ -4,14 +4,14 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
 import ErrorPage from "./pages/ErrorPage";
-import GameBoard from "./pages/GameBoard/GameBoard";
+import Game from "./pages/GameBoard/Game";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
-    children: [{ path: "*?", element: <GameBoard /> }]
+    children: [{ path: "*?", element: <Game /> }]
   }
 ]);
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

@@ -1,4 +1,4 @@
-import "./GameBoard.css";
+import "./GameBoardMobile.css";
 import Board from "./components/Board";
 import Confetti from "./components/Confetti";
 import Menu from "./components/Menu";
@@ -6,7 +6,7 @@ import PlayerField from "./components/PlayerField";
 import ScoreBoard from "./components/ScoreBoard";
 import { GameStatus, Gameboard } from "./lib/types";
 
-const GameBoard: React.FC<{
+const GameBoardMobile: React.FC<{
   gameboard: Gameboard;
   gameStatus: GameStatus;
   onChangeGameStatus: (gameStatus: GameStatus) => void;
@@ -20,13 +20,7 @@ const GameBoard: React.FC<{
   onReMatch
 }) {
   return (
-    <div id="game-content">
-      <PlayerField
-        player={gameStatus.P1}
-        opponent={gameStatus.P2}
-        gameStatus={gameStatus}
-        onChange={(gameStatus) => onChangeGameStatus(gameStatus)}
-      />
+    <div id="game-content-mobile">
       <div id="center-content">
         <Confetti show={gameStatus.winner ? true : false}>
           <ScoreBoard
@@ -45,6 +39,20 @@ const GameBoard: React.FC<{
             onChangeGameStatus(gameStatus);
           }}
         />
+        <div id="player-fields-mobile">
+          <PlayerField
+            player={gameStatus.P1}
+            opponent={gameStatus.P2}
+            gameStatus={gameStatus}
+            onChange={(gameStatus) => onChangeGameStatus(gameStatus)}
+          />
+          <PlayerField
+            player={gameStatus.P2}
+            opponent={gameStatus.P1}
+            gameStatus={gameStatus}
+            onChange={onChangeGameStatus}
+          />
+        </div>
         <Menu
           gameboard={gameboard}
           gameStatus={gameStatus}
@@ -52,14 +60,8 @@ const GameBoard: React.FC<{
           onChange={onChangeGameStatus}
         />
       </div>
-      <PlayerField
-        player={gameStatus.P2}
-        opponent={gameStatus.P1}
-        gameStatus={gameStatus}
-        onChange={onChangeGameStatus}
-      />
     </div>
   );
 };
 
-export default GameBoard;
+export default GameBoardMobile;
