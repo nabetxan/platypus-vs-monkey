@@ -45,32 +45,32 @@ const PlayerField: React.FC<{
     }
   };
   return (
-    <div>
-      <div id="player-field">
-        <div className="name">{player.name}</div>
-        <div className="score">{player.record.win}</div>
-        <div id="player-field-pieces">
-          {player.piece.map((piece: Piece) => {
-            let classname = "piece";
-            if (currentPlayer !== player) {
-              classname = "disabled-piece";
-            }
-            classname = classname + " " + piece.size;
-            if (currentPlayer === player && PnP?.index === piece.index) {
-              classname = classname + " selected";
-            }
-            return (
-              <div
-                className={classname}
-                onClick={() => handlePieceSelect(piece.index, player)}
-                style={{ borderColor: player.color }}
-                key={`${piece.index}`}
-              >
-                <img src={player.char} alt="player-character"></img>
-              </div>
-            );
-          })}
-        </div>
+    <div id="player-field">
+      <div id="name_and_score">
+        <div id="name">{player.name}</div>
+        <div id="score">{player.record.win}</div>
+      </div>
+      <div id="player-field-pieces">
+        {player.piece.map((piece: Piece) => {
+          let classname = "piece";
+          if (currentPlayer !== player) {
+            classname = "disabled-piece";
+          }
+          classname = classname + " " + piece.size;
+          if (currentPlayer === player && PnP?.index === piece.index) {
+            classname = classname + " selected";
+          }
+          return (
+            <div
+              className={classname}
+              onClick={() => handlePieceSelect(piece.index, player)}
+              style={{ borderColor: player.color }}
+              key={`${piece.index}`}
+            >
+              <img src={player.char} alt="player-character"></img>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

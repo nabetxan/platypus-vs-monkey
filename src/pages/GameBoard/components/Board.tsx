@@ -56,13 +56,18 @@ const Board: React.FC<{
 
     // in other cases (if it's smaller or the cell is empty)? --> play the piece
     const updatedGameboard = [...gameboard];
-    // piece selected from the board? --> first remove the piece from the original cell
+    // piece selected from the board? -->
     if (PnP.isSelectedFromBoard) {
+      // check if that move will make opponent win
       PnP.positionOnBoard &&
         updatedGameboard[PnP.positionOnBoard[0]][
           PnP.positionOnBoard[1]
         ].pieces.shift();
-      PnP.pieceInfo && updatedGameboard[r][c].pieces.unshift(PnP.pieceInfo);
+      const winnerPos = checkWin(updatedGameboard);
+      if (!winnerPos) {
+        // remove the piece from the original cell
+        PnP.pieceInfo && updatedGameboard[r][c].pieces.unshift(PnP.pieceInfo);
+      }
     } else {
       // piece selected from hand pieces?
       const targetIndex = currentPlayer.piece.findIndex(

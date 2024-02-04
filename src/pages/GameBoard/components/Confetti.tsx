@@ -20,7 +20,7 @@ const Confetti: React.FC<{
   children: React.ReactNode;
 }> = function ({ show, children }) {
   return (
-    <div>
+    <div className="w-full h-full">
       {show ? (
         <div id="confetti-container">
           {confettis.map((c, i) => (
