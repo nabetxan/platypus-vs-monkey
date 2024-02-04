@@ -1,7 +1,6 @@
 import { useState } from "react";
 import useMediaQuery from "../../useMediaQuery";
 import GameBoard from "./GameBoard";
-import "./GameBoard.css";
 import GameBoardMobile from "./GameBoardMobile";
 import monkey from "./img/vector-monkey.png";
 import platypus from "./img/vector-platypus.png";
