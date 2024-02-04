@@ -86,7 +86,7 @@ const Menu: React.FC<{
   };
 
   return (
-    <div>
+    <div className="w-full">
       <div id="option-menu">
         <div>
           <Tooltip title="How to Play" placement="top">
@@ -108,7 +108,7 @@ const Menu: React.FC<{
               <DialogContentText>Please input player's name.</DialogContentText>
               {[gameStatus.P1, gameStatus.P2].map((p) => {
                 return (
-                  <div className="player-name-edit" key={p.name}>
+                  <div id="player-name-edit" key={p.name}>
                     <img id="icon" src={p.char} alt="player-icon"></img>
                     <input
                       type="text"
@@ -200,9 +200,7 @@ const Menu: React.FC<{
 
       {openHowTo && (
         <div id="how-to-play-dialog" className="fadeInUp">
-          <div id="how-to-play-dialog-title" className="text-3xl mb-3">
-            ⭐️How to Play⭐️
-          </div>
+          <div id="how-to-play-dialog-title">⭐️How to Play⭐️</div>
           <div id="how-to-play-dialog-description">
             <ol type="1">
               <li>1. The game starts with an empty 3x3 grid.</li>

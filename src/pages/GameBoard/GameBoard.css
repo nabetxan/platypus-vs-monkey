@@ -1,83 +1,110 @@
 #game-content {
   display: flex;
   justify-content: center;
+  width: 100dvw;
+  margin: 2% 0%;
 
   #center-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 0%;
+    height: 600px;
   }
 
-  #player-field {
+  #score-board {
+    height: 150px;
+    width: 350px;
+    margin: 20px auto;
     border-radius: 10px;
     box-shadow: 1px 4px 6px black;
-    height: 600px;
-    max-width: 150px;
-    background-color: rgba(255, 255, 255, 0.792);
-    margin: 20px 20px;
+    background-color: antiquewhite;
     display: flex;
-    flex-direction: column;
-    flex-grow: 1;
+    position: relative;
     justify-content: center;
     align-items: center;
   }
 
-  #player-field .piece {
-    border: solid 3px;
-    cursor: pointer;
+  #winner-message-container,
+  #on-play-message-container {
+    flex: 1;
+    max-width: 90%;
   }
 
-  #player-field .piece :hover {
-    scale: 1.2;
-  }
-
-  #player-field .disabled-piece {
-    border: solid 3px;
-    cursor: not-allowed;
-  }
-
-  #player-field .disabled-piece :hover {
-    opacity: 0.5;
-  }
-
-  #name_and_score {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  #name {
-    font-size: 20px;
-    margin-top: 20px;
-    text-align: center;
-    width: 130px;
+  .name-short {
+    width: 300px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  #score {
-    font-size: 40px;
-    text-align: center;
-  }
-
-  #player-field-pieces {
-    display: flex;
-    flex-direction: column;
+  #on-play-message,
+  #winner-message {
+    font-size: 24px;
+    display: inline-flex;
+    justify-content: center;
     align-items: center;
-    flex: 1;
+    gap: 4%;
+    width: 100%;
   }
 
-  .piece,
-  .disabled-piece {
-    border-radius: 8px;
-    margin: 5px;
-    display: flex;
-    width: fit-content;
+  .breakline {
+    flex-direction: column;
   }
 
-  .selected {
-    background-color: blueviolet;
+  #reMatch-btn {
+    background-color: brown;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 1rem;
+    color: antiquewhite;
+    font-family: "Sigmar", cursive;
+    border-style: none;
+    text-wrap: nowrap;
+    z-index: 10;
+  }
+
+  #winner-message-container #score-board-player-image {
+    position: absolute;
+    width: 100px;
+    top: 76px;
+    left: 205px;
+    z-index: 10;
+  }
+
+  #on-play-message-container #score-board-player-image {
+    position: absolute;
+    width: 100px;
+    margin: 0;
+    top: 83px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
+
+  @keyframes confetti-fall {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(2100%);
+    }
+  }
+
+  .confetti {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    animation: confetti-fall 5s linear infinite;
+  }
+
+  #confetti-container {
+    position: fixed;
+    top: 26px;
+    height: 250px;
+    width: 340px;
+    z-index: 10;
   }
 
   #gameboard {
@@ -85,7 +112,7 @@
     flex-direction: column;
     align-items: center;
     width: fit-content;
-    margin: auto 0px;
+    margin: 5px;
   }
 
   .row {
@@ -126,68 +153,82 @@
     background-color: blueviolet;
   }
 
-  #score-board {
-    height: 150px;
-    width: 350px;
-    margin: 20px auto;
-    border-radius: 10px;
-    box-shadow: 1px 4px 6px black;
-    background-color: antiquewhite;
+  #player-field {
     display: flex;
-    position: relative;
+    flex-direction: column;
+    flex-grow: 1;
     justify-content: center;
     align-items: center;
+    border-radius: 10px;
+    box-shadow: 1px 4px 6px black;
+    height: 600px;
+    max-width: 150px;
+    background-color: rgba(255, 255, 255, 0.792);
+    margin: 0px 20px;
   }
 
-  #on-play-message,
-  #winner-message {
-    font-size: 26px;
+  #name_and_score {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: rgb(185, 185, 185);
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 30px;
+    margin-bottom: 5px;
   }
 
-  #winner-message-container #score-board-player-image {
-    position: absolute;
+  #name {
+    font-size: 1.1rem;
+    margin-top: 1rem;
+    text-align: center;
     width: 100px;
-    top: 76px;
-    left: 205px;
-    z-index: 10;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
-  #on-play-message-container #score-board-player-image {
-    position: absolute;
-    width: 100px;
-    margin: 0;
-    top: 83px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-  }
-  #on-play-message-container #score-board-player-image img {
-    display: block;
-    width: 100%;
-    height: 100%;
+  #score {
+    font-size: 32px;
+    text-align: center;
   }
 
-  #score-board-player-image {
-    position: fixed;
-    top: 96px;
-    z-index: 10;
+  #player-field-pieces {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
   }
 
-  #reMatch-btn {
-    background-color: brown;
-    margin: auto 30px;
-    padding: 15px;
-    border-radius: 10px;
-    font-size: 20px;
-    color: antiquewhite;
-    font-family: "Sigmar", cursive;
-    border-style: none;
-    z-index: 10;
+  #player-field .piece {
+    border: solid 3px;
+    cursor: pointer;
+  }
+
+  #player-field .piece :hover {
+    scale: 1.2;
+  }
+
+  #player-field .disabled-piece {
+    border: solid 3px;
+    cursor: not-allowed;
+  }
+
+  #player-field .disabled-piece :hover {
+    opacity: 0.5;
+  }
+
+  .piece,
+  .disabled-piece {
+    border-radius: 8px;
+    margin: 5px;
+    display: flex;
+    width: fit-content;
+  }
+
+  .selected {
+    background-color: blueviolet;
   }
 
   #option-menu {
@@ -200,31 +241,6 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-  }
-
-  @keyframes confetti-fall {
-    0% {
-      transform: translateY(-100%);
-    }
-    100% {
-      transform: translateY(2100%);
-    }
-  }
-
-  .confetti {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    background-color: rgb(255, 255, 0);
-    animation: confetti-fall 5s linear infinite;
-  }
-
-  #confetti-container {
-    position: fixed;
-    top: 26px;
-    height: 250px;
-    width: 340px;
-    z-index: 10;
   }
 
   #how-to-play-dialog {
@@ -242,7 +258,10 @@
     animation-duration: 1s;
   }
 
-  /* Animation */
+  #how-to-play-dialog-title {
+    font-size: 30px;
+    margin-bottom: 0.75rem;
+  }
 
   @keyframes fadeInUp {
     0% {
@@ -261,7 +280,7 @@
   height: 40px;
 }
 
-.player-name-edit {
+#player-name-edit {
   display: flex;
   justify-content: center;
   align-content: center;
