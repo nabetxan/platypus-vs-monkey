@@ -11,6 +11,11 @@ export type GameStatus = {
   winner?: Player;
 };
 
+export type SavedGameStatus = {
+  P1: { name: string; record: number };
+  P2: { name: string; record: number };
+};
+
 export type SelectedPieceAndPlayer = {
   index?: number;
   pieceSize?: Size;
