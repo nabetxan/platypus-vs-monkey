@@ -33,7 +33,7 @@
   }
 
   .name-short {
-    width: 300px;
+    width: "max-content";
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
